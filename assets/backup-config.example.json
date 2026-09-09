@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "app_id": "app_REPLACE_ME",
+  "source": {
+    "remote": "origin",
+    "branch": "sprint/default"
+  },
+  "targets": [
+    {
+      "name": "company",
+      "enabled": true,
+      "remote": "company-backup",
+      "url": "https://git.example.com/team/project.git",
+      "branch": "miaoda-backup"
+    },
+    {
+      "name": "secondary",
+      "enabled": false,
+      "remote": "secondary-backup",
+      "url": "git@gitea.example.com:team/project.git",
+      "branch": "miaoda-backup"
+    }
+  ]
+}
