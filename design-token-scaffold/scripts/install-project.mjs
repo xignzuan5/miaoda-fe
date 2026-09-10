@@ -188,6 +188,7 @@ const projectGuide = `# 项目 Design Token 使用说明
 - 构建产物：\`dist/\`
 - 首次抽取结果：\`audit/\`（由脚手架初始化命令自动生成）
 - 页面模板登记：\`audit/page-templates.json\`（由源码证据登记；缺失项必须标记状态，不得凭经验补齐）
+- 语义沉淀产物：\`src/recipes/\`、\`src/templates/\`、\`docs/design-spec.md\` 和 \`audit/migration-map.json\`（首次接入或审计过期时由固定的 \`@设计变量解析\` 流程生成；缺失时 \`/页面开发\` 必须先暂停）
 - 页面和组件实现：遵循 \`$apply-design-tokens\`，优先复用 \`audit/\` 中登记的壳层和模板
 - 初始化后可直接在项目根目录运行 \`npm run project:init\` 刷新审计，脚手架会登记这一条固定脚本。
 
