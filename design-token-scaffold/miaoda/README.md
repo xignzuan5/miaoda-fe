@@ -36,12 +36,14 @@
             └── at-design-variable-parser.md
 ```
 
-以本地项目为例，先执行：
+如果还没有安装脚手架，先在脚手架目录执行一次（该命令已经包含首次扫描和构建）：
 
 ```cmd
-cd /d D:\your-project
-npm run project:init
+cd /d <脚手架目录>\design-token-scaffold
+npm run project:init -- --target D:\your-project
 ```
+
+这条带 `--target` 的命令完成后，不要立刻在项目根目录重复执行。以后项目源码或主题发生变化时，才在项目根目录执行无参数的 `npm run project:init` 刷新审计。
 
 如果妙搭应用可以直接从 Git 仓库同步，也可以先导入项目分支，再确认以上文件已经出现在应用代码目录中。只导入通用 `design-token-scaffold/` 而没有具体项目源码时，解析器无法得到该项目的真实壳层、字体、路由和页面模板。
 
@@ -50,7 +52,7 @@ npm run project:init
 必须按以下顺序操作，不能跳过步骤 1，也不能先开发页面：
 
 ```text
-0. 在项目源码可执行的环境运行 npm run project:init
+0. 首次安装时由带 `--target` 的安装命令完成扫描；之后仅在源码或主题变化时，在项目根目录运行无参数的 `npm run project:init`
         ↓
 1. 确认妙搭应用项目根目录的 AGENTS.md 或 CLAUDE.md
         ↓

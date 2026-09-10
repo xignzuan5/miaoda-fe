@@ -65,13 +65,13 @@ npm run project:init -- --target D:\your-project
 }
 ```
 
-初始化完成后，直接在目标项目根目录执行：
+以后需要刷新审计时，在目标项目根目录执行：
 
 ```bash
 npm run project:init
 ```
 
-脚本会以当前目录为项目根目录，刷新 `design-system/audit/`，不再需要 `--target`、`--agent` 等参数。
+脚本会以当前目录为项目根目录，刷新 `design-system/audit/` 和构建产物，不再需要 `--target`、`--agent` 等参数。第一次带 `--target` 的安装命令已经完成首次扫描和构建，不需要紧接着重复执行这条命令。
 
 如果只需要安装文件而暂时不扫描源码，可以加 `--skip-extract`；一般不需要使用这个选项。
 
@@ -96,8 +96,8 @@ npm run project:init
 
 本地项目只需要使用通用脚手架的安装器和仓库级规则，不需要安装或注册 `miaoda/` 下的任何扩展：
 
-1. 在脚手架目录执行一次 `npm run project:init -- --target D:\your-project`，安装 `design-system/`、抽取 Skill、应用 Skill 和项目规则。
-2. 进入项目根目录执行 `npm run project:init`，以后始终可以使用这个无参数命令刷新审计和构建产物。
+1. 在脚手架目录执行一次 `npm run project:init -- --target D:\your-project`；这一步同时安装 `design-system/`、抽取 Skill、应用 Skill、项目规则，并完成首次扫描和构建。
+2. 不需要立即重复执行命令。以后源码或主题发生变化时，再进入项目根目录执行无参数的 `npm run project:init` 刷新审计和构建产物。
 3. 使用支持 `AGENTS.md`/`.agents/skills` 的本地编码 Agent；Claude Code 可以使用 `.claude/commands/页面开发.md`，其他 Agent 直接用自然语言提出页面需求。
 4. 首次抽取只产生机械审计和构建产物；语义 Token、Recipe、页面模板和迁移映射由本地抽取 Skill 结合源码沉淀，不依赖 `@设计变量解析`。
 
