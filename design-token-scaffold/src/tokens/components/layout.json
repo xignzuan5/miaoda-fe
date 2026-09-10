@@ -1,0 +1,17 @@
+{
+  "$schema": "../../../schema/token-file.schema.json",
+  "$description": "应用壳层和页面级排版 Token，避免把布局事实遗漏在业务页面中。",
+  "layout.topbar.height": { "$type": "dimension", "$value": "48px", "$description": "应用顶栏高度" },
+  "layout.sidebar.width": { "$type": "dimension", "$value": "220px", "$description": "展开侧栏宽度" },
+  "layout.breadcrumb.height": { "$type": "dimension", "$value": "32px", "$description": "面包屑行高度" },
+  "layout.breadcrumb.padding.inline": { "$type": "dimension", "$value": "{spacing.4}", "$description": "面包屑左右内边距" },
+  "layout.content.padding": { "$type": "dimension", "$value": "{spacing.3}", "$description": "页面内容区内边距" },
+  "layout.page.title.font.size": { "$type": "dimension", "$value": "{font.size.20}", "$description": "页面标题字号" },
+  "layout.page.title.font.weight": { "$type": "fontWeight", "$value": "{font.weight.semibold}", "$description": "页面标题字重" },
+  "layout.page.title.line.height": { "$type": "number", "$value": 1.3, "$description": "页面标题行高" },
+  "layout.page.subtitle.font.size": { "$type": "dimension", "$value": "{font.size.11}", "$description": "页面副标题字号" },
+  "layout.page.subtitle.line.height": { "$type": "number", "$value": 1.4, "$description": "页面副标题行高" },
+  "layout.page.subtitle.color": { "$type": "color", "$value": "{color.text.secondary}", "$description": "页面副标题颜色" },
+  "overlay.scrim": { "$type": "color", "$value": "rgb(0 0 0 / 0.55)", "$description": "模态层和抽屉遮罩颜色" },
+  "shadow.overlay": { "$type": "shadow", "$value": "0 20px 60px rgb(0 0 0 / 0.5)", "$description": "模态层覆盖阴影" }
+}

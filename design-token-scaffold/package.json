@@ -1,0 +1,17 @@
+{
+  "name": "design-token-scaffold",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "project:init": "node scripts/install-project.mjs",
+    "extract": "node skills/extract-design-tokens/scripts/extract-tokens.mjs",
+    "validate": "node scripts/validate.mjs",
+    "build": "node scripts/build.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "check": "npm run validate && npm run test && npm run build"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://miaoda.feishu.cn/schemas/project-extensions.v1.json",
+  "schemaVersion": "1.0.0",
+  "locale": "zh-CN",
+  "extensions": [
+    {
+      "name": "@设计变量解析",
+      "kind": "plugin-definition",
+      "entry": "extensions/at-design-variable-parser.md",
+      "fallback": "@文件解析",
+      "purpose": "提取源码、运行时和设计资料中的设计变量，并沉淀 Token、Recipe、模板和来源证据。"
+    },
+    {
+      "name": "/页面开发",
+      "kind": "skill-definition",
+      "entry": "extensions/slash-page-development.md",
+      "purpose": "读取当前项目设计系统，复用公共壳层和真实页面模板，只实现新页面内容区及必要路由配置。"
+    }
+  ]
+}

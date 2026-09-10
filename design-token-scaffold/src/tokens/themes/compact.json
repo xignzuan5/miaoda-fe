@@ -1,0 +1,7 @@
+{
+  "$schema": "../../../schema/token-file.schema.json",
+  "size.control.sm": { "$type": "dimension", "$value": "1.75rem", "$description": "紧凑模式小型控件高度" },
+  "size.control.md": { "$type": "dimension", "$value": "2rem", "$description": "紧凑模式默认控件高度" },
+  "size.control.lg": { "$type": "dimension", "$value": "2.5rem", "$description": "紧凑模式大型控件高度" },
+  "layout.page.padding-inline": { "$type": "dimension", "$value": "1rem", "$description": "紧凑模式页面水平留白" }
+}

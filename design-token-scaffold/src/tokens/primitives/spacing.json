@@ -1,0 +1,19 @@
+{
+  "$schema": "../../../schema/token-file.schema.json",
+  "spacing.0": { "$type": "dimension", "$value": "0px", "$description": "无间距" },
+  "spacing.1": { "$type": "dimension", "$value": "0.25rem", "$description": "4 像素基准间距" },
+  "spacing.2": { "$type": "dimension", "$value": "0.5rem", "$description": "8 像素间距" },
+  "spacing.3": { "$type": "dimension", "$value": "0.75rem", "$description": "12 像素间距" },
+  "spacing.4": { "$type": "dimension", "$value": "1rem", "$description": "16 像素间距" },
+  "spacing.6": { "$type": "dimension", "$value": "1.5rem", "$description": "24 像素间距" },
+  "spacing.8": { "$type": "dimension", "$value": "2rem", "$description": "32 像素间距" },
+  "spacing.12": { "$type": "dimension", "$value": "3rem", "$description": "48 像素间距" },
+  "size.control.sm": { "$type": "dimension", "$value": "2rem", "$description": "小型控件高度" },
+  "size.control.md": { "$type": "dimension", "$value": "2.5rem", "$description": "默认控件高度" },
+  "size.control.lg": { "$type": "dimension", "$value": "3rem", "$description": "大型控件高度" },
+  "size.icon.sm": { "$type": "dimension", "$value": "1rem", "$description": "小图标尺寸" },
+  "size.icon.md": { "$type": "dimension", "$value": "1.25rem", "$description": "默认图标尺寸" },
+  "layout.container.max-width": { "$type": "dimension", "$value": "75rem", "$description": "内容容器最大宽度" },
+  "layout.page.padding-inline": { "$type": "dimension", "$value": "1.5rem", "$description": "页面水平留白" },
+  "layout.grid.gutter": { "$type": "dimension", "$value": "1.5rem", "$description": "栅格沟槽" }
+}

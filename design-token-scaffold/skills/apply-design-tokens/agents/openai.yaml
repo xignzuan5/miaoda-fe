@@ -1,0 +1,6 @@
+interface:
+  display_name: "应用 Design Token"
+  short_description: "让页面与组件统一消费项目设计规范"
+  default_prompt: "使用 $apply-design-tokens 按当前项目的设计规范实现这个界面或组件。"
+policy:
+  allow_implicit_invocation: true

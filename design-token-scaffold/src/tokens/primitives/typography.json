@@ -1,0 +1,18 @@
+{
+  "$schema": "../../../schema/token-file.schema.json",
+  "font.family.sans": { "$type": "fontFamily", "$value": "Inter, ui-sans-serif, system-ui, sans-serif", "$description": "界面默认字体" },
+  "font.family.mono": { "$type": "fontFamily", "$value": "ui-monospace, SFMono-Regular, Consolas, monospace", "$description": "代码和等宽数字字体" },
+  "font.size.12": { "$type": "dimension", "$value": "0.75rem", "$description": "辅助文字字号" },
+  "font.size.11": { "$type": "dimension", "$value": "0.6875rem", "$description": "表头和说明文字字号" },
+  "font.size.13": { "$type": "dimension", "$value": "0.8125rem", "$description": "紧凑界面正文字号" },
+  "font.size.14": { "$type": "dimension", "$value": "0.875rem", "$description": "小号正文字号" },
+  "font.size.16": { "$type": "dimension", "$value": "1rem", "$description": "默认正文字号" },
+  "font.size.20": { "$type": "dimension", "$value": "1.25rem", "$description": "小标题字号" },
+  "font.size.30": { "$type": "dimension", "$value": "1.875rem", "$description": "页面标题字号" },
+  "font.weight.regular": { "$type": "fontWeight", "$value": 400, "$description": "常规字重" },
+  "font.weight.medium": { "$type": "fontWeight", "$value": 500, "$description": "强调字重" },
+  "font.weight.semibold": { "$type": "fontWeight", "$value": 600, "$description": "标题和按钮字重" },
+  "font.line-height.tight": { "$type": "number", "$value": 1.25, "$description": "标题行高" },
+  "font.line-height.normal": { "$type": "number", "$value": 1.5, "$description": "正文行高" },
+  "font.letter-spacing.normal": { "$type": "dimension", "$value": "0em", "$description": "默认字间距" }
+}

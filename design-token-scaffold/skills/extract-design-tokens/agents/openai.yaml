@@ -1,0 +1,6 @@
+interface:
+  display_name: "提取 Design Token"
+  short_description: "将现有界面样式沉淀为可审核的设计规范"
+  default_prompt: "使用 $extract-design-tokens 审计当前前端项目，并生成可审核的 Token 体系和中文设计规范。"
+policy:
+  allow_implicit_invocation: true

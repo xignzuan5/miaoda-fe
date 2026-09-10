@@ -1,0 +1,16 @@
+{
+  "source": {
+    "primitives": "src/tokens/primitives",
+    "components": "src/tokens/components"
+  },
+  "modes": {
+    "light": "src/tokens/semantic/light.json",
+    "dark": "src/tokens/semantic/dark.json",
+    "high-contrast": "src/tokens/semantic/high-contrast.json"
+  },
+  "themes": {
+    "default": "src/tokens/themes/default.json",
+    "compact": "src/tokens/themes/compact.json"
+  },
+  "output": "dist"
+}

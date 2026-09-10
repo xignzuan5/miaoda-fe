@@ -1,0 +1,14 @@
+{
+  "$schema": "../../../schema/token-file.schema.json",
+  "card.background": { "$type": "color", "$value": "{color.surface.default}", "$description": "卡片背景" },
+  "card.border": { "$type": "color", "$value": "{color.border.default}", "$description": "卡片边框" },
+  "card.radius": { "$type": "dimension", "$value": "{radius.lg}", "$description": "卡片圆角" },
+  "card.padding": { "$type": "dimension", "$value": "{spacing.6}", "$description": "卡片内边距" },
+  "card.shadow": { "$type": "shadow", "$value": "{shadow.sm}", "$description": "卡片阴影" },
+  "dialog.background": { "$type": "color", "$value": "{color.surface.overlay}", "$description": "对话框背景" },
+  "dialog.radius": { "$type": "dimension", "$value": "{radius.lg}", "$description": "对话框圆角" },
+  "dialog.padding": { "$type": "dimension", "$value": "{spacing.6}", "$description": "对话框内边距" },
+  "dialog.shadow": { "$type": "shadow", "$value": "{shadow.lg}", "$description": "对话框阴影" },
+  "dialog.overlay": { "$type": "color", "$value": "{color.overlay}", "$description": "对话框遮罩" },
+  "dialog.z-index": { "$type": "number", "$value": "{z-index.modal}", "$description": "对话框层级" }
+}

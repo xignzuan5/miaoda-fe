@@ -1,0 +1,887 @@
+{
+  "$schema": "../../../schema/token-file.schema.json",
+  "$description": "从项目主题源码提取的高置信基础 Token。",
+  "color.obs.ink.950": {
+    "$type": "color",
+    "$value": "#0f1117",
+    "$description": "基础设计取值：color.obs.ink.950。",
+    "$extensions": {
+      "project": {
+        "layer": "primitive",
+        "status": "stable",
+        "scope": [
+          "color"
+        ],
+        "platforms": [
+          "web"
+        ],
+        "source": "src/theme/tokens.ts:3"
+      }
+    }
+  },
+  "color.obs.ink.900": {
+    "$type": "color",
+    "$value": "#161b27",
+    "$description": "基础设计取值：color.obs.ink.900。",
+    "$extensions": {
+      "project": {
+        "layer": "primitive",
+        "status": "stable",
+        "scope": [
+          "color"
+        ],
+        "platforms": [
+          "web"
+        ],
+        "source": "src/theme/tokens.ts:4"
+      }
+    }
+  },
+  "color.obs.ink.850": {
+    "$type": "color",
+    "$value": "#1a2540",
+    "$description": "基础设计取值：color.obs.ink.850。",
+    "$extensions": {
+      "project": {
+        "layer": "primitive",
+        "status": "stable",
+        "scope": [
+          "color"
+        ],
+        "platforms": [
+          "web"
+        ],
+        "source": "src/theme/tokens.ts:7"
+      }
+    }
+  },
+  "color.obs.ink.800": {
+    "$type": "color",
+    "$value": "#1c2333",
+    "$description": "基础设计取值：color.obs.ink.800。",
+    "$extensions": {
+      "project": {
+        "layer": "primitive",
+        "status": "stable",
+        "scope": [
+          "color"
+        ],
+        "platforms": [
+          "web"
+        ],
+        "source": "src/theme/tokens.ts:5"
+      }
+    }
+  },
+  "color.obs.ink.750": {
+    "$type": "color",
+    "$value": "#1e2438",
+    "$description": "基础设计取值：color.obs.ink.750。",
+    "$extensions": {
+      "project": {
+        "layer": "primitive",
+        "status": "stable",
+        "scope": [
+          "color"
+        ],
+        "platforms": [
+          "web"
+        ],
+        "source": "src/theme/tokens.ts:6"
+      }
+    }
+  },
+  "color.obs.ink.700": {
+    "$type": "color",
+    "$value": "#1f2535",
+    "$description": "基础设计取值：color.obs.ink.700。",
+    "$extensions": {
+      "project": {
+        "layer": "primitive",
+        "status": "stable",
+        "scope": [
+          "color"
+        ],
+        "platforms": [
+          "web"
+        ],
+        "source": "src/theme/tokens.ts:11"
+      }
+    }
+  },
+  "color.obs.ink.600": {
+    "$type": "color",
+    "$value": "#2a3147",
+    "$description": "基础设计取值：color.obs.ink.600。",
+    "$extensions": {
+      "project": {
+        "layer": "primitive",
+        "status": "stable",
+        "scope": [
+          "color"
+        ],
+        "platforms": [
+          "web"
+        ],
+        "source": "src/theme/tokens.ts:12"
+      }
+    }
+  },
+  "color.obs.ink.500": {
+    "$type": "color",
+    "$value": "#3d4663",
+    "$description": "基础设计取值：color.obs.ink.500。",
+    "$extensions": {
+      "project": {
+        "layer": "primitive",
+        "status": "stable",
+        "scope": [
+          "color"
+        ],
+        "platforms": [
+          "web"
+        ],
+        "source": "src/theme/tokens.ts:13"
+      }
+    }
+  },
+  "color.obs.ink.400": {
+    "$type": "color",
+    "$value": "#4d566b",
+    "$description": "基础设计取值：color.obs.ink.400。",
+    "$extensions": {
+      "project": {
+        "layer": "primitive",
+        "status": "stable",
+        "scope": [
+          "color"
+        ],
+        "platforms": [
+          "web"
+        ],
+        "source": "src/theme/tokens.ts:18"
+      }
+    }
+  },
+  "color.obs.ink.300": {
+    "$type": "color",
+    "$value": "#8b93a8",
+    "$description": "基础设计取值：color.obs.ink.300。",
+    "$extensions": {
+      "project": {
+        "layer": "primitive",
+        "status": "stable",
+        "scope": [
+          "color"
+        ],
+        "platforms": [
+          "web"
+        ],
+        "source": "src/theme/tokens.ts:17"
+      }
+    }
+  },
+  "color.obs.ink.100": {
+    "$type": "color",
+    "$value": "#e8eaf0",
+    "$description": "基础设计取值：color.obs.ink.100。",
+    "$extensions": {
+      "project": {
+        "layer": "primitive",
+        "status": "stable",
+        "scope": [
+          "color"
+        ],
+        "platforms": [
+          "web"
+        ],
+        "source": "src/theme/tokens.ts:16"
+      }
+    }
+  },
+  "color.obs.paper.0": {
+    "$type": "color",
+    "$value": "#ffffff",
+    "$description": "基础设计取值：color.obs.paper.0。",
+    "$extensions": {
+      "project": {
+        "layer": "primitive",
+        "status": "stable",
+        "scope": [
+          "color"
+        ],
+        "platforms": [
+          "web"
+        ],
+        "source": "src/theme/index.ts:611"
+      }
+    }
+  },
+  "color.obs.paper.50": {
+    "$type": "color",
+    "$value": "#f9fafb",
+    "$description": "基础设计取值：color.obs.paper.50。",
+    "$extensions": {
+      "project": {
+        "layer": "primitive",
+        "status": "stable",
+        "scope": [
+          "color"
+        ],
+        "platforms": [
+          "web"
+        ],
+        "source": "src/theme/index.ts:614"
+      }
+    }
+  },
+  "color.obs.paper.100": {
+    "$type": "color",
+    "$value": "#f4f5f7",
+    "$description": "基础设计取值：color.obs.paper.100。",
+    "$extensions": {
+      "project": {
+        "layer": "primitive",
+        "status": "stable",
+        "scope": [
+          "color"
+        ],
+        "platforms": [
+          "web"
+        ],
+        "source": "src/theme/index.ts:610"
+      }
+    }
+  },
+  "color.obs.paper.150": {
+    "$type": "color",
+    "$value": "#f3f4f6",
+    "$description": "基础设计取值：color.obs.paper.150。",
+    "$extensions": {
+      "project": {
+        "layer": "primitive",
+        "status": "stable",
+        "scope": [
+          "color"
+        ],
+        "platforms": [
+          "web"
+        ],
+        "source": "src/theme/index.ts:615"
+      }
+    }
+  },
+  "color.obs.paper.200": {
+    "$type": "color",
+    "$value": "#eff6ff",
+    "$description": "基础设计取值：color.obs.paper.200。",
+    "$extensions": {
+      "project": {
+        "layer": "primitive",
+        "status": "stable",
+        "scope": [
+          "color"
+        ],
+        "platforms": [
+          "web"
+        ],
+        "source": "src/theme/index.ts:616"
+      }
+    }
+  },
+  "color.obs.gray.300": {
+    "$type": "color",
+    "$value": "#d1d5db",
+    "$description": "基础设计取值：color.obs.gray.300。",
+    "$extensions": {
+      "project": {
+        "layer": "primitive",
+        "status": "stable",
+        "scope": [
+          "color"
+        ],
+        "platforms": [
+          "web"
+        ],
+        "source": "src/theme/index.ts:660"
+      }
+    }
+  },
+  "color.obs.gray.400": {
+    "$type": "color",
+    "$value": "#9ca3af",
+    "$description": "基础设计取值：color.obs.gray.400。",
+    "$extensions": {
+      "project": {
+        "layer": "primitive",
+        "status": "stable",
+        "scope": [
+          "color"
+        ],
+        "platforms": [
+          "web"
+        ],
+        "source": "src/theme/index.ts:632"
+      }
+    }
+  },
+  "color.obs.gray.600": {
+    "$type": "color",
+    "$value": "#6b7280",
+    "$description": "基础设计取值：color.obs.gray.600。",
+    "$extensions": {
+      "project": {
+        "layer": "primitive",
+        "status": "stable",
+        "scope": [
+          "color"
+        ],
+        "platforms": [
+          "web"
+        ],
+        "source": "src/theme/index.ts:632"
+      }
+    }
+  },
+  "color.obs.gray.900": {
+    "$type": "color",
+    "$value": "#111827",
+    "$description": "基础设计取值：color.obs.gray.900。",
+    "$extensions": {
+      "project": {
+        "layer": "primitive",
+        "status": "stable",
+        "scope": [
+          "color"
+        ],
+        "platforms": [
+          "web"
+        ],
+        "source": "src/theme/index.ts:632"
+      }
+    }
+  },
+  "color.cyan.500": {
+    "$type": "color",
+    "$value": "#06b6d4",
+    "$description": "基础设计取值：color.cyan.500。",
+    "$extensions": {
+      "project": {
+        "layer": "primitive",
+        "status": "stable",
+        "scope": [
+          "color"
+        ],
+        "platforms": [
+          "web"
+        ],
+        "source": "src/theme/tokens.ts:22"
+      }
+    }
+  },
+  "color.cyan.600": {
+    "$type": "color",
+    "$value": "#0891b2",
+    "$description": "基础设计取值：color.cyan.600。",
+    "$extensions": {
+      "project": {
+        "layer": "primitive",
+        "status": "stable",
+        "scope": [
+          "color"
+        ],
+        "platforms": [
+          "web"
+        ],
+        "source": "src/theme/tokens.ts:23"
+      }
+    }
+  },
+  "color.cyan.700": {
+    "$type": "color",
+    "$value": "#0e7490",
+    "$description": "基础设计取值：color.cyan.700。",
+    "$extensions": {
+      "project": {
+        "layer": "primitive",
+        "status": "stable",
+        "scope": [
+          "color"
+        ],
+        "platforms": [
+          "web"
+        ],
+        "source": "src/theme/index.ts:620"
+      }
+    }
+  },
+  "color.green.500": {
+    "$type": "color",
+    "$value": "#10b981",
+    "$description": "基础设计取值：color.green.500。",
+    "$extensions": {
+      "project": {
+        "layer": "primitive",
+        "status": "stable",
+        "scope": [
+          "color"
+        ],
+        "platforms": [
+          "web"
+        ],
+        "source": "src/theme/tokens.ts:28"
+      }
+    }
+  },
+  "color.amber.500": {
+    "$type": "color",
+    "$value": "#f59e0b",
+    "$description": "基础设计取值：color.amber.500。",
+    "$extensions": {
+      "project": {
+        "layer": "primitive",
+        "status": "stable",
+        "scope": [
+          "color"
+        ],
+        "platforms": [
+          "web"
+        ],
+        "source": "src/theme/tokens.ts:30"
+      }
+    }
+  },
+  "color.red.500": {
+    "$type": "color",
+    "$value": "#ef4444",
+    "$description": "基础设计取值：color.red.500。",
+    "$extensions": {
+      "project": {
+        "layer": "primitive",
+        "status": "stable",
+        "scope": [
+          "color"
+        ],
+        "platforms": [
+          "web"
+        ],
+        "source": "src/theme/tokens.ts:32"
+      }
+    }
+  },
+  "color.orange.500": {
+    "$type": "color",
+    "$value": "#f97316",
+    "$description": "基础设计取值：color.orange.500。",
+    "$extensions": {
+      "project": {
+        "layer": "primitive",
+        "status": "stable",
+        "scope": [
+          "color"
+        ],
+        "platforms": [
+          "web"
+        ],
+        "source": "src/theme/tokens.ts:39"
+      }
+    }
+  },
+  "color.violet.500": {
+    "$type": "color",
+    "$value": "#8b5cf6",
+    "$description": "基础设计取值：color.violet.500。",
+    "$extensions": {
+      "project": {
+        "layer": "primitive",
+        "status": "stable",
+        "scope": [
+          "color"
+        ],
+        "platforms": [
+          "web"
+        ],
+        "source": "src/theme/tokens.ts:39"
+      }
+    }
+  },
+  "color.pink.500": {
+    "$type": "color",
+    "$value": "#ec4899",
+    "$description": "基础设计取值：color.pink.500。",
+    "$extensions": {
+      "project": {
+        "layer": "primitive",
+        "status": "stable",
+        "scope": [
+          "color"
+        ],
+        "platforms": [
+          "web"
+        ],
+        "source": "src/theme/tokens.ts:39"
+      }
+    }
+  },
+  "font.family.ui": {
+    "$type": "fontFamily",
+    "$value": "\"Inter\", system-ui, -apple-system, sans-serif",
+    "$description": "基础设计取值：font.family.ui；与主题入口中的 FONTS.ui 保持一致。",
+    "$extensions": {
+      "project": {
+        "layer": "primitive",
+        "status": "stable",
+        "scope": [
+          "text"
+        ],
+        "platforms": [
+          "web"
+        ],
+        "source": "src/theme/index.ts:63"
+      }
+    }
+  },
+  "font.family.mono": {
+    "$type": "fontFamily",
+    "$value": "\"JetBrains Mono\", \"Fira Code\", \"Cascadia Code\", monospace",
+    "$description": "基础设计取值：font.family.mono；与主题入口中的 FONTS.mono 保持一致。",
+    "$extensions": {
+      "project": {
+        "layer": "primitive",
+        "status": "stable",
+        "scope": [
+          "text",
+          "code"
+        ],
+        "platforms": [
+          "web"
+        ],
+        "source": "src/theme/index.ts:64"
+      }
+    }
+  },
+  "font.weight.regular": {
+    "$type": "fontWeight",
+    "$value": 400,
+    "$description": "基础设计取值：font.weight.regular。",
+    "$extensions": {
+      "project": {
+        "layer": "primitive",
+        "status": "stable",
+        "scope": [
+          "text"
+        ],
+        "platforms": [
+          "web"
+        ],
+        "source": "src/theme/index.ts:173"
+      }
+    }
+  },
+  "font.weight.medium": {
+    "$type": "fontWeight",
+    "$value": 500,
+    "$description": "基础设计取值：font.weight.medium。",
+    "$extensions": {
+      "project": {
+        "layer": "primitive",
+        "status": "stable",
+        "scope": [
+          "text"
+        ],
+        "platforms": [
+          "web"
+        ],
+        "source": "src/theme/index.ts:178"
+      }
+    }
+  },
+  "font.weight.semibold": {
+    "$type": "fontWeight",
+    "$value": 600,
+    "$description": "基础设计取值：font.weight.semibold。",
+    "$extensions": {
+      "project": {
+        "layer": "primitive",
+        "status": "stable",
+        "scope": [
+          "text"
+        ],
+        "platforms": [
+          "web"
+        ],
+        "source": "src/theme/index.ts:167"
+      }
+    }
+  },
+  "spacing.1": {
+    "$type": "dimension",
+    "$value": "4px",
+    "$description": "基础设计取值：spacing.1。",
+    "$extensions": {
+      "project": {
+        "layer": "primitive",
+        "status": "stable",
+        "scope": [
+          "layout"
+        ],
+        "platforms": [
+          "web"
+        ],
+        "source": "src/theme/tokens.ts:46"
+      }
+    }
+  },
+  "spacing.2": {
+    "$type": "dimension",
+    "$value": "8px",
+    "$description": "基础设计取值：spacing.2。",
+    "$extensions": {
+      "project": {
+        "layer": "primitive",
+        "status": "stable",
+        "scope": [
+          "layout"
+        ],
+        "platforms": [
+          "web"
+        ],
+        "source": "src/theme/tokens.ts:47"
+      }
+    }
+  },
+  "spacing.3": {
+    "$type": "dimension",
+    "$value": "12px",
+    "$description": "基础设计取值：spacing.3。",
+    "$extensions": {
+      "project": {
+        "layer": "primitive",
+        "status": "stable",
+        "scope": [
+          "layout"
+        ],
+        "platforms": [
+          "web"
+        ],
+        "source": "src/theme/tokens.ts:48"
+      }
+    }
+  },
+  "spacing.4": {
+    "$type": "dimension",
+    "$value": "16px",
+    "$description": "基础设计取值：spacing.4。",
+    "$extensions": {
+      "project": {
+        "layer": "primitive",
+        "status": "stable",
+        "scope": [
+          "layout"
+        ],
+        "platforms": [
+          "web"
+        ],
+        "source": "src/theme/tokens.ts:49"
+      }
+    }
+  },
+  "spacing.5": {
+    "$type": "dimension",
+    "$value": "20px",
+    "$description": "基础设计取值：spacing.5。",
+    "$extensions": {
+      "project": {
+        "layer": "primitive",
+        "status": "stable",
+        "scope": [
+          "layout"
+        ],
+        "platforms": [
+          "web"
+        ],
+        "source": "src/theme/tokens.ts:50"
+      }
+    }
+  },
+  "spacing.6": {
+    "$type": "dimension",
+    "$value": "24px",
+    "$description": "基础设计取值：spacing.6。",
+    "$extensions": {
+      "project": {
+        "layer": "primitive",
+        "status": "stable",
+        "scope": [
+          "layout"
+        ],
+        "platforms": [
+          "web"
+        ],
+        "source": "src/theme/tokens.ts:51"
+      }
+    }
+  },
+  "spacing.8": {
+    "$type": "dimension",
+    "$value": "32px",
+    "$description": "基础设计取值：spacing.8。",
+    "$extensions": {
+      "project": {
+        "layer": "primitive",
+        "status": "stable",
+        "scope": [
+          "layout"
+        ],
+        "platforms": [
+          "web"
+        ],
+        "source": "src/theme/tokens.ts:52"
+      }
+    }
+  },
+  "spacing.10": {
+    "$type": "dimension",
+    "$value": "40px",
+    "$description": "基础设计取值：spacing.10。",
+    "$extensions": {
+      "project": {
+        "layer": "primitive",
+        "status": "stable",
+        "scope": [
+          "layout"
+        ],
+        "platforms": [
+          "web"
+        ],
+        "source": "src/theme/tokens.ts:53"
+      }
+    }
+  },
+  "radius.sm": {
+    "$type": "dimension",
+    "$value": "3px",
+    "$description": "基础设计取值：radius.sm。",
+    "$extensions": {
+      "project": {
+        "layer": "primitive",
+        "status": "stable",
+        "scope": [
+          "border"
+        ],
+        "platforms": [
+          "web"
+        ],
+        "source": "src/theme/tokens.ts:57"
+      }
+    }
+  },
+  "radius.md": {
+    "$type": "dimension",
+    "$value": "4px",
+    "$description": "基础设计取值：radius.md。",
+    "$extensions": {
+      "project": {
+        "layer": "primitive",
+        "status": "stable",
+        "scope": [
+          "border"
+        ],
+        "platforms": [
+          "web"
+        ],
+        "source": "src/theme/tokens.ts:58"
+      }
+    }
+  },
+  "radius.lg": {
+    "$type": "dimension",
+    "$value": "6px",
+    "$description": "基础设计取值：radius.lg。",
+    "$extensions": {
+      "project": {
+        "layer": "primitive",
+        "status": "stable",
+        "scope": [
+          "border"
+        ],
+        "platforms": [
+          "web"
+        ],
+        "source": "src/theme/tokens.ts:59"
+      }
+    }
+  },
+  "border.width.default": {
+    "$type": "dimension",
+    "$value": "1px",
+    "$description": "基础设计取值：border.width.default。",
+    "$extensions": {
+      "project": {
+        "layer": "primitive",
+        "status": "stable",
+        "scope": [
+          "border"
+        ],
+        "platforms": [
+          "web"
+        ],
+        "source": "src/theme/index.ts:343"
+      }
+    }
+  },
+  "focus.ring.width": {
+    "$type": "dimension",
+    "$value": "2px",
+    "$description": "基础设计取值：focus.ring.width。",
+    "$extensions": {
+      "project": {
+        "layer": "primitive",
+        "status": "stable",
+        "scope": [
+          "focus"
+        ],
+        "platforms": [
+          "web"
+        ],
+        "source": "src/theme/index.ts:313"
+      }
+    }
+  },
+  "shadow.none": {
+    "$type": "shadow",
+    "$value": "none",
+    "$description": "基础设计取值：shadow.none。",
+    "$extensions": {
+      "project": {
+        "layer": "primitive",
+        "status": "stable",
+        "scope": [
+          "elevation"
+        ],
+        "platforms": [
+          "web"
+        ],
+        "source": "src/theme/index.ts:225"
+      }
+    }
+  },
+  "shadow.overlay": {
+    "$type": "shadow",
+    "$value": "0 20px 60px rgba(0,0,0,0.5)",
+    "$description": "基础设计取值：shadow.overlay。",
+    "$extensions": {
+      "project": {
+        "layer": "primitive",
+        "status": "review",
+        "scope": [
+          "elevation"
+        ],
+        "platforms": [
+          "web"
+        ],
+        "source": "src/components/common/GlobalSearch.tsx:45"
+      }
+    }
+  }
+}

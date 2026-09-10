@@ -1,0 +1,169 @@
+{
+  "$schema": "../../../schema/token-file.schema.json",
+  "$description": "从项目主题中提取的亮色语义模式。",
+  "color.background.page": {
+    "$type": "color",
+    "$value": "{color.obs.paper.100}",
+    "$description": "亮色模式语义取值：color.background.page。"
+  },
+  "color.surface.default": {
+    "$type": "color",
+    "$value": "{color.obs.paper.0}",
+    "$description": "亮色模式语义取值：color.surface.default。"
+  },
+  "color.surface.elevated": {
+    "$type": "color",
+    "$value": "{color.obs.paper.50}",
+    "$description": "亮色模式语义取值：color.surface.elevated。"
+  },
+  "color.surface.hover": {
+    "$type": "color",
+    "$value": "{color.obs.paper.150}",
+    "$description": "亮色模式语义取值：color.surface.hover。"
+  },
+  "color.surface.selected": {
+    "$type": "color",
+    "$value": "{color.obs.paper.200}",
+    "$description": "亮色模式语义取值：color.surface.selected。"
+  },
+  "color.text.primary": {
+    "$type": "color",
+    "$value": "{color.obs.gray.900}",
+    "$description": "亮色模式语义取值：color.text.primary。"
+  },
+  "color.text.secondary": {
+    "$type": "color",
+    "$value": "{color.obs.gray.600}",
+    "$description": "亮色模式语义取值：color.text.secondary。"
+  },
+  "color.text.disabled": {
+    "$type": "color",
+    "$value": "{color.obs.gray.400}",
+    "$description": "亮色模式语义取值：color.text.disabled。"
+  },
+  "color.text.inverse": {
+    "$type": "color",
+    "$value": "{color.obs.paper.0}",
+    "$description": "亮色模式语义取值：color.text.inverse。"
+  },
+  "color.border.subtle": {
+    "$type": "color",
+    "$value": "#e5e7eb",
+    "$description": "亮色模式语义取值：color.border.subtle。"
+  },
+  "color.border.default": {
+    "$type": "color",
+    "$value": "{color.obs.gray.300}",
+    "$description": "亮色模式语义取值：color.border.default。"
+  },
+  "color.border.strong": {
+    "$type": "color",
+    "$value": "{color.obs.gray.400}",
+    "$description": "亮色模式语义取值：color.border.strong。"
+  },
+  "color.action.primary.default": {
+    "$type": "color",
+    "$value": "{color.cyan.600}",
+    "$description": "亮色模式语义取值：color.action.primary.default。"
+  },
+  "color.action.primary.hover": {
+    "$type": "color",
+    "$value": "{color.cyan.700}",
+    "$description": "亮色模式语义取值：color.action.primary.hover。"
+  },
+  "color.focus.ring": {
+    "$type": "color",
+    "$value": "{color.cyan.600}",
+    "$description": "亮色模式语义取值：color.focus.ring。"
+  },
+  "color.status.success": {
+    "$type": "color",
+    "$value": "{color.green.500}",
+    "$description": "亮色模式语义取值：color.status.success。"
+  },
+  "color.status.warning": {
+    "$type": "color",
+    "$value": "{color.amber.500}",
+    "$description": "亮色模式语义取值：color.status.warning。"
+  },
+  "color.status.error": {
+    "$type": "color",
+    "$value": "{color.red.500}",
+    "$description": "亮色模式语义取值：color.status.error。"
+  },
+  "color.status.info": {
+    "$type": "color",
+    "$value": "{color.cyan.600}",
+    "$description": "亮色模式语义取值：color.status.info。"
+  },
+  "color.status.muted": {
+    "$type": "color",
+    "$value": "{color.obs.gray.400}",
+    "$description": "亮色模式语义取值：color.status.muted。"
+  },
+  "color.status.success.background": {
+    "$type": "color",
+    "$value": "rgba(16, 185, 129, 0.10)",
+    "$description": "亮色模式成功状态的低透明度背景。"
+  },
+  "color.status.warning.background": {
+    "$type": "color",
+    "$value": "rgba(245, 158, 11, 0.10)",
+    "$description": "亮色模式警告状态的低透明度背景。"
+  },
+  "color.status.error.background": {
+    "$type": "color",
+    "$value": "rgba(239, 68, 68, 0.10)",
+    "$description": "亮色模式错误状态的低透明度背景。"
+  },
+  "color.status.info.background": {
+    "$type": "color",
+    "$value": "rgba(8, 145, 178, 0.10)",
+    "$description": "亮色模式信息状态的低透明度背景。"
+  },
+  "color.status.muted.background": {
+    "$type": "color",
+    "$value": "rgba(156, 163, 175, 0.20)",
+    "$description": "亮色模式停用状态的低透明度背景。"
+  },
+  "color.chart.series.1": {
+    "$type": "color",
+    "$value": "{color.cyan.600}",
+    "$description": "亮色模式语义取值：color.chart.series.1。"
+  },
+  "color.chart.series.2": {
+    "$type": "color",
+    "$value": "{color.violet.500}",
+    "$description": "亮色模式语义取值：color.chart.series.2。"
+  },
+  "color.chart.series.3": {
+    "$type": "color",
+    "$value": "{color.amber.500}",
+    "$description": "亮色模式语义取值：color.chart.series.3。"
+  },
+  "color.chart.series.4": {
+    "$type": "color",
+    "$value": "{color.green.500}",
+    "$description": "亮色模式语义取值：color.chart.series.4。"
+  },
+  "color.chart.series.5": {
+    "$type": "color",
+    "$value": "{color.orange.500}",
+    "$description": "亮色模式语义取值：color.chart.series.5。"
+  },
+  "color.chart.series.6": {
+    "$type": "color",
+    "$value": "{color.pink.500}",
+    "$description": "亮色模式语义取值：color.chart.series.6。"
+  },
+  "color.chart.grid": {
+    "$type": "color",
+    "$value": "#e5e7eb",
+    "$description": "亮色模式语义取值：color.chart.grid。"
+  },
+  "color.chart.axis": {
+    "$type": "color",
+    "$value": "{color.obs.gray.400}",
+    "$description": "亮色模式语义取值：color.chart.axis。"
+  }
+}

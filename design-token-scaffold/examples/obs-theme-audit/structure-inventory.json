@@ -1,0 +1,616 @@
+{
+  "project": "D:\\obs_theme",
+  "generatedAt": "2026-09-09T15:40:33.175Z",
+  "items": [
+    {
+      "kind": "组件使用",
+      "value": "Button",
+      "count": 90,
+      "sources": [
+        "src/components/common/EmptyState.tsx:34",
+        "src/components/common/ErrorBoundary.tsx:20",
+        "src/layout/Topbar.tsx:141",
+        "src/pages/alerts/components/AlertDetailDrawer.tsx:62",
+        "src/pages/alerts/components/AlertDetailDrawer.tsx:107",
+        "src/pages/alerts/components/AlertDetailDrawer.tsx:108",
+        "src/pages/alerts/components/AlertDetailDrawer.tsx:109",
+        "src/pages/alerts/components/AlertDetailDrawer.tsx:110",
+        "src/pages/alerts/components/AlertDetailPage.tsx:43",
+        "src/pages/alerts/components/AlertDetailPage.tsx:57",
+        "src/pages/alerts/components/AlertDetailPage.tsx:58",
+        "src/pages/alerts/components/AlertDetailPage.tsx:59",
+        "src/pages/alerts/components/CreateAlertModal.tsx:55",
+        "src/pages/alerts/components/CreateAlertModal.tsx:174",
+        "src/pages/alerts/components/CreateAlertModal.tsx:175",
+        "src/pages/alerts/components/NotificationChannels.tsx:19",
+        "src/pages/alerts/components/NotificationChannels.tsx:53",
+        "src/pages/alerts/components/NotificationChannels.tsx:54",
+        "src/pages/alerts/components/NotificationChannels.tsx:55",
+        "src/pages/alerts/index.tsx:57"
+      ]
+    },
+    {
+      "kind": "标题语义",
+      "value": "h4",
+      "count": 51,
+      "sources": [
+        "src/components/common/EmptyState.tsx:27",
+        "src/components/common/NotificationBell.tsx:54",
+        "src/pages/alerts/components/AlertDetailDrawer.tsx:91",
+        "src/pages/alerts/components/AlertDetailPage.tsx:80",
+        "src/pages/alerts/components/AlertDetailPage.tsx:84",
+        "src/pages/apm/components/ApmServiceMap.tsx:97",
+        "src/pages/apm/components/ErrorTracking.tsx:68",
+        "src/pages/apm/components/ErrorTracking.tsx:89",
+        "src/pages/apm/components/ServiceOverviewCards.tsx:32",
+        "src/pages/apm/index.tsx:31",
+        "src/pages/apm/index.tsx:66",
+        "src/pages/apm/index.tsx:71",
+        "src/pages/apm/index.tsx:76",
+        "src/pages/incidents/components/IncidentDetailDrawer.tsx:67",
+        "src/pages/incidents/components/IncidentDetailDrawer.tsx:74",
+        "src/pages/incidents/components/IncidentDetailDrawer.tsx:79",
+        "src/pages/incidents/components/IncidentDetailDrawer.tsx:82",
+        "src/pages/incidents/IncidentDetailPage.tsx:66",
+        "src/pages/incidents/IncidentDetailPage.tsx:72",
+        "src/pages/incidents/IncidentDetailPage.tsx:78"
+      ]
+    },
+    {
+      "kind": "组件使用",
+      "value": "TextField",
+      "count": 37,
+      "sources": [
+        "src/components/common/GlobalSearch.tsx:46",
+        "src/components/common/TimezoneSelect.tsx:31",
+        "src/layout/Topbar.tsx:64",
+        "src/pages/alerts/components/CreateAlertModal.tsx:65",
+        "src/pages/alerts/components/CreateAlertModal.tsx:108",
+        "src/pages/alerts/components/CreateAlertModal.tsx:129",
+        "src/pages/alerts/components/CreateAlertModal.tsx:152",
+        "src/pages/alerts/index.tsx:47",
+        "src/pages/alerts/index.tsx:68",
+        "src/pages/auth/components/LoginForm.tsx:56",
+        "src/pages/auth/components/LoginForm.tsx:69",
+        "src/pages/auth/ForgotPasswordPage.tsx:43",
+        "src/pages/incidents/components/IncidentTimeline.tsx:28",
+        "src/pages/incidents/index.tsx:43",
+        "src/pages/profile/index.tsx:48",
+        "src/pages/profile/index.tsx:51",
+        "src/pages/profile/index.tsx:67",
+        "src/pages/profile/index.tsx:69",
+        "src/pages/profile/index.tsx:71",
+        "src/pages/settings/index.tsx:55"
+      ]
+    },
+    {
+      "kind": "组件使用",
+      "value": "Select",
+      "count": 27,
+      "sources": [
+        "src/layout/Topbar.tsx:120",
+        "src/pages/alerts/components/CreateAlertModal.tsx:73",
+        "src/pages/alerts/components/CreateAlertModal.tsx:83",
+        "src/pages/alerts/components/CreateAlertModal.tsx:93",
+        "src/pages/alerts/components/CreateAlertModal.tsx:101",
+        "src/pages/alerts/components/CreateAlertModal.tsx:119",
+        "src/pages/alerts/components/CreateAlertModal.tsx:133",
+        "src/pages/alerts/index.tsx:49",
+        "src/pages/apm/index.tsx:25",
+        "src/pages/dashboard/index.tsx:26",
+        "src/pages/metrics/components/HostsTable.tsx:29",
+        "src/pages/metrics/components/HostsTable.tsx:35",
+        "src/pages/metrics/components/MetricsQueryBar.tsx:27",
+        "src/pages/metrics/components/MetricsQueryBar.tsx:38",
+        "src/pages/metrics/components/MetricsQueryBar.tsx:49",
+        "src/pages/synthetics/components/CreateMonitorModal.tsx:71",
+        "src/pages/synthetics/components/CreateMonitorModal.tsx:90",
+        "src/pages/synthetics/index.tsx:97",
+        "src/pages/synthetics/index.tsx:105",
+        "src/pages/traces/components/TracesToolbar.tsx:33"
+      ]
+    },
+    {
+      "kind": "组件使用",
+      "value": "Chip",
+      "count": 22,
+      "sources": [
+        "src/pages/alerts/components/AlertDetailDrawer.tsx:53",
+        "src/pages/alerts/components/AlertDetailPage.tsx:49",
+        "src/pages/alerts/components/AlertRulesTable.tsx:40",
+        "src/pages/alerts/components/AlertRulesTable.tsx:68",
+        "src/pages/alerts/components/FiringAlertsTable.tsx:40",
+        "src/pages/alerts/components/FiringAlertsTable.tsx:61",
+        "src/pages/dashboard/components/RecentAlerts.tsx:61",
+        "src/pages/dashboard/components/TracesPreview.tsx:76",
+        "src/pages/demo/index.tsx:33",
+        "src/pages/incidents/components/IncidentDetailDrawer.tsx:33",
+        "src/pages/incidents/components/IncidentDetailDrawer.tsx:70",
+        "src/pages/incidents/components/IncidentsList.tsx:41",
+        "src/pages/incidents/components/IncidentsList.tsx:46",
+        "src/pages/incidents/components/IncidentsList.tsx:52",
+        "src/pages/incidents/IncidentDetailPage.tsx:29",
+        "src/pages/incidents/IncidentDetailPage.tsx:75",
+        "src/pages/profile/index.tsx:59",
+        "src/pages/settings/index.tsx:170",
+        "src/pages/settings/index.tsx:193",
+        "src/pages/synthetics/index.tsx:144"
+      ]
+    },
+    {
+      "kind": "标题语义",
+      "value": "h2",
+      "count": 20,
+      "sources": [
+        "src/pages/alerts/components/AlertDetailPage.tsx:50",
+        "src/pages/alerts/index.tsx:35",
+        "src/pages/apm/index.tsx:24",
+        "src/pages/auth/ForgotPasswordPage.tsx:35",
+        "src/pages/auth/ForgotPasswordPage.tsx:60",
+        "src/pages/auth/LoginPage.tsx:14",
+        "src/pages/dashboard/index.tsx:25",
+        "src/pages/demo/index.tsx:19",
+        "src/pages/incidents/IncidentDetailPage.tsx:35",
+        "src/pages/incidents/index.tsx:23",
+        "src/pages/integrations/index.tsx:36",
+        "src/pages/metrics/HostDetailPage.tsx:41",
+        "src/pages/metrics/index.tsx:11",
+        "src/pages/profile/index.tsx:40",
+        "src/pages/settings/index.tsx:41",
+        "src/pages/synthetics/index.tsx:77",
+        "src/pages/synthetics/index.tsx:167",
+        "src/pages/traces/index.tsx:56",
+        "src/pages/traces/TraceDetailPage.tsx:38",
+        "src/pages/users/index.tsx:135"
+      ]
+    },
+    {
+      "kind": "标题语义",
+      "value": "h3",
+      "count": 13,
+      "sources": [
+        "src/components/common/ErrorBoundary.tsx:18",
+        "src/pages/alerts/components/AlertDetailDrawer.tsx:56",
+        "src/pages/alerts/components/CreateAlertModal.tsx:54",
+        "src/pages/apm/components/ErrorTracking.tsx:58",
+        "src/pages/apm/index.tsx:37",
+        "src/pages/incidents/components/IncidentDetailDrawer.tsx:39",
+        "src/pages/metrics/components/HostDetailDrawer.tsx:48",
+        "src/pages/NotFoundPage.tsx:10",
+        "src/pages/synthetics/components/CreateMonitorModal.tsx:59",
+        "src/pages/synthetics/components/MonitorDetailDrawer.tsx:65",
+        "src/pages/traces/components/TraceDetailDrawer.tsx:56",
+        "src/pages/users/components/CreateUserModal.tsx:56",
+        "src/pages/users/components/InviteMemberModal.tsx:32"
+      ]
+    },
+    {
+      "kind": "表格结构",
+      "value": "Table",
+      "count": 12,
+      "sources": [
+        "src/pages/alerts/components/AlertRulesTable.tsx:24",
+        "src/pages/alerts/components/FiringAlertsTable.tsx:18",
+        "src/pages/apm/components/ErrorTracking.tsx:22",
+        "src/pages/incidents/components/IncidentsList.tsx:24",
+        "src/pages/metrics/components/HostDetailDrawer.tsx:161",
+        "src/pages/metrics/components/HostsTable.tsx:56",
+        "src/pages/metrics/components/MetricsExplorerTab.tsx:87",
+        "src/pages/synthetics/index.tsx:118",
+        "src/pages/traces/components/TraceDetailDrawer.tsx:94",
+        "src/pages/traces/components/TracesTable.tsx:25",
+        "src/pages/users/index.tsx:166",
+        "src/pages/users/index.tsx:279"
+      ]
+    },
+    {
+      "kind": "表格结构",
+      "value": "TableBody",
+      "count": 12,
+      "sources": [
+        "src/pages/alerts/components/AlertRulesTable.tsx:36",
+        "src/pages/alerts/components/FiringAlertsTable.tsx:31",
+        "src/pages/apm/components/ErrorTracking.tsx:33",
+        "src/pages/incidents/components/IncidentsList.tsx:37",
+        "src/pages/metrics/components/HostDetailDrawer.tsx:171",
+        "src/pages/metrics/components/HostsTable.tsx:70",
+        "src/pages/metrics/components/MetricsExplorerTab.tsx:110",
+        "src/pages/synthetics/index.tsx:132",
+        "src/pages/traces/components/TraceDetailDrawer.tsx:105",
+        "src/pages/traces/components/TracesTable.tsx:38",
+        "src/pages/users/index.tsx:177",
+        "src/pages/users/index.tsx:289"
+      ]
+    },
+    {
+      "kind": "表格结构",
+      "value": "TableContainer",
+      "count": 12,
+      "sources": [
+        "src/pages/alerts/components/AlertRulesTable.tsx:23",
+        "src/pages/alerts/components/FiringAlertsTable.tsx:17",
+        "src/pages/apm/components/ErrorTracking.tsx:21",
+        "src/pages/incidents/components/IncidentsList.tsx:23",
+        "src/pages/metrics/components/HostDetailDrawer.tsx:160",
+        "src/pages/metrics/components/HostsTable.tsx:55",
+        "src/pages/metrics/components/MetricsExplorerTab.tsx:86",
+        "src/pages/synthetics/index.tsx:117",
+        "src/pages/traces/components/TraceDetailDrawer.tsx:93",
+        "src/pages/traces/components/TracesTable.tsx:24",
+        "src/pages/users/index.tsx:165",
+        "src/pages/users/index.tsx:278"
+      ]
+    },
+    {
+      "kind": "表格结构",
+      "value": "TableHead",
+      "count": 12,
+      "sources": [
+        "src/pages/alerts/components/AlertRulesTable.tsx:25",
+        "src/pages/alerts/components/FiringAlertsTable.tsx:19",
+        "src/pages/apm/components/ErrorTracking.tsx:23",
+        "src/pages/incidents/components/IncidentsList.tsx:25",
+        "src/pages/metrics/components/HostDetailDrawer.tsx:162",
+        "src/pages/metrics/components/HostsTable.tsx:57",
+        "src/pages/metrics/components/MetricsExplorerTab.tsx:88",
+        "src/pages/synthetics/index.tsx:119",
+        "src/pages/traces/components/TraceDetailDrawer.tsx:95",
+        "src/pages/traces/components/TracesTable.tsx:26",
+        "src/pages/users/index.tsx:167",
+        "src/pages/users/index.tsx:280"
+      ]
+    },
+    {
+      "kind": "组件使用",
+      "value": "MuiOutlinedInput",
+      "count": 12,
+      "sources": [
+        "src/layout/Topbar.tsx:96",
+        "src/layout/Topbar.tsx:107",
+        "src/layout/Topbar.tsx:127",
+        "src/layout/Topbar.tsx:128",
+        "src/theme/index.ts:298",
+        "src/theme/index.ts:304",
+        "src/theme/index.ts:307",
+        "src/theme/index.ts:310",
+        "src/theme/index.ts:673",
+        "src/theme/index.ts:678",
+        "src/theme/index.ts:679",
+        "src/theme/index.ts:680"
+      ]
+    },
+    {
+      "kind": "组件使用",
+      "value": "Table",
+      "count": 12,
+      "sources": [
+        "src/pages/alerts/components/AlertRulesTable.tsx:24",
+        "src/pages/alerts/components/FiringAlertsTable.tsx:18",
+        "src/pages/apm/components/ErrorTracking.tsx:22",
+        "src/pages/incidents/components/IncidentsList.tsx:24",
+        "src/pages/metrics/components/HostDetailDrawer.tsx:161",
+        "src/pages/metrics/components/HostsTable.tsx:56",
+        "src/pages/metrics/components/MetricsExplorerTab.tsx:87",
+        "src/pages/synthetics/index.tsx:118",
+        "src/pages/traces/components/TraceDetailDrawer.tsx:94",
+        "src/pages/traces/components/TracesTable.tsx:25",
+        "src/pages/users/index.tsx:166",
+        "src/pages/users/index.tsx:279"
+      ]
+    },
+    {
+      "kind": "组件使用",
+      "value": "Tabs",
+      "count": 12,
+      "sources": [
+        "src/pages/alerts/components/AlertDetailDrawer.tsx:69",
+        "src/pages/alerts/index.tsx:38",
+        "src/pages/incidents/components/IncidentDetailDrawer.tsx:57",
+        "src/pages/integrations/index.tsx:38",
+        "src/pages/metrics/components/HostDetailDrawer.tsx:69",
+        "src/pages/metrics/index.tsx:13",
+        "src/pages/settings/index.tsx:42",
+        "src/pages/synthetics/components/MonitorDetailDrawer.tsx:78",
+        "src/pages/synthetics/index.tsx:78",
+        "src/pages/traces/components/TraceDetailDrawer.tsx:73",
+        "src/pages/traces/index.tsx:58",
+        "src/pages/users/index.tsx:140"
+      ]
+    },
+    {
+      "kind": "组件使用",
+      "value": "MuiChip",
+      "count": 8,
+      "sources": [
+        "src/theme/index.ts:457",
+        "src/theme/index.ts:466",
+        "src/theme/index.ts:470",
+        "src/theme/index.ts:474",
+        "src/theme/index.ts:478",
+        "src/theme/index.ts:482",
+        "src/theme/index.ts:694",
+        "src/theme/index.ts:694"
+      ]
+    },
+    {
+      "kind": "组件使用",
+      "value": "Drawer",
+      "count": 6,
+      "sources": [
+        "src/pages/alerts/components/AlertDetailDrawer.tsx:46",
+        "src/pages/apm/components/ErrorTracking.tsx:50",
+        "src/pages/incidents/components/IncidentDetailDrawer.tsx:26",
+        "src/pages/metrics/components/HostDetailDrawer.tsx:30",
+        "src/pages/synthetics/components/MonitorDetailDrawer.tsx:57",
+        "src/pages/traces/components/TraceDetailDrawer.tsx:38"
+      ]
+    },
+    {
+      "kind": "组件使用",
+      "value": "MuiSwitch",
+      "count": 6,
+      "sources": [
+        "src/layout/Topbar.tsx:182",
+        "src/layout/Topbar.tsx:182",
+        "src/layout/Topbar.tsx:182",
+        "src/pages/alerts/components/AlertRulesTable.tsx:58",
+        "src/pages/alerts/components/AlertRulesTable.tsx:58",
+        "src/pages/alerts/components/AlertRulesTable.tsx:58"
+      ]
+    },
+    {
+      "kind": "组件使用",
+      "value": "Dialog",
+      "count": 5,
+      "sources": [
+        "src/pages/alerts/components/CreateAlertModal.tsx:51",
+        "src/pages/synthetics/components/CreateMonitorModal.tsx:56",
+        "src/pages/users/components/CreateUserModal.tsx:53",
+        "src/pages/users/components/InviteMemberModal.tsx:29",
+        "src/pages/users/index.tsx:331"
+      ]
+    },
+    {
+      "kind": "组件使用",
+      "value": "MuiLinearProgress",
+      "count": 4,
+      "sources": [
+        "src/pages/users/components/CreateUserModal.tsx:99",
+        "src/theme/index.ts:575",
+        "src/theme/index.ts:703",
+        "src/theme/index.ts:703"
+      ]
+    },
+    {
+      "kind": "组件使用",
+      "value": "MuiSelect",
+      "count": 4,
+      "sources": [
+        "src/layout/Topbar.tsx:129",
+        "src/theme/index.ts:335",
+        "src/theme/index.ts:696",
+        "src/theme/index.ts:696"
+      ]
+    },
+    {
+      "kind": "组件使用",
+      "value": "MuiTableCell",
+      "count": 4,
+      "sources": [
+        "src/theme/index.ts:378",
+        "src/theme/index.ts:404",
+        "src/theme/index.ts:691",
+        "src/theme/index.ts:693"
+      ]
+    },
+    {
+      "kind": "组件使用",
+      "value": "MuiSkeleton",
+      "count": 3,
+      "sources": [
+        "src/theme/index.ts:588",
+        "src/theme/index.ts:704",
+        "src/theme/index.ts:704"
+      ]
+    },
+    {
+      "kind": "组件使用",
+      "value": "MuiTable",
+      "count": 3,
+      "sources": [
+        "src/theme/index.ts:369",
+        "src/theme/index.ts:695",
+        "src/theme/index.ts:695"
+      ]
+    },
+    {
+      "kind": "组件使用",
+      "value": "MuiTableRow",
+      "count": 3,
+      "sources": [
+        "src/pages/synthetics/index.tsx:150",
+        "src/theme/index.ts:396",
+        "src/theme/index.ts:692"
+      ]
+    },
+    {
+      "kind": "组件使用",
+      "value": "MuiAppBar",
+      "count": 2,
+      "sources": [
+        "src/theme/index.ts:556",
+        "src/theme/index.ts:690"
+      ]
+    },
+    {
+      "kind": "组件使用",
+      "value": "MuiBreadcrumbs",
+      "count": 2,
+      "sources": [
+        "src/layout/AppShell.tsx:81",
+        "src/theme/index.ts:567"
+      ]
+    },
+    {
+      "kind": "组件使用",
+      "value": "MuiButton",
+      "count": 2,
+      "sources": [
+        "src/theme/index.ts:253",
+        "src/theme/index.ts:663"
+      ]
+    },
+    {
+      "kind": "组件使用",
+      "value": "MuiCard",
+      "count": 2,
+      "sources": [
+        "src/theme/index.ts:419",
+        "src/theme/index.ts:686"
+      ]
+    },
+    {
+      "kind": "组件使用",
+      "value": "MuiCardContent",
+      "count": 2,
+      "sources": [
+        "src/theme/index.ts:430",
+        "src/theme/index.ts:687"
+      ]
+    },
+    {
+      "kind": "组件使用",
+      "value": "MuiCardHeader",
+      "count": 2,
+      "sources": [
+        "src/theme/index.ts:439",
+        "src/theme/index.ts:688"
+      ]
+    },
+    {
+      "kind": "组件使用",
+      "value": "MuiCssBaseline",
+      "count": 2,
+      "sources": [
+        "src/theme/index.ts:235",
+        "src/theme/index.ts:654"
+      ]
+    },
+    {
+      "kind": "组件使用",
+      "value": "MuiDivider",
+      "count": 2,
+      "sources": [
+        "src/theme/index.ts:538",
+        "src/theme/index.ts:702"
+      ]
+    },
+    {
+      "kind": "组件使用",
+      "value": "MuiDrawer",
+      "count": 2,
+      "sources": [
+        "src/theme/index.ts:546",
+        "src/theme/index.ts:689"
+      ]
+    },
+    {
+      "kind": "组件使用",
+      "value": "MuiIconButton",
+      "count": 2,
+      "sources": [
+        "src/theme/index.ts:287",
+        "src/theme/index.ts:672"
+      ]
+    },
+    {
+      "kind": "组件使用",
+      "value": "MuiInput",
+      "count": 2,
+      "sources": [
+        "src/components/common/GlobalSearch.tsx:58",
+        "src/components/common/GlobalSearch.tsx:58"
+      ]
+    },
+    {
+      "kind": "组件使用",
+      "value": "MuiInputLabel",
+      "count": 2,
+      "sources": [
+        "src/theme/index.ts:325",
+        "src/theme/index.ts:685"
+      ]
+    },
+    {
+      "kind": "组件使用",
+      "value": "MuiMenu",
+      "count": 2,
+      "sources": [
+        "src/theme/index.ts:342",
+        "src/theme/index.ts:697"
+      ]
+    },
+    {
+      "kind": "组件使用",
+      "value": "MuiMenuItem",
+      "count": 2,
+      "sources": [
+        "src/theme/index.ts:353",
+        "src/theme/index.ts:698"
+      ]
+    },
+    {
+      "kind": "组件使用",
+      "value": "MuiTab",
+      "count": 2,
+      "sources": [
+        "src/theme/index.ts:503",
+        "src/theme/index.ts:700"
+      ]
+    },
+    {
+      "kind": "组件使用",
+      "value": "MuiTableBody",
+      "count": 2,
+      "sources": [
+        "src/theme/index.ts:393",
+        "src/theme/index.ts:692"
+      ]
+    },
+    {
+      "kind": "组件使用",
+      "value": "MuiTableHead",
+      "count": 2,
+      "sources": [
+        "src/theme/index.ts:375",
+        "src/theme/index.ts:691"
+      ]
+    },
+    {
+      "kind": "组件使用",
+      "value": "MuiTabs",
+      "count": 2,
+      "sources": [
+        "src/theme/index.ts:490",
+        "src/theme/index.ts:699"
+      ]
+    },
+    {
+      "kind": "组件使用",
+      "value": "MuiTooltip",
+      "count": 2,
+      "sources": [
+        "src/theme/index.ts:521",
+        "src/theme/index.ts:701"
+      ]
+    },
+    {
+      "kind": "组件使用",
+      "value": "MuiBadge",
+      "count": 1,
+      "sources": [
+        "src/components/common/NotificationBell.tsx:40"
+      ]
+    }
+  ]
+}

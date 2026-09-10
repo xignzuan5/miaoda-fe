@@ -1,0 +1,12 @@
+{
+  "$schema": "../../../schema/token-file.schema.json",
+  "input.background.default": { "$type": "color", "$value": "{color.surface.default}", "$description": "输入框默认背景" },
+  "input.text.default": { "$type": "color", "$value": "{color.text.primary}", "$description": "输入内容颜色" },
+  "input.text.placeholder": { "$type": "color", "$value": "{color.text.secondary}", "$description": "占位文字颜色" },
+  "input.border.default": { "$type": "color", "$value": "{color.border.default}", "$description": "输入框默认边框" },
+  "input.border.focus": { "$type": "color", "$value": "{color.focus.ring}", "$description": "输入框聚焦边框" },
+  "input.border.error": { "$type": "color", "$value": "{color.feedback.danger.foreground}", "$description": "输入框错误边框" },
+  "input.height.md": { "$type": "dimension", "$value": "{size.control.md}", "$description": "默认输入框高度" },
+  "input.padding.inline": { "$type": "dimension", "$value": "{spacing.3}", "$description": "输入框水平内边距" },
+  "input.radius": { "$type": "dimension", "$value": "{radius.md}", "$description": "输入框圆角" }
+}

@@ -1,0 +1,18 @@
+{
+  "$schema": "../../../schema/token-file.schema.json",
+  "button.primary.background.default": { "$type": "color", "$value": "{color.action.primary.default}", "$description": "主要按钮默认背景" },
+  "button.primary.background.hover": { "$type": "color", "$value": "{color.action.primary.hover}", "$description": "主要按钮悬浮背景" },
+  "button.primary.background.pressed": { "$type": "color", "$value": "{color.action.primary.pressed}", "$description": "主要按钮按压背景" },
+  "button.primary.text.default": { "$type": "color", "$value": "{color.text.inverse}", "$description": "主要按钮文字" },
+  "button.secondary.background.default": { "$type": "color", "$value": "{color.surface.default}", "$description": "次要按钮默认背景" },
+  "button.secondary.border.default": { "$type": "color", "$value": "{color.border.default}", "$description": "次要按钮默认边框" },
+  "button.secondary.text.default": { "$type": "color", "$value": "{color.text.primary}", "$description": "次要按钮文字" },
+  "button.height.sm": { "$type": "dimension", "$value": "{size.control.sm}", "$description": "小按钮高度" },
+  "button.height.md": { "$type": "dimension", "$value": "{size.control.md}", "$description": "默认按钮高度" },
+  "button.height.lg": { "$type": "dimension", "$value": "{size.control.lg}", "$description": "大按钮高度" },
+  "button.padding.inline": { "$type": "dimension", "$value": "{spacing.4}", "$description": "按钮水平内边距" },
+  "button.gap": { "$type": "dimension", "$value": "{spacing.2}", "$description": "按钮图标与文字间距" },
+  "button.radius": { "$type": "dimension", "$value": "{radius.md}", "$description": "按钮圆角" },
+  "button.font.weight": { "$type": "fontWeight", "$value": "{font.weight.semibold}", "$description": "按钮文字字重" },
+  "button.opacity.disabled": { "$type": "number", "$value": "{opacity.disabled}", "$description": "禁用按钮不透明度" }
+}

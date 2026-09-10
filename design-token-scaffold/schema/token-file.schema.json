@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/token-file.schema.json",
+  "title": "Flat Design Token File",
+  "type": "object",
+  "properties": {
+    "$schema": { "type": "string" },
+    "$description": { "type": "string" },
+    "$extensions": { "type": "object" }
+  },
+  "patternProperties": {
+    "^[a-z][a-z0-9]*(?:[.-][a-z0-9]+)*$": {
+      "type": "object",
+      "required": ["$type", "$value", "$description"],
+      "properties": {
+        "$type": {
+          "enum": ["boolean", "color", "dimension", "number", "fontFamily", "fontWeight", "duration", "cubicBezier", "shadow", "strokeStyle", "border", "gradient", "typography", "transition", "string"]
+        },
+        "$value": { "type": ["string", "number", "boolean", "array", "object"] },
+        "$description": { "type": "string", "minLength": 1 },
+        "$deprecated": { "type": ["boolean", "string"] },
+        "$extensions": {
+          "type": "object",
+          "properties": {
+            "project": {
+              "type": "object",
+              "properties": {
+                "layer": { "enum": ["primitive", "semantic", "component"] },
+                "status": { "enum": ["draft", "review", "stable", "deprecated"] },
+                "scope": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+                "platforms": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+                "tags": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+                "owner": { "type": "string" },
+                "source": { "type": "string" },
+                "replacement": { "type": "string" },
+                "accessibility": { "type": "object" }
+              },
+              "additionalProperties": true
+            }
+          },
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

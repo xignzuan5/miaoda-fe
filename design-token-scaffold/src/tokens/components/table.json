@@ -1,0 +1,21 @@
+{
+  "$schema": "../../../schema/token-file.schema.json",
+  "$description": "通用数据表格的表头、单元格、行高和交互状态 Token。",
+  "table.row.height.default": { "$type": "dimension", "$value": "36px", "$description": "默认表格行高" },
+  "table.row.height.compact": { "$type": "dimension", "$value": "28px", "$description": "紧凑表格行高" },
+  "table.row.height.comfortable": { "$type": "dimension", "$value": "44px", "$description": "宽松表格行高" },
+  "table.row.background.hover": { "$type": "color", "$value": "{color.surface.subtle}", "$description": "表格行悬停背景" },
+  "table.row.background.selected": { "$type": "color", "$value": "{color.surface.overlay}", "$description": "表格行选中背景" },
+  "table.head.background": { "$type": "color", "$value": "{color.surface.default}", "$description": "表头背景" },
+  "table.head.border": { "$type": "color", "$value": "{color.border.default}", "$description": "表头底部分隔线" },
+  "table.head.text": { "$type": "color", "$value": "{color.text.secondary}", "$description": "表头文字颜色" },
+  "table.head.font.size": { "$type": "dimension", "$value": "{font.size.11}", "$description": "表头字号" },
+  "table.head.font.weight": { "$type": "fontWeight", "$value": "{font.weight.medium}", "$description": "表头字重" },
+  "table.head.letter.spacing": { "$type": "dimension", "$value": "0.04em", "$description": "表头字距" },
+  "table.head.padding.inline": { "$type": "dimension", "$value": "{spacing.3}", "$description": "表头左右内边距" },
+  "table.head.padding.block": { "$type": "dimension", "$value": "8px", "$description": "表头上下内边距" },
+  "table.cell.border": { "$type": "color", "$value": "{color.border.default}", "$description": "单元格分隔线" },
+  "table.cell.font.size": { "$type": "dimension", "$value": "{font.size.13}", "$description": "单元格正文字号" },
+  "table.cell.padding.inline": { "$type": "dimension", "$value": "{spacing.3}", "$description": "单元格左右内边距" },
+  "table.cell.padding.block": { "$type": "dimension", "$value": "7px", "$description": "单元格上下内边距" }
+}
