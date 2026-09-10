@@ -10,7 +10,7 @@
 
 ## 需要同步到妙搭的文件
 
-把“具体项目源码”和该项目完整的 `design-system/` 一起同步。最小集合如下：
+把“具体项目源码”和该项目的运行时 `design-system/` 一起同步。下面标为“可选”的文件只服务于维护者，不影响 Agent 运行；安装器默认不会把它们复制到具体项目。
 
 ```text
 项目根目录/
@@ -28,7 +28,7 @@
     ├── dist/css/tokens.css              构建后的 CSS 变量
     ├── scripts/                         project:init 和构建脚本
     └── miaoda/
-        ├── README.md                    本手册
+        ├── README.md                    可选：维护者操作手册
         ├── manifest.json
         ├── install-skill-prompt.md
         └── extensions/

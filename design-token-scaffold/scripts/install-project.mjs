@@ -54,13 +54,14 @@ function runNodeScript(script, scriptArgs) {
   });
 }
 
-async function copyTree(source, destination) {
+async function copyTree(source, destination, options = {}) {
   await mkdir(destination, { recursive: true });
   for (const entry of await readdir(source, { withFileTypes: true })) {
     if (entry.name === 'dist' || entry.name === 'examples' || entry.name === 'skills' || entry.name === 'install-project.mjs') continue;
+    if (options.skipReadme && entry.name === 'README.md') continue;
     const from = path.join(source, entry.name);
     const to = path.join(destination, entry.name);
-    if (entry.isDirectory()) await copyTree(from, to);
+    if (entry.isDirectory()) await copyTree(from, to, options);
     if (entry.isFile()) {
       if (!force && await exists(to)) { skipped.push(to); continue; }
       await mkdir(path.dirname(to), { recursive: true });
@@ -91,7 +92,11 @@ else {
   copied.push(packageTarget);
 }
 for (const directory of ['schema', 'scripts', 'src', 'tests', 'docs', 'miaoda']) {
-  await copyTree(path.join(scaffoldRoot, directory), path.join(designSystemRoot, directory));
+  await copyTree(
+    path.join(scaffoldRoot, directory),
+    path.join(designSystemRoot, directory),
+    { skipReadme: directory === 'miaoda' }
+  );
 }
 for (const skill of ['extract-design-tokens', 'apply-design-tokens']) {
   await copyTree(

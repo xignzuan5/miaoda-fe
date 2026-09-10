@@ -1,6 +1,6 @@
 # 飞书妙搭 Agent 接入规范
 
-本文件用于把当前项目的 Design Token、组件配方和页面模板交给飞书妙搭的代码 Agent 使用。妙搭中的 Agent 不应依赖本地 Codex/Claude 会话状态；所有必须遵守的内容都要落在项目代码和本文件中。面向项目维护者的同步和操作步骤见 [`design-system/miaoda/README.md`](../miaoda/README.md)。
+本文件用于把当前项目的 Design Token、组件配方和页面模板交给飞书妙搭的代码 Agent 使用。妙搭中的 Agent 不应依赖本地 Codex/Claude 会话状态；所有必须遵守的内容都要落在项目代码和本文件中。面向项目维护者的同步和操作步骤见脚手架仓库的 `miaoda/README.md`；该 README 是可选手册，不属于具体项目运行时的必需输入，安装器默认不会复制它。
 
 ## 接入前准备
 
