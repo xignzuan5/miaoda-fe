@@ -4,7 +4,7 @@
 
 ## 接入前准备
 
-在项目根目录执行：
+如果尚未安装脚手架，先从脚手架目录执行一次 `npm run project:init -- --target <项目目录>`；该命令已经完成安装、首次扫描和构建。之后只有项目源码或主题发生变化时，才在项目根目录执行无参数的 `npm run project:init` 刷新：
 
 ```bash
 npm run project:init
