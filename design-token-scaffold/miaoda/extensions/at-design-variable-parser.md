@@ -61,6 +61,10 @@ npm run project:init
 - `design-system/docs/design-spec.md`：中文设计规范、已确认规则、例外和待决项。
 - `design-system/audit/migration-map.json`：硬编码或旧变量到建议 Token 的迁移映射。
 
+这些产物对应 `/页面开发` 的读取步骤 2–5：步骤 2 是项目规范文档；步骤 3 是 `audit/` 证据和模板登记；步骤 4 是正式 Token、Recipe 与 CSS/JSON 构建产物；步骤 5 是从现有源码中确认并登记的 AppShell/Layout、Provider、路由、菜单、权限、面包屑、内容插槽和代表性页面模式。步骤 5 是“读取并登记真实复用点”，不是把完整业务页面复制进 `design-system/`。
+
+每个文件或条目必须带 `status`：`confirmed`（源码/运行时已确认）、`candidate`（有证据但尚未批准）、`unresolved`（存在冲突或多种解释）、`not-found`（项目中未找到）或 `not-verified`（尚未取得运行时证据）。`@设计变量解析` 不得为了填满步骤 2–5 而猜测值；缺失项要保留缺口，交给后续补证或人工决策。
+
 每条正式 Token 必须带类型、值或别名、中文描述、来源证据、状态和适用模式。无法确认的内容只能放在候选或待决区，不能写入已批准区。
 
 ## 完成检查

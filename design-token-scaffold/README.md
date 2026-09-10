@@ -15,7 +15,7 @@ npm run check
 对已有项目进行第一轮事实盘点：
 
 ```bash
-npm run extract -- --root D:\obs_theme --output examples\obs-theme-audit --exclude docs
+npm run extract -- --root D:\your-project --output D:\your-project\design-system\audit --exclude docs
 ```
 
 命令说明：
@@ -92,7 +92,7 @@ npm run project:init
 
 ### 接入飞书妙搭
 
-妙搭的 Agent 是云端项目 Agent，不能直接读取你电脑上的 `D:\obs_theme`，也不会自动把本地 `.claude/commands` 当成规范。推荐先在项目根目录执行：
+妙搭的 Agent 是云端项目 Agent，不能直接读取你电脑上的本地项目，也不会自动把本地 `.claude/commands` 当成规范。推荐先在项目根目录执行：
 
 ```bash
 npm run project:init
@@ -109,10 +109,12 @@ npm run project:init
 
 妙搭中的 `/` 可以管理和选择项目技能，`@` 可以选择插件或组件。脚手架会生成两个已经写好的固定扩展定义、安装指令和 `manifest.json`：`design-system/miaoda/extensions/slash-page-development.md`（`/页面开发`）、`design-system/miaoda/extensions/at-design-variable-parser.md`（`@设计变量解析`）以及 `design-system/miaoda/install-skill-prompt.md`。在妙搭的“告诉妙搭创建技能”入口中，只使用安装指令把固定文件原样注册，不要让 Agent 自行生成规则；项目内的 Token、审计和模板由 Agent 直接读取，只有项目外部资料才使用 `@文件解析`。清单不会绕过妙搭权限自动注册扩展；详细配置和提示词见 [`docs/miaoda-agent.md`](docs/miaoda-agent.md)。
 
+妙搭首次接入按固定顺序操作：先在应用项目根目录确认/写入 `AGENTS.md` 或 `CLAUDE.md`；再原样注册 `/页面开发`；然后调用 `@设计变量解析`，先在可执行环境运行 `npm run project:init`，再依据真实源码生成/刷新 `/页面开发` 读取清单中的步骤 2–5；最后执行 `/页面开发`。步骤 5 是对现有壳层、插槽和页面模式的登记，不是复制完整业务页面。初始化完成后，日常新增页面只调用 `/页面开发`；只有主题、字体、组件覆盖、公共壳层或审计发生变化时才重新调用 `@设计变量解析`。
+
 默认同时写入 Codex 和 Claude 的规则；如果只需要其中一种，才使用 `--agent codex` 或 `--agent claude`。
 已有文件不会被覆盖，确需刷新脚手架文件时再加 `--force`。
 
-本次 `D:/obs_theme` 的抽取示例和对照修复记录见 [`examples/obs-theme-audit/comparison-report.md`](examples/obs-theme-audit/comparison-report.md)，对应的可运行页面在 [`examples/obs-product-mgmt`](examples/obs-product-mgmt)。
+`examples/` 如果存在，仅用于演示脚手架能力；真实项目的 Token、审计和页面代码必须留在各自项目目录，不会被脚手架安装器复制进其他项目。
 
 ### 运行后会沉淀什么
 

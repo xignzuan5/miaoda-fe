@@ -2,6 +2,37 @@
   "$schema": "https://miaoda.feishu.cn/schemas/project-extensions.v1.json",
   "schemaVersion": "1.0.0",
   "locale": "zh-CN",
+  "bootstrap": {
+    "description": "首次接入妙搭时先写入项目规则，再原样注册页面技能，随后完成确定性抽取，最后开发页面。",
+    "order": [
+      {
+        "step": 0,
+        "name": "项目规则",
+        "source": "AGENTS.md 或 CLAUDE.md",
+        "action": "确认并写入 design-token-system 标记区"
+      },
+      {
+        "step": 1,
+        "name": "/页面开发",
+        "source": "extensions/slash-page-development.md",
+        "action": "原样注册，不生成替代版本"
+      },
+      {
+        "step": 2,
+        "name": "@设计变量解析",
+        "source": "extensions/at-design-variable-parser.md",
+        "action": "先运行 npm run project:init，再生成或刷新步骤 2–5 资料"
+      },
+      {
+        "step": 3,
+        "name": "页面实现",
+        "source": "/页面开发 的步骤 2–5",
+        "action": "复用已登记壳层和模板，只实现内容区及必要路由配置"
+      }
+    ],
+    "dailyFlow": ["/页面开发"],
+    "refreshWhen": ["主题或组件覆盖变化", "字体或公共壳层变化", "审计产物过期"]
+  },
   "extensions": [
     {
       "name": "@设计变量解析",

@@ -80,7 +80,38 @@ design-system/
 每次执行前必须读取本技能来源文件 design-system/miaoda/extensions/slash-page-development.md，以及 design-system/docs/miaoda-agent.md、design-system/audit/、design-system/src/tokens/ 和页面模板代码。来源文件是唯一规则源，不得自行改写；若 audit 有证据但正式 Token 或模板缺失，按来源文件的固定规则处理并标注来源。完成后说明复用了哪些 Token、Recipe、模板和插件。
 ```
 
-典型组合是直接输入 `/` 选择“页面开发”，让妙搭 Agent 从已导入的项目代码中读取 `design-system/`。只有项目代码之外的 PDF、Word、Figma 导出、截图或外部规范需要临时提供时，才使用 `@文件解析`；不需要为已经在项目中的 Token、审计和模板重复附加文件。`/` 负责规则和任务路由，`@` 负责外部资料/插件能力，两者不是同一个层级；两者的固定定义都在项目文件中，妙搭不应自行生成替代版本。
+### 首次接入的固定顺序
+
+首次把这套设计系统接入一个妙搭应用时，顺序是“先装项目规则，再原样注册页面技能，再确定性抽取，最后开发页面”：
+
+```text
+0. 修改/确认项目根目录的 AGENTS.md 或 CLAUDE.md（步骤 1）
+        ↓
+1. 原样注册 design-system/miaoda/extensions/slash-page-development.md
+   为 /页面开发（只注册固定文件，不让 Agent 重新生成）
+        ↓
+2. 调用 @设计变量解析（首次初始化或审计过期时）
+   先执行 npm run project:init，再按真实源码生成/刷新步骤 2–5 的资料
+        ↓
+3. 重新读取步骤 2–5，执行 /页面开发
+```
+
+这里的“步骤 2–5”对应 `/页面开发` 每次执行前的读取清单：
+
+- 步骤 2：`design-system/docs/miaoda-agent.md`、`page-template-contract.md` 等项目规范；
+- 步骤 3：`design-system/audit/` 中的审计、布局/字体/结构清单和 `page-templates.json`；
+- 步骤 4：`design-system/src/tokens/`、`src/recipes/` 和 `dist/css/tokens.css`；
+- 步骤 5：现有 AppShell/Layout、Provider、路由、菜单、权限、面包屑和代表页面/模板代码。
+
+`@设计变量解析` 会生成或刷新步骤 2–4 的文件，并把步骤 5 中真实存在的壳层、插槽和页面模式登记到模板清单；步骤 5 不是把整个业务页面复制成一个新文件。所有结果必须带来源和状态（如 `confirmed`、`candidate`、`unresolved`、`not-found`、`not-verified`），缺失内容不能凭经验补齐。
+
+如果当前妙搭租户没有自定义 `@` 插件入口，使用 `@文件解析` 附加 `at-design-variable-parser.md` 只能执行第二阶段语义整理；确定性扫描仍必须在可执行项目命令的本地/CI/妙搭终端完成。没有 `npm run project:init` 的真实返回码和产物更新时间，就必须报告“确定性扫描未执行”。
+
+### 日常新增页面
+
+首次初始化完成且步骤 1–5 已存在并通过验证后，日常新增页面只需要调用 `/页面开发` 并提供页面需求；不需要每次重复调用 `@设计变量解析`。只有源码主题、组件覆盖、字体、公共壳层/模板发生变化，或审计已过期时，才重新执行 `@设计变量解析`，然后再调用 `/页面开发`。
+
+`@文件解析` 仅用于项目代码之外的 PDF、Word、Figma 导出、截图或外部规范；已经随项目导入的 Token、审计和模板必须直接从项目代码读取。`/` 负责固定规则和任务路由，`@` 负责确定性抽取/外部资料能力，两者不是同一个层级；两者的定义都在项目文件中，妙搭不应自行生成替代版本。
 
 ## 确定性扫描与妙搭代码同步
 

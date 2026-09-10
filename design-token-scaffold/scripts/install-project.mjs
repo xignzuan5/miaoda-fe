@@ -150,6 +150,8 @@ const ruleBlock = `<!-- design-token-system:start -->
 - 新增页面前阅读 design-system/docs/page-template-contract.md 及项目模板登记表。已有 AppShell/Layout 时复用内容插槽，只新增内容页及必要路由、菜单、权限、面包屑配置，禁止复制顶栏、侧栏、全局搜索或重复挂载壳层。
 - 抽取覆盖实际主题、布局、组件状态、资源和代表页面，不以用户举例为上限；交付可编译模板代码、来源、插槽与验证状态，不能只生成 Markdown。
 - 初始化或刷新项目审计可直接在项目根目录运行 \`npm run project:init\`。
+- 妙搭首次接入必须先确认项目根目录的 \`AGENTS.md\` 或 \`CLAUDE.md\`（步骤 1），再把 \`design-system/miaoda/extensions/slash-page-development.md\` 原样注册为 \`/页面开发\`，然后调用固定的 \`@设计变量解析\` 生成/刷新步骤 2–5，最后才能执行页面开发。
+- \`@设计变量解析\` 负责事实扫描、语义沉淀和模板登记；步骤 5 是登记现有壳层/插槽/页面模式，不是复制完整业务页面。没有真实 \`npm run project:init\` 返回码和产物更新时间，不得声称完成确定性扫描。
 - Claude Code 可使用项目命令 \`/build-page\` 生成页面；自然语言页面需求同样适用。
 - Claude Code 也可使用中文命令 \`/页面开发\`；妙搭中对应的技能定义位于 \`design-system/miaoda/extensions/slash-page-development.md\`。
 - 妙搭的 \`@设计变量解析\` 定义位于 \`design-system/miaoda/extensions/at-design-variable-parser.md\`；若当前租户未开放自定义 @ 插件，可用 \`@文件解析\` 附加该文件执行同一流程。
@@ -180,11 +182,11 @@ const projectGuide = `# 项目 Design Token 使用说明
 - 校验并构建：\`npm run check\`
 - 构建产物：\`dist/\`
 - 首次抽取结果：\`audit/\`（由脚手架初始化命令自动生成）
-- 页面模板登记：\`audit/page-templates.json\`（首次页面任务缺失时由模型在同一轮补充）
+- 页面模板登记：\`audit/page-templates.json\`（由源码证据登记；缺失项必须标记状态，不得凭经验补齐）
 - 页面和组件实现：遵循 \`$apply-design-tokens\`，优先复用 \`audit/\` 中登记的壳层和模板
 - 初始化后可直接在项目根目录运行 \`npm run project:init\` 刷新审计，脚手架会登记这一条固定脚本。
 
-首次从脚手架安装时，执行 \`npm run project:init -- --target <项目目录>\` 会一次完成安装、规则写入和首次抽取；之后在目标项目根目录执行无参数命令即可刷新审计。
+首次从脚手架安装时，执行 \`npm run project:init -- --target <项目目录>\` 会一次完成安装、规则写入和首次抽取；之后在目标项目根目录执行无参数命令即可刷新审计。接入妙搭时，先确认步骤 1 的项目规则，再原样注册 \`/页面开发\`，随后调用 \`@设计变量解析\` 生成/刷新步骤 2–5，最后执行页面开发。
 首次进入项目后重新启动 Codex，使其重新加载 \`AGENTS.md\` 和仓库级 Skills。Claude 应从 \`CLAUDE.md\` 中读取相同规则。
 `;
 const guidePath = path.join(designSystemRoot, '项目使用说明.md');
