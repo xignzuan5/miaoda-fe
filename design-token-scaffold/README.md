@@ -2,6 +2,8 @@
 
 一套可直接运行、零运行时依赖的 Design Token 脚手架。它用“基础值 → 语义值 → 组件值 → 主题覆盖”的结构管理项目样式，并构建 Web 和 TypeScript 可消费的产物。
 
+核心脚手架不依赖飞书妙搭。它可以在任意电脑、任意本地前端项目和不同编码 Agent 中运行；`miaoda/` 目录只是可选的平台适配资料，不参与 Token 引擎、抽取器和构建器的核心运行。
+
 完整字段定义见 [`docs/token-contract.md`](docs/token-contract.md)。用于从已有项目提取候选 Token 的 Agent Skill 位于 [`skills/extract-design-tokens`](skills/extract-design-tokens)，用于落地页面和组件的 Skill 位于 [`skills/apply-design-tokens`](skills/apply-design-tokens)。
 
 ## 快速开始
@@ -89,6 +91,15 @@ npm run project:init
 ```
 
 该命令只是项目级提示词入口，真正的约束仍来自 `AGENTS.md`/`CLAUDE.md`、Design Token 和模板代码；也可以完全使用自然语言，不依赖斜杠命令。
+
+### 不使用妙搭的本地项目
+
+本地项目只需要使用通用脚手架的安装器和仓库级规则，不需要安装或注册 `miaoda/` 下的任何扩展：
+
+1. 在脚手架目录执行一次 `npm run project:init -- --target D:\your-project`，安装 `design-system/`、抽取 Skill、应用 Skill 和项目规则。
+2. 进入项目根目录执行 `npm run project:init`，以后始终可以使用这个无参数命令刷新审计和构建产物。
+3. 使用支持 `AGENTS.md`/`.agents/skills` 的本地编码 Agent；Claude Code 可以使用 `.claude/commands/页面开发.md`，其他 Agent 直接用自然语言提出页面需求。
+4. 首次抽取只产生机械审计和构建产物；语义 Token、Recipe、页面模板和迁移映射由本地抽取 Skill 结合源码沉淀，不依赖 `@设计变量解析`。
 
 ### 接入飞书妙搭
 
