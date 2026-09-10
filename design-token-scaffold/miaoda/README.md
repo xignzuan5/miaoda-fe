@@ -6,7 +6,7 @@
 
 - `miaoda-fe/scaffold` 只保存通用脚手架、固定扩展、安装器和示例 Token 基线，不包含任何业务项目的真实页面或审计结果。
 - 每个要接入妙搭的项目，都必须使用自己的源码运行 `npm run project:init`，生成自己的 `design-system/audit/`、Token、Recipe 和页面模板登记。
-- 不要把某个项目（例如 `D:\obs_theme`）的源码、字体、页面、Token 或审计产物提交回通用脚手架分支。
+- 不要把任何具体项目（例如 `D:\your-project`）的源码、字体、页面、Token 或审计产物提交回通用脚手架分支。
 
 ## 需要同步到妙搭的文件
 
