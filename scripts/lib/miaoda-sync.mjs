@@ -175,7 +175,7 @@ export function classifyFailure(value) {
     return '权限不足或授权已过期。请确认飞书账号有该妙搭应用权限，并重新执行 lark-cli auth login。';
   }
   if (/not_configured|not configured|未配置/.test(text)) {
-    return 'lark-cli 尚未完成应用配置。请先执行 lark-cli config init --new。';
+    return 'lark-cli 尚未配置应用凭证。请使用管理员提供的 CLI app_id 和 app_secret 执行 lark-cli config init --app-id <cli_app_id> --app-secret-stdin --brand feishu；不要自动创建个人应用。';
   }
   if (/auth|login|登录|授权|user authorization/.test(text)) {
     return 'lark-cli 用户授权不足或已过期。请执行 lark-cli auth login --scope "spark:app:read spark:app:write"，并按浏览器提示完成授权。';

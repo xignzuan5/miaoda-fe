@@ -55,7 +55,7 @@ npm run project:init -- --target D:\your-project
 npm run miaoda:init
 ```
 
-命令会在同一轮中先检查 Node.js 版本、Git 和 `lark-cli`，再引导浏览器授权、核对应用访问权限、获取妙搭 Git 地址、clone `sprint/default`，安装脚手架并运行首次 `project:init`。Windows 检测到 `winget` 或 Chocolatey 时会询问是否协助安装 Git；`lark-cli` 缺失时最多重试 3 次网络安装，失败后自动检查 `vendor/lark-cli/` 或 `LARK_CLI_OFFLINE_DIR` 指定的完整离线包。它不会把通用脚手架误当成业务项目，也不会自动提交或推送。
+命令会在同一轮中先检查 Node.js 版本、Git 和 `lark-cli`，再引导绑定管理员提供的 CLI 应用和浏览器授权、核对应用访问权限、获取妙搭 Git 地址并 clone `sprint/default`。没有现成 lark-cli 配置时不会自动创建个人应用。代码同步完成后安装脚手架，并询问是否立即运行首次 `project:init`；选择“否”时可稍后在目标项目根目录执行该命令。Windows 检测到 `winget` 或 Chocolatey 时会询问是否协助安装 Git；`lark-cli` 缺失时最多重试 3 次网络安装，失败后自动检查 `vendor/lark-cli/` 或 `LARK_CLI_OFFLINE_DIR` 指定的完整离线包。它不会把通用脚手架误当成业务项目，也不会自动提交或推送。
 
 由于 `npm run` 需要 Node.js/npm 才能启动，Node.js 完全不存在时无法由 `miaoda:init` 自行安装。Windows 用户可以先在脚手架根目录执行 `miaoda-init.cmd`，它会在启动 npm 前检查并询问是否用 winget 安装 Node.js LTS 和 Git；命令本身会检查版本过低并给出升级指引。首次授权、企业网络白名单、管理员应用权限和软件安装权限仍由相应管理员处理。
 

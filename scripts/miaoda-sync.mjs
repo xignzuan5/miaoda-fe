@@ -577,12 +577,9 @@ async function ensureLarkAuth() {
     if (!/not_configured|not configured|未配置/i.test(message) && config.code !== 0) {
       throw new SyncError('检查飞书 CLI 配置', redactOutput(message), classifyFailure(message));
     }
-    printStep('首次配置飞书 CLI（需要浏览器授权）');
-    const initialized = await runLark(['config', 'init', '--new'], { interactive: true });
-    if (resultFailed(initialized)) {
-      const text = resultText(initialized);
-      throw new SyncError('首次配置飞书 CLI', conciseCommandFailure(initialized), classifyFailure(text));
-    }
+    printStep('配置管理员提供的飞书 CLI 应用');
+    console.log('当前 lark-cli 尚未绑定应用凭证；妙搭同步不会自动创建个人 CLI 应用。');
+    await bindApprovedCliApp();
   }
 
   printStep('检查飞书用户授权');
@@ -754,10 +751,12 @@ async function runProjectInit(projectRoot) {
   }
 }
 
-async function installScaffold(projectRoot) {
+async function installScaffold(projectRoot, { skipExtract = true } = {}) {
   const installer = path.join(scaffoldRoot, 'scripts', 'install-project.mjs');
   if (!await exists(installer)) throw new SyncError('安装设计系统脚手架', '找不到脚手架安装器。', '请从 design-token-scaffold 项目根目录执行本命令。');
-  const result = await runCommand(process.execPath, [installer, '--target', projectRoot, '--miaoda'], { cwd: scaffoldRoot });
+  const args = [installer, '--target', projectRoot, '--miaoda'];
+  if (skipExtract) args.push('--skip-extract');
+  const result = await runCommand(process.execPath, args, { cwd: scaffoldRoot });
   if (result.code !== 0) {
     const text = resultText(result);
     throw new SyncError('安装设计系统脚手架', redactOutput(text), classifyFailure(text));
@@ -806,15 +805,22 @@ async function init(options) {
   const cloneResult = await cloneOrUpdate(repositoryUrl, projectRoot, branch);
   await saveConfig(projectRoot, { version: 1, appId, remote: 'origin', branch });
 
-  printStep('安装脚手架并执行首次确定性扫描');
-  await installScaffold(projectRoot);
+  printStep('安装设计系统脚手架');
+  await installScaffold(projectRoot, { skipExtract: true });
+  const shouldScan = await askYesNo('代码同步完成，是否现在执行首次设计 Token/页面模板扫描');
+  if (shouldScan) {
+    printStep('执行首次确定性扫描');
+    await runProjectInit(projectRoot);
+  } else {
+    console.log(`已跳过首次扫描。稍后可在项目根目录执行：cd "${projectRoot}" && npm run project:init`);
+  }
 
   console.log('\n妙搭项目初始化完成。');
   console.log(`应用：${appId}`);
   console.log(`本地目录：${projectRoot}`);
   console.log(`开发分支：${branch}`);
   console.log(`代码动作：${cloneResult.cloned ? '已 clone' : cloneResult.updated ? '已快进更新' : '已复用现有克隆'}`);
-  console.log('已完成：脚手架安装、Token/审计扫描和构建。没有自动提交或推送。');
+  console.log(`已完成：脚手架安装${shouldScan ? '、Token/审计扫描和构建' : '；首次扫描已跳过'}。没有自动提交或推送。`);
   console.log('后续在该目录执行 npm run miaoda:pull 或 npm run miaoda:push。');
 }
 
@@ -918,7 +924,7 @@ function printHelp() {
   console.log(`妙搭代码同步命令：
 
   npm run miaoda:init
-    首次配置授权、拉取妙搭 sprint/default、安装脚手架并执行扫描。
+    首次配置授权、拉取妙搭 sprint/default、安装脚手架，并询问是否执行首次扫描。
   npm run miaoda:pull
     拉取已提交的妙搭代码；源码变化后自动刷新 Token/审计。
   npm run miaoda:push -- --paths design-system client/src/pages/你的页面
