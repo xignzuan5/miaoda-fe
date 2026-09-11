@@ -196,7 +196,9 @@ async function installLarkFromNetwork() {
   let lastText = '';
   for (let attempt = 1; attempt <= attempts; attempt += 1) {
     printStep(`安装 lark-cli（网络尝试 ${attempt}/${attempts}）`);
-    const result = await runCommand(commandName('npx'), ['@larksuite/cli@latest', 'install']);
+    // -y 避免企业终端在 npx 的确认提示处阻塞；它只跳过本地安装确认，
+    // 不会绕过 npm、飞书授权或企业网络策略。
+    const result = await runCommand(commandName('npx'), ['-y', '@larksuite/cli@latest', 'install']);
     if (result.code === 0) return undefined;
     lastText = resultText(result);
     if (attempt === attempts || !isRetryableLarkInstallFailure(lastText)) break;
@@ -289,10 +291,17 @@ async function ensureLark() {
     }
   }
 
+  // @lark-project/meegle 安装的是 `meegle`，不是妙搭同步所需的 `lark-cli`。
+  // 提前检测并给出明确提示，避免用户以为已经安装了“飞书 CLI”。
+  const meegleCheck = await runCommand(commandName('meegle'), ['--help'], { silent: true });
+  const cliPackageHint = meegleCheck.code === 0
+    ? '当前检测到的是 meegle（@lark-project/meegle），它不能替代 lark-cli；妙搭同步需要通用包 @larksuite/cli。'
+    : '妙搭同步需要通用 lark-cli（npm 包 @larksuite/cli），不是飞书项目的 meegle。';
+
   if (!process.stdin.isTTY) {
-    throw new SyncError('检查 lark-cli', '未找到可执行的 lark-cli，且没有可用的离线备用包。', '请安装 lark-cli，或设置 MIAODA_LARK_CLI_PATH/LARK_CLI_OFFLINE_DIR 指向已准备好的离线包。');
+    throw new SyncError('检查 lark-cli', `未找到可执行的 lark-cli，且没有可用的离线备用包。${cliPackageHint}`, '请执行 npx -y @larksuite/cli@latest install，或设置 MIAODA_LARK_CLI_PATH/LARK_CLI_OFFLINE_DIR 指向已准备好的离线包。');
   }
-  const install = await askYesNo('未检测到 lark-cli，是否使用官方 npm 包安装');
+  const install = await askYesNo(`未检测到 lark-cli。${cliPackageHint}是否使用官方 npm 包安装`);
   if (!install) {
     throw new SyncError('检查 lark-cli', '用户选择不安装 lark-cli。', '安装后重新执行 npm run miaoda:init。');
   }
@@ -307,7 +316,7 @@ async function ensureLark() {
         return fallback;
       }
     }
-    throw new SyncError('安装 lark-cli', redactOutput(networkError), `${classifyFailure(networkError)} 如内网无法访问 npm，请准备完整的离线 lark-cli 包并设置 LARK_CLI_OFFLINE_DIR。`);
+    throw new SyncError('安装 lark-cli', redactOutput(networkError), `${classifyFailure(networkError)} 请确认企业网络允许访问 npm 及 CLI 下载地址；如内网无法访问 npm，请准备完整的离线 lark-cli 包并设置 LARK_CLI_OFFLINE_DIR。`);
   }
   runner = await resolveLarkRunner();
   check = await runCommand(runner.command, [...runner.prefix, '--help'], { silent: true });

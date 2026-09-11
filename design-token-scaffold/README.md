@@ -89,6 +89,42 @@ npm run miaoda:init
 
 内网环境不建议把某一台电脑的 `lark-cli` 可执行文件硬编码进通用脚手架：官方包安装后还会按操作系统和 CPU 架构匹配原生二进制，单一 Windows 包无法覆盖其他平台，也会带来版本和安全更新问题。脚手架已支持可选离线备用目录 `vendor/lark-cli/` 或环境变量 `LARK_CLI_OFFLINE_DIR`；放入经过 IT 校验的完整运行目录后，网络安装失败会自动回退。详细目录要求见 [`vendor/lark-cli/README.md`](vendor/lark-cli/README.md)。
 
+### 公司网络下先分清两个“飞书 CLI”
+
+官方存在两个用途不同的命令行工具，不要互相替代：
+
+| 用途 | npm 包 | 安装后命令 |
+| --- | --- | --- |
+| 妙搭应用代码同步（`apps +get`、`apps +git-credential-init`） | `@larksuite/cli` | `lark-cli` |
+| 飞书项目/Meegle 工作项、计划和数据 | `@lark-project/meegle` | `meegle` |
+
+相关人员给出的 `npx -y @lark-project/meegle@latest install` 是飞书项目官方安装方式，但它不会安装 `lark-cli`，因此不能满足本脚手架的 `miaoda:init`。妙搭同步请执行：
+
+```cmd
+npx -y @larksuite/cli@latest install
+lark-cli --help
+```
+
+如果要让其他 AI Agent 直接理解妙搭命令，再单独安装官方 `lark-apps` Skill（脚手架自己的 `miaoda-git-sync` Skill 不受影响）：
+
+```cmd
+npx -y skills add https://open.feishu.cn --skill lark-apps -g -y
+```
+
+当前 `skills` CLI 的 `--skill` 参数需要技能名；不要使用没有技能名的 `--skill -y`。如果公司环境不允许全局安装，可去掉 `-g`，安装到当前项目。
+
+如果公司电脑连 `@larksuite/cli` 也失败，先用以下命令区分 Node/npm、npm 仓库和 CLI 安装阶段：
+
+```cmd
+node -v
+npm -v
+npm config get registry
+npm view @larksuite/cli version
+npx -y @larksuite/cli@latest --help
+```
+
+把完整错误（可删除账号、Token、Cookie）交给 IT。常见处理是允许访问企业 npm 镜像或 `registry.npmjs.org`、允许 CLI 原生程序下载地址，以及允许飞书授权地址和 `miaoda-git.feishu.cn`；这些网络和账号权限不能由脚手架绕过。若只能离线安装，必须由 IT 分发与当前操作系统/CPU 匹配的完整 `lark-cli` 运行目录，再设置 `LARK_CLI_OFFLINE_DIR`，不能只复制 npm 的 tarball。
+
 目标目录不存在时才会 clone；已有目录必须是同一个妙搭 Git 远端且工作区干净，否则命令会停止并用中文报告原因，不覆盖本地项目。首次初始化不会自动提交或推送。
 
 初始化完成后，目标项目会增加以下命令：

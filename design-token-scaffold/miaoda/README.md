@@ -61,6 +61,23 @@ npm run miaoda:init
 
 首次运行需要用户完成飞书授权；企业网络白名单、管理员应用权限和 Windows 软件安装权限仍由相应管理员处理。脚手架只能检查并反馈失败步骤，不能绕过这些限制。
 
+### 公司网络下的 CLI 区分
+
+妙搭同步使用通用 `lark-cli`，对应 npm 包是 `@larksuite/cli`：
+
+```cmd
+npx -y @larksuite/cli@latest install
+lark-cli --help
+```
+
+如果需要让 AI Agent 直接选择妙搭命令，再安装官方 `lark-apps` Skill：
+
+```cmd
+npx -y skills add https://open.feishu.cn --skill lark-apps -g -y
+```
+
+飞书项目官方命令 `npx -y @lark-project/meegle@latest install` 安装的是 `meegle`，用于 Meegle 工作项和计划，不能替代妙搭同步所需的 `lark-cli`。如果 `@larksuite/cli` 也无法安装，请让 IT 检查 npm 仓库、CLI 原生下载地址、飞书授权地址和 `miaoda-git.feishu.cn` 的白名单；离线场景需准备完整且匹配操作系统/CPU 的 `lark-cli` 运行目录，并设置 `LARK_CLI_OFFLINE_DIR`。
+
 如果目标目录已经存在，命令会校验它是否连接到同一个妙搭远端、是否处于目标开发分支以及工作区是否干净；不满足条件时停止，不覆盖目录。第二个妙搭应用再次执行同一个命令并选择新的应用和目标目录即可，不需要另外手工执行 `npm run project:init`。
 
 初始化完成后的项目根目录会登记：
