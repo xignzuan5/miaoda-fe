@@ -128,15 +128,13 @@ lark-cli --help
 
 把完整错误（可删除账号、Token、Cookie）交给 IT。常见处理是允许访问企业 npm 镜像或 `registry.npmjs.org`、允许 CLI 原生程序下载地址，以及允许飞书授权地址和 `miaoda-git.feishu.cn`；这些网络和账号权限不能由脚手架绕过。若只能离线安装，必须由 IT 分发与当前操作系统/CPU 匹配的完整 `lark-cli` 运行目录，再设置 `LARK_CLI_OFFLINE_DIR`，不能只复制 npm 的 tarball。
 
-如果登录返回 `app is pending approval`、`pending_approval` 或“应用待审批”，脚手架会停止并打印分步处理清单，不会让你盲目重复 `npm run miaoda:init`。请先填写公司应用申请表：<https://weikezhijia.feishu.cn/share/base/form/shrcnAaJOAVobcmnqc3DL3wEZDd>；“应用使用人员范围”填写实际使用人员名单，“是否完成 Channel 配置”选择“否”。审批完成后，在飞书应用管理的机器人消息中获取管理员反馈的 CLI `app_id` 和 `app_secret`，然后在本机执行：
+如果登录返回 `app is pending approval`、`pending_approval` 或“应用待审批”，脚手架会只打印当前步骤并停止，不会一口气输出后续命令，也不会让你盲目重复授权：
 
-```cmd
-lark-cli config init --app-id <管理员提供的 app_id> --app-secret-stdin --brand feishu
-lark-cli auth login --scope "spark:app:read spark:app:write"
-lark-cli auth status
-```
+1. 第一次停止时，只需填写公司应用申请表：<https://weikezhijia.feishu.cn/share/base/form/shrcnAaJOAVobcmnqc3DL3wEZDd>；“应用使用人员范围”填写实际使用人员名单，“是否完成 Channel 配置”选择“否”。提交后等待审批。
+2. 审批完成后重新运行 `npm run miaoda:init`。脚手架会先询问是否已收到管理员在机器人消息中反馈的 CLI `app_id` 和 `app_secret`；确认后再单独询问 CLI `app_id`，并由脚手架直接启动安全的 secret 输入，不需要复制带占位符的命令。
+3. 凭证绑定完成后，脚手架会单独发起 `spark:app:read`、`spark:app:write` 用户授权；浏览器授权成功后自动继续核对妙搭应用、拉取代码和安装设计系统。
 
-最后重新执行 `npm run miaoda:init`。这里再次输入的仍是目标妙搭应用链接或 app_id，不是管理员反馈的 CLI `app_id`；`app_secret` 不要写入代码、配置文件或聊天记录。脚手架不会仅凭 `app_` 或 `cli_` 前缀拒绝非空 ID，会将输入交给 lark-cli 返回真实校验结果。Channel 配置不由 `miaoda:init` 完成：在实际承载智能体的平台打开智能体的“飞书 Channel/渠道”设置，按页面提示绑定已审批应用并保存；若没有入口，请联系管理员开通。配置完成后，将智能体名称/链接、CLI app_id 和 Channel 配置结果（不含 secret）同步管理员，由管理员添加事件与回调并确认开通。脚手架会保留步骤名和脱敏错误，不会绕过审批。
+这里输入的目标应用链接或 app_id 与管理员反馈的 CLI `app_id` 是两套标识；`app_secret` 不要写入代码、配置文件或聊天记录。脚手架不会仅凭 `app_` 或 `cli_` 前缀拒绝非空 ID，会将输入交给 lark-cli 返回真实校验结果。Channel 配置不由 `miaoda:init` 完成：在实际承载智能体的平台打开智能体的“飞书 Channel/渠道”设置，按页面提示绑定已审批应用并保存；若没有入口，请联系管理员开通。配置完成后，将智能体名称/链接、CLI app_id 和 Channel 配置结果（不含 secret）同步管理员，由管理员添加事件与回调并确认开通。脚手架会保留步骤名和脱敏错误，不会绕过审批。
 
 目标目录不存在时才会 clone；已有目录必须是同一个妙搭 Git 远端且工作区干净，否则命令会停止并用中文报告原因，不覆盖本地项目。首次初始化不会自动提交或推送。
 

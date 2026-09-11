@@ -8,28 +8,22 @@ export const MIAODA_APPROVAL_FORM_URL = process.env.MIAODA_APPROVAL_FORM_URL
 
 export function pendingApprovalGuide() {
   return [
-    'lark-cli 使用的 CLI/智能体应用尚未通过审批，仍处于“待审批”，当前账号不能完成授权。这个卡点不是妙搭应用 ID 或本地目录错误，暂时不要重复运行 npm run miaoda:init。',
+    'lark-cli 使用的 CLI/智能体应用尚未通过审批，当前账号不能完成授权。这个卡点不是妙搭应用 ID 或本地目录错误。',
     '',
-    '请按下面顺序处理：',
-    `第 1 步｜填写应用申请表：${MIAODA_APPROVAL_FORM_URL}`,
+    '下一步（第 1 步）：填写公司应用申请表：',
+    `  ${MIAODA_APPROVAL_FORM_URL}`,
     '  - “应用使用人员范围”填写实际需要使用该妙搭应用的人员名单。',
     '  - “是否完成 Channel 配置”先选择“否”。',
-    '  - 提交后等待公司审批，不要自行创建另一个 CLI 应用绕过审批。',
-    '第 2 步｜等待管理员反馈凭证：',
-    '  - 在飞书应用管理的机器人消息中查看管理员反馈的新 app_id 和 app_secret。',
-    '  - app_secret 只在本机输入，不要粘贴到代码、工单、聊天记录或命令行参数中。',
-    '第 3 步｜把管理员凭证绑定到本机 lark-cli（同一个终端逐条执行）：',
-    '  lark-cli config init --app-id <管理员提供的 app_id> --app-secret-stdin --brand feishu',
-    '  （命令提示输入 App Secret 时粘贴 secret；输入不会显示。）',
-    '  lark-cli auth login --scope "spark:app:read spark:app:write"',
-    '  lark-cli auth status',
-    '第 4 步｜重新运行同步：',
-    '  npm run miaoda:init',
-    '  这里输入的仍是“目标妙搭应用”的链接或 app_id（例如 app_17d6...），不是管理员刚反馈的 CLI app_id；本地目录也可以继续使用原目录。',
-    '第 5 步｜完成 Channel 和管理员回调配置：',
-    '  - 在实际承载智能体的平台（如 Aily/妙搭）的智能体设置中打开“飞书 Channel/渠道”，按页面提示绑定已审批的应用并保存。',
-    '  - 如果当前账号看不到 Channel 设置，停止操作并请管理员开通，不要反复执行同步命令。',
-    '  - 配置完成后，把智能体名称/链接、CLI app_id 和 Channel 配置结果（不要发送 app_secret）同步给飞书管理员，由管理员添加事件与回调并确认开通。',
+    '  - 提交后等待公司审批。当前命令会停止；审批完成后重新运行 npm run miaoda:init，脚手架会只提示下一步。',
+  ].join('\n');
+}
+
+export function pendingApprovalWaitingGuide() {
+  return [
+    '上次初始化已在“CLI 应用待审批”处暂停。',
+    '',
+    '下一步（第 2 步）：等待管理员在飞书应用管理的机器人消息中反馈新的 CLI app_id 和 app_secret。',
+    '收到凭证后再运行 npm run miaoda:init；如果尚未收到，请不要重复授权或自行创建其他应用。',
   ].join('\n');
 }
 

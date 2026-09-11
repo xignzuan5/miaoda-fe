@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { access, mkdir, readdir, readFile, stat, writeFile } from 'node:fs/promises';
+import { access, mkdir, readdir, readFile, stat, unlink, writeFile } from 'node:fs/promises';
 import { createInterface } from 'node:readline/promises';
 import { spawn } from 'node:child_process';
 import path from 'node:path';
@@ -14,6 +14,7 @@ import {
   parseAppId,
   parseArgs,
   parseJsonEnvelope,
+  pendingApprovalWaitingGuide,
   redactOutput,
   validateSyncPaths,
 } from './lib/miaoda-sync.mjs';
@@ -25,6 +26,7 @@ const defaultProjectRoot = isInstalledProjectScript
   ? path.resolve(scriptDirectory, '../..')
   : process.cwd();
 const REQUIRED_NODE_MAJOR = 20;
+const INIT_STATE_FILE = '.miaoda-init-state.json';
 
 class SyncError extends Error {
   constructor(step, message, hint = '') {
@@ -144,6 +146,31 @@ async function exists(target) {
     return true;
   } catch {
     return false;
+  }
+}
+
+function initStatePath() {
+  return path.join(scaffoldRoot, INIT_STATE_FILE);
+}
+
+async function readInitState() {
+  try {
+    const value = JSON.parse(await readFile(initStatePath(), 'utf8'));
+    return value && typeof value === 'object' ? value : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
+async function writeInitState(state) {
+  await writeFile(initStatePath(), `${JSON.stringify(state, null, 2)}\n`, 'utf8');
+}
+
+async function clearInitState() {
+  try {
+    await unlink(initStatePath());
+  } catch (error) {
+    if (error?.code !== 'ENOENT') throw error;
   }
 }
 
@@ -434,12 +461,84 @@ function resultEnvelope(result) {
   try { return parseJsonEnvelope(result.stdout); } catch { return undefined; }
 }
 
+function conciseCommandFailure(result) {
+  const envelope = resultEnvelope(result);
+  if (envelope?.error?.message) return String(envelope.error.message);
+  const lines = resultText(result).split(/\r?\n/).map((line) => line.trim()).filter(Boolean);
+  return lines.at(-1) ?? `命令失败（退出码 ${result.code ?? '未知'}）`;
+}
+
 function resultFailed(result) {
   return result.code !== 0 || resultEnvelope(result)?.ok === false;
 }
 
 function requiresMiaodaUserAuthorization(result) {
   return /need_user_authorization|token_missing|missing_scope|user.?authorization|未登录|未授权/i.test(resultText(result));
+}
+
+function isPendingApprovalResult(result) {
+  return /pending approval|pending_approval|待审批|审批中|待审核/i.test(resultText(result));
+}
+
+function configuredCliAppId(result) {
+  const envelope = resultEnvelope(result);
+  return String(
+    envelope?.data?.appId
+      ?? envelope?.data?.app_id
+      ?? envelope?.appId
+      ?? envelope?.app_id
+      ?? '',
+  ).trim();
+}
+
+async function readConfiguredCliAppId() {
+  const result = await runLark(['config', 'show'], { silent: true, timeoutMs: 15000 });
+  return configuredCliAppId(result);
+}
+
+async function bindApprovedCliApp() {
+  const cliAppId = await ask('请输入管理员反馈的 CLI app_id');
+  if (!cliAppId) {
+    throw new SyncError('读取 CLI 应用 ID', '没有输入 CLI app_id。', '请收到管理员机器人消息后重新运行 npm run miaoda:init。');
+  }
+
+  printStep('绑定管理员提供的 lark-cli 应用凭证');
+  console.log('接下来 lark-cli 会提示输入 App Secret；请直接在当前终端输入，输入内容不会显示。');
+  const configured = await runLark(
+    ['config', 'init', '--app-id', cliAppId, '--app-secret-stdin', '--brand', 'feishu'],
+    { interactive: true, timeoutMs: 120000 },
+  );
+  if (resultFailed(configured)) {
+    const text = resultText(configured);
+    throw new SyncError('绑定 lark-cli 应用凭证', conciseCommandFailure(configured), classifyFailure(text));
+  }
+  console.log('✓ lark-cli 应用凭证已保存。下一步将请求妙搭所需的用户权限。');
+}
+
+async function resumePendingApproval(targetAppId) {
+  const state = await readInitState();
+  if (!state?.pendingApproval) return;
+  if (state.targetAppId && state.targetAppId !== targetAppId) {
+    // 用户已经改选了目标妙搭应用，旧的待审批流程不应阻塞新的初始化。
+    await clearInitState();
+    return;
+  }
+
+  const currentCliAppId = await readConfiguredCliAppId();
+  if (state.cliAppId && currentCliAppId && state.cliAppId !== currentCliAppId) {
+    console.log('已检测到管理员提供的新 CLI app_id，跳过重复绑定，继续执行授权。');
+    await clearInitState();
+    return;
+  }
+
+  printStep('继续上次暂停的 CLI 应用审批流程');
+  const received = await askYesNo('管理员是否已在飞书应用管理机器人消息中反馈新的 CLI app_id 和 app_secret');
+  if (!received) {
+    throw new SyncError('等待 CLI 应用审批', '尚未收到管理员反馈的 CLI 应用凭证。', pendingApprovalWaitingGuide());
+  }
+
+  await bindApprovedCliApp();
+  await clearInitState();
 }
 
 async function authorizeMiaodaUser() {
@@ -449,7 +548,7 @@ async function authorizeMiaodaUser() {
   const loggedIn = await runLark(['auth', 'login', '--scope', 'spark:app:read spark:app:write'], { interactive: true });
   if (loggedIn.code !== 0 || resultEnvelope(loggedIn)?.ok === false) {
     const text = resultText(loggedIn);
-    throw new SyncError('补充妙搭用户授权', redactOutput(text), classifyFailure(text));
+    throw new SyncError('补充妙搭用户授权', conciseCommandFailure(loggedIn), classifyFailure(text));
   }
 }
 
@@ -477,7 +576,7 @@ async function ensureLarkAuth() {
     const initialized = await runLark(['config', 'init', '--new'], { interactive: true });
     if (resultFailed(initialized)) {
       const text = resultText(initialized);
-      throw new SyncError('首次配置飞书 CLI', redactOutput(text), classifyFailure(text));
+      throw new SyncError('首次配置飞书 CLI', conciseCommandFailure(initialized), classifyFailure(text));
     }
   }
 
@@ -486,16 +585,16 @@ async function ensureLarkAuth() {
   let authJson;
   try { authJson = parseJsonEnvelope(auth.stdout); } catch { authJson = undefined; }
   if (auth.code !== 0 || authJson?.ok === false || /not logged|未登录|unauthorized|未授权/i.test(resultText(auth))) {
-    printStep('首次登录飞书账号（需要浏览器授权）');
-    const loggedIn = await runLark(['auth', 'login', '--recommend'], { interactive: true });
+    printStep('首次登录妙搭所需飞书权限（需要浏览器授权）');
+    const loggedIn = await runLark(['auth', 'login', '--scope', 'spark:app:read spark:app:write'], { interactive: true });
     if (resultFailed(loggedIn)) {
       const text = resultText(loggedIn);
-      throw new SyncError('登录飞书账号', redactOutput(text), classifyFailure(text));
+      throw new SyncError('登录飞书账号', conciseCommandFailure(loggedIn), classifyFailure(text));
     }
     auth = await runLark(['auth', 'status'], { silent: true, timeoutMs: 30000 });
     if (resultFailed(auth)) {
       const text = resultText(auth);
-      throw new SyncError('验证飞书账号', redactOutput(text), classifyFailure(text));
+      throw new SyncError('验证飞书账号', conciseCommandFailure(auth), classifyFailure(text));
     }
   }
 }
@@ -673,8 +772,24 @@ async function init(options) {
   const projectRoot = path.resolve(String(targetInput));
   const branch = String(options.branch ?? DEFAULT_BRANCH);
 
+  await resumePendingApproval(appId);
   await ensureLarkAuth();
-  const repositoryUrl = await getMiaodaRepository(appId);
+  let repositoryUrl;
+  try {
+    repositoryUrl = await getMiaodaRepository(appId);
+  } catch (error) {
+    if (error instanceof SyncError && /pending approval|pending_approval|待审批|审批中|待审核/i.test(`${error.message}\n${error.hint}`)) {
+      const cliAppId = await readConfiguredCliAppId();
+      await writeInitState({
+        version: 1,
+        pendingApproval: true,
+        targetAppId: appId,
+        cliAppId: cliAppId || undefined,
+        updatedAt: new Date().toISOString(),
+      });
+    }
+    throw error;
+  }
 
   printStep(`检查妙搭分支 ${branch}`);
   await ensureBranchExists(repositoryUrl, branch);
