@@ -1,4 +1,0 @@
-interface:
-  display_name: "妙搭 Git 同步与备份"
-  short_description: "拉取妙搭源码、推送开发草稿，并按配置备份到公司 Git 仓库"
-  default_prompt: "使用 $miaoda-git-sync 拉取、推送或备份指定妙搭应用的 Git 文件；先确认方向和目标，保留原有远端，未经明确要求不要发布上线。"
