@@ -145,7 +145,7 @@ export function classifyFailure(value) {
   if (/auth|login|登录|授权|user authorization/.test(text)) {
     return 'lark-cli 用户授权不足或已过期。请执行 lark-cli auth login --domain apps，并按浏览器提示完成授权。';
   }
-  if (/enotfound|eai_again|timeout|timed out|network|proxy|网络|连接|白名单/.test(text)) {
+  if (/enotfound|eai_again|timeout|timed out|超时|network|proxy|网络|连接|白名单/.test(text)) {
     return '网络连接失败。请让网络管理员放行飞书授权/API 地址和 miaoda-git.feishu.cn:443。';
   }
   if (/non-fast-forward|diverg|分叉|远端有新提交/.test(text)) {

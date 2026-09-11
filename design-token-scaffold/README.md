@@ -83,7 +83,7 @@ npm run project:init
 npm run miaoda:init
 ```
 
-命令会先检查 Node.js 版本、Git 和 `lark-cli`，再交互式询问妙搭应用链接（或 `app_id`）和本地目录，然后引导飞书浏览器授权、核对应用权限、初始化妙搭 Git 凭证、拉取 `sprint/default`，最后把脚手架安装到刚拉下来的项目并完成首次扫描。Windows 检测到 `winget` 或 Chocolatey 时，会询问是否协助安装 Git；检测不到时给出官方安装地址。`lark-cli` 会先尝试本机命令，缺失时最多重试 3 次网络安装；网络失败后自动检查 `vendor/lark-cli/` 或 `LARK_CLI_OFFLINE_DIR` 指定的完整离线包。首次授权、企业网络白名单和管理员应用权限仍需要用户/管理员配合，命令不能绕过这些限制。
+命令会先检查 Node.js 版本、Git 和 `lark-cli`，再交互式询问妙搭应用链接（或 `app_id`）和本地目录，然后引导飞书浏览器授权、核对应用权限、初始化妙搭 Git 凭证、拉取 `sprint/default`，最后把脚手架安装到刚拉下来的项目并完成首次扫描。Windows 检测到 `winget` 或 Chocolatey 时，会询问是否协助安装 Git；检测不到时给出官方安装地址。`lark-cli` 会先尝试本机命令，缺失时最多重试 3 次网络安装；网络失败后自动检查 `vendor/lark-cli/` 或 `LARK_CLI_OFFLINE_DIR` 指定的完整离线包。Node/Git/CLI 检查、妙搭 API 和 Git 网络操作都有步骤名、超时和脱敏错误建议；浏览器配置/登录属于用户交互，会明确显示等待授权阶段。首次授权、企业网络白名单和管理员应用权限仍需要用户/管理员配合，命令不能绕过这些限制。
 
 注意：`npm run` 本身依赖 Node.js/npm 才能启动，因此 Node.js 完全不存在时无法进入 `miaoda:init`。Windows 用户可以先双击或在 cmd 中执行脚手架根目录的 `miaoda-init.cmd`，它会在启动 npm 前检查并询问是否用 winget 安装 Node.js LTS 和 Git；也可以按提示手动安装。进入 Node 环境后，脚本还能检查版本过低或运行环境异常并给出升级指引。
 

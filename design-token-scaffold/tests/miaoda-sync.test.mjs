@@ -41,4 +41,5 @@ test('归一化远端地址并脱敏错误输出', () => {
   assert.match(classifyFailure('getaddrinfo ENOTFOUND'), /网络连接失败/);
   assert.match(classifyFailure('authorization failed: The app is pending approval'), /应用尚未通过审批/);
   assert.match(classifyFailure('need_user_authorization (user: )'), /auth login --domain apps/);
+  assert.match(classifyFailure('命令执行超时（120000ms）'), /网络连接失败/);
 });

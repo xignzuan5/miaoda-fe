@@ -305,14 +305,14 @@ async function findPackageInstaller() {
       ];
 
   for (const candidate of candidates) {
-    const result = await runCommand(commandName(candidate.command), candidate.versionArgs, { silent: true });
+    const result = await runCommand(commandName(candidate.command), candidate.versionArgs, { silent: true, timeoutMs: 10000 });
     if (result.code === 0) return candidate;
   }
   return undefined;
 }
 
 async function ensureGit() {
-  let result = await runCommand(commandName('git'), ['--version'], { silent: true });
+  let result = await runCommand(commandName('git'), ['--version'], { silent: true, timeoutMs: 10000 });
   if (result.code === 0) {
     console.log(`✓ ${result.stdout.trim()}`);
     return;
@@ -333,13 +333,13 @@ async function ensureGit() {
   }
 
   printStep(`安装 Git（${installer.label}）`);
-  const installed = await runCommand(commandName(installer.command), installer.installArgs);
+  const installed = await runCommand(commandName(installer.command), installer.installArgs, { timeoutMs: 300000 });
   if (installed.code !== 0) {
     const text = resultText(installed);
     throw new SyncError('安装 Git', redactOutput(text), classifyFailure(text));
   }
 
-  result = await runCommand(commandName('git'), ['--version'], { silent: true });
+  result = await runCommand(commandName('git'), ['--version'], { silent: true, timeoutMs: 10000 });
   if (result.code !== 0) {
     throw new SyncError('重新检查 Git', 'Git 安装命令已结束，但当前终端仍找不到 Git。', '请关闭并重新打开终端，让 Git 加入 PATH 后再重试。');
   }
@@ -452,17 +452,18 @@ async function authorizeMiaodaUser() {
 }
 
 async function runMiaodaUserCommand(args, options = {}) {
-  let result = await runLark(args, options);
+  const commandOptions = { timeoutMs: 120000, ...options };
+  let result = await runLark(args, commandOptions);
   if (resultFailed(result) && requiresMiaodaUserAuthorization(result)) {
     await authorizeMiaodaUser();
-    result = await runLark(args, options);
+    result = await runLark(args, commandOptions);
   }
   return result;
 }
 
 async function ensureLarkAuth() {
   printStep('检查飞书 CLI 配置');
-  let config = await runLark(['config', 'show'], { silent: true });
+  let config = await runLark(['config', 'show'], { silent: true, timeoutMs: 30000 });
   let configJson;
   try { configJson = parseJsonEnvelope(config.stdout); } catch { configJson = undefined; }
   if (config.code !== 0 || configJson?.ok === false) {
@@ -479,7 +480,7 @@ async function ensureLarkAuth() {
   }
 
   printStep('检查飞书用户授权');
-  let auth = await runLark(['auth', 'status'], { silent: true });
+  let auth = await runLark(['auth', 'status'], { silent: true, timeoutMs: 30000 });
   let authJson;
   try { authJson = parseJsonEnvelope(auth.stdout); } catch { authJson = undefined; }
   if (auth.code !== 0 || authJson?.ok === false || /not logged|未登录|unauthorized|未授权/i.test(resultText(auth))) {
@@ -489,7 +490,7 @@ async function ensureLarkAuth() {
       const text = resultText(loggedIn);
       throw new SyncError('登录飞书账号', redactOutput(text), classifyFailure(text));
     }
-    auth = await runLark(['auth', 'status'], { silent: true });
+    auth = await runLark(['auth', 'status'], { silent: true, timeoutMs: 30000 });
     if (resultFailed(auth)) {
       const text = resultText(auth);
       throw new SyncError('验证飞书账号', redactOutput(text), classifyFailure(text));
@@ -523,7 +524,7 @@ async function git(args, options = {}) {
 }
 
 async function gitChecked(args, step, options = {}) {
-  const result = await git(args, options);
+  const result = await git(args, { timeoutMs: 120000, ...options });
   if (result.code !== 0) {
     const text = resultText(result);
     throw new SyncError(step, redactOutput(text), classifyFailure(text));
@@ -532,7 +533,7 @@ async function gitChecked(args, step, options = {}) {
 }
 
 async function ensureBranchExists(repositoryUrl, branch) {
-  const result = await git(['ls-remote', '--exit-code', '--heads', repositoryUrl, `refs/heads/${branch}`], { silent: true });
+  const result = await git(['ls-remote', '--exit-code', '--heads', repositoryUrl, `refs/heads/${branch}`], { silent: true, timeoutMs: 120000 });
   if (result.code !== 0) {
     const text = resultText(result);
     throw new SyncError('检查妙搭开发分支', redactOutput(text || `远端不存在 ${branch}`), classifyFailure(`${text} branch`));
@@ -550,7 +551,7 @@ async function ensureGitExclude(projectRoot) {
 }
 
 async function readGitStatus(projectRoot) {
-  const result = await git(['-C', projectRoot, 'status', '--short'], { silent: true });
+  const result = await git(['-C', projectRoot, 'status', '--short'], { silent: true, timeoutMs: 30000 });
   if (result.code !== 0) {
     const text = resultText(result);
     throw new SyncError('读取 Git 状态', redactOutput(text), classifyFailure(text));
