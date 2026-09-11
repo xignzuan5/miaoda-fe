@@ -136,8 +136,11 @@ export function classifyFailure(value) {
   if (/403|401|permission|forbidden|unauthorized|could not read username|credential|权限|拒绝访问/.test(text)) {
     return '权限不足或授权已过期。请确认飞书账号有该妙搭应用权限，并重新执行 lark-cli auth login。';
   }
-  if (/not_configured|not configured|未配置|auth|login|登录|授权/.test(text)) {
-    return 'lark-cli 尚未完成配置或登录。请重新执行 npm run miaoda:init，并按浏览器提示完成授权。';
+  if (/not_configured|not configured|未配置/.test(text)) {
+    return 'lark-cli 尚未完成应用配置。请先执行 lark-cli config init --new。';
+  }
+  if (/auth|login|登录|授权|user authorization/.test(text)) {
+    return 'lark-cli 用户授权不足或已过期。请执行 lark-cli auth login --domain apps，并按浏览器提示完成授权。';
   }
   if (/enotfound|eai_again|timeout|timed out|network|proxy|网络|连接|白名单/.test(text)) {
     return '网络连接失败。请让网络管理员放行飞书授权/API 地址和 miaoda-git.feishu.cn:443。';
