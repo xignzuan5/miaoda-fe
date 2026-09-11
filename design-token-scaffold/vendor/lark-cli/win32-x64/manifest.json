@@ -1,0 +1,9 @@
+{
+  "name": "lark-cli",
+  "version": "1.0.95",
+  "platform": "win32",
+  "architecture": "x64",
+  "source": "https://registry.npmmirror.com/-/binary/lark-cli/v1.0.95/lark-cli-1.0.95-windows-amd64.zip",
+  "archiveSha256": "F2D5C3D6316B19CEEC0996871CA4CFF89541B82ED0D90220B3643EE0E84890A",
+  "binarySha256": "403B56AB849B28B4072B46799BD898959DC55382C18D7F4E83CD65F49F570B3F"
+}

@@ -87,7 +87,7 @@ npm run miaoda:init
 
 注意：`npm run` 本身依赖 Node.js/npm 才能启动，因此 Node.js 完全不存在时无法进入 `miaoda:init`。Windows 用户可以先双击或在 cmd 中执行脚手架根目录的 `miaoda-init.cmd`，它会在启动 npm 前检查并询问是否用 winget 安装 Node.js LTS 和 Git；也可以按提示手动安装。进入 Node 环境后，脚本还能检查版本过低或运行环境异常并给出升级指引。
 
-内网环境不建议把某一台电脑的 `lark-cli` 可执行文件硬编码进通用脚手架：官方包安装后还会按操作系统和 CPU 架构匹配原生二进制，单一 Windows 包无法覆盖其他平台，也会带来版本和安全更新问题。脚手架已支持可选离线备用目录 `vendor/lark-cli/` 或环境变量 `LARK_CLI_OFFLINE_DIR`；放入经过 IT 校验的完整运行目录后，网络安装失败会自动回退。详细目录要求见 [`vendor/lark-cli/README.md`](vendor/lark-cli/README.md)。
+内网环境不能把某一台电脑的 `lark-cli` 可执行文件当成所有平台的通用包：官方包会按操作系统和 CPU 架构匹配原生二进制。仓库当前内置经过校验的 Windows x64 备用包；其他平台请按平台目录放置对应版本，或使用环境变量 `LARK_CLI_OFFLINE_DIR` 指向完整运行目录。网络安装失败时脚手架会自动回退。详细目录要求见 [`vendor/lark-cli/README.md`](vendor/lark-cli/README.md)。
 
 ### 公司网络下先分清两个“飞书 CLI”
 

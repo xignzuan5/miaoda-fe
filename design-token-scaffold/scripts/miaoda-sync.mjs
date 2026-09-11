@@ -246,8 +246,11 @@ async function resolveNpmGlobalLarkRunner() {
 
 async function resolveOfflineLarkRunner() {
   const configuredRoot = process.env.MIAODA_LARK_CLI_DIR || process.env.LARK_CLI_OFFLINE_DIR;
+  const architecture = process.arch === 'arm64' ? 'arm64' : process.arch === 'x64' ? 'x64' : process.arch;
+  const platformDirectory = `${process.platform}-${architecture}`;
   const roots = [
     configuredRoot,
+    path.join(scaffoldRoot, 'vendor', 'lark-cli', platformDirectory),
     path.join(scaffoldRoot, 'vendor', 'lark-cli'),
   ].filter(Boolean);
   for (const root of [...new Set(roots)]) {
@@ -351,9 +354,7 @@ async function ensureLark() {
     larkRunner = runner;
     return runner;
   }
-  if (check.timedOut) {
-    throw new SyncError('检查 lark-cli', '已找到 lark-cli，但执行 lark-cli --help 超过 15 秒仍未返回。', '请先单独执行 lark-cli --help；如果同样卡住，请结束该进程并让 IT 检查 CLI 安装包或安全软件拦截。');
-  }
+  const systemCheckTimedOut = check.timedOut;
 
   const offline = await resolveOfflineLarkRunner();
   if (offline) {
@@ -366,6 +367,9 @@ async function ensureLark() {
     if (check.timedOut) {
       throw new SyncError('检查离线 lark-cli', '离线 lark-cli 执行 --help 超过 15 秒仍未返回。', '请检查离线包是否完整且与当前 Windows/CPU 匹配。');
     }
+  }
+  if (systemCheckTimedOut) {
+    throw new SyncError('检查 lark-cli', '已找到系统 lark-cli，但执行 lark-cli --help 超过 15 秒仍未返回。', '请结束卡住的 lark-cli 进程并让 IT 检查 CLI 安装包或安全软件拦截；如果仓库内有匹配平台的离线包，脚手架会优先使用它。');
   }
 
   // @lark-project/meegle 安装的是 `meegle`，不是妙搭同步所需的 `lark-cli`。
