@@ -66,7 +66,7 @@ function prepareSpawn(command, args) {
   };
 }
 
-function runCommand(command, args, { cwd = process.cwd(), silent = false, env = {}, timeoutMs = 0 } = {}) {
+function runCommand(command, args, { cwd = process.cwd(), silent = false, env = {}, timeoutMs = 0, interactive = false } = {}) {
   return new Promise((resolve) => {
     let stdout = '';
     let stderr = '';
@@ -98,7 +98,9 @@ function runCommand(command, args, { cwd = process.cwd(), silent = false, env = 
       child = spawn(spawnSpec.command, spawnSpec.args, {
         cwd,
         env: { ...process.env, ...env },
-        stdio: ['ignore', 'pipe', 'pipe'],
+        // Setup/login need the user's terminal for browser-flow prompts. Keep
+        // stdout/stderr piped so we can still capture and report the URL.
+        stdio: [interactive ? 'inherit' : 'ignore', 'pipe', 'pipe'],
         windowsHide: true,
       });
     } catch (error) {
@@ -434,7 +436,7 @@ async function ensureLarkAuth() {
       throw new SyncError('检查飞书 CLI 配置', redactOutput(message), classifyFailure(message));
     }
     printStep('首次配置飞书 CLI（需要浏览器授权）');
-    const initialized = await runLark(['config', 'init', '--new']);
+    const initialized = await runLark(['config', 'init', '--new'], { interactive: true });
     if (initialized.code !== 0) {
       const text = resultText(initialized);
       throw new SyncError('首次配置飞书 CLI', redactOutput(text), classifyFailure(text));
@@ -447,7 +449,7 @@ async function ensureLarkAuth() {
   try { authJson = parseJsonEnvelope(auth.stdout); } catch { authJson = undefined; }
   if (auth.code !== 0 || authJson?.ok === false || /not logged|未登录|unauthorized|未授权/i.test(resultText(auth))) {
     printStep('首次登录飞书账号（需要浏览器授权）');
-    const loggedIn = await runLark(['auth', 'login', '--recommend']);
+    const loggedIn = await runLark(['auth', 'login', '--recommend'], { interactive: true });
     if (loggedIn.code !== 0) {
       const text = resultText(loggedIn);
       throw new SyncError('登录飞书账号', redactOutput(text), classifyFailure(text));
