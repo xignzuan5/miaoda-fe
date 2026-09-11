@@ -27,6 +27,12 @@ export function pendingApprovalWaitingGuide() {
   ].join('\n');
 }
 
+export function hasUnGrantedMiaodaScopes(value) {
+  const text = String(value ?? '');
+  return /spark:app:(?:read|write)/i.test(text)
+    && /未授予|未授权|not granted|denied|拒绝|\(空\)|（空）/i.test(text);
+}
+
 const BOOLEAN_OPTIONS = new Set(['debug', 'force', 'miaoda', 'skip-extract', 'yes']);
 
 /**
@@ -158,6 +164,9 @@ export function classifyFailure(value) {
   const text = String(value ?? '').toLowerCase();
   if (/pending approval|pending_approval|待审批|审批中|待审核/.test(text)) {
     return pendingApprovalGuide();
+  }
+  if (hasUnGrantedMiaodaScopes(value)) {
+    return 'lark-cli 登录流程已完成，但妙搭所需 spark:app:read / spark:app:write 未被授予。请让管理员在当前 CLI 应用的权限配置和审批范围中开通这两个权限，然后重新执行 lark-cli auth login --scope "spark:app:read spark:app:write"；确认它们出现在“本次已成功授权”后再运行同步。';
   }
   if (/need_user_authorization|token_missing|missing_scope/.test(text)) {
     return '妙搭用户授权或 spark scope 不足。请执行 lark-cli auth login --scope "spark:app:read spark:app:write"，在浏览器完成授权后，再重试原命令。';

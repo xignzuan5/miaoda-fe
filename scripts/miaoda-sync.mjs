@@ -9,6 +9,7 @@ import {
   SYNC_CONFIG_FILE,
   classifyFailure,
   extractRepositoryUrl,
+  hasUnGrantedMiaodaScopes,
   normalizeRemote,
   parseAheadBehind,
   parseAppId,
@@ -545,9 +546,13 @@ async function authorizeMiaodaUser() {
   printStep('补充妙搭用户授权（需要浏览器授权）');
   // apps 命令实际需要 spark 资源权限；仅执行无参数的 auth login
   // 可能显示“登录成功”，但把 spark:app:* 留在未授予列表中。
+  console.log('本次只申请妙搭同步所需权限：spark:app:read、spark:app:write。');
   const loggedIn = await runLark(['auth', 'login', '--scope', 'spark:app:read spark:app:write'], { interactive: true });
+  const text = resultText(loggedIn);
+  if (hasUnGrantedMiaodaScopes(text)) {
+    throw new SyncError('补充妙搭用户授权', 'lark-cli 登录流程完成，但妙搭所需权限未被授予。', classifyFailure(text));
+  }
   if (loggedIn.code !== 0 || resultEnvelope(loggedIn)?.ok === false) {
-    const text = resultText(loggedIn);
     throw new SyncError('补充妙搭用户授权', conciseCommandFailure(loggedIn), classifyFailure(text));
   }
 }
@@ -586,9 +591,13 @@ async function ensureLarkAuth() {
   try { authJson = parseJsonEnvelope(auth.stdout); } catch { authJson = undefined; }
   if (auth.code !== 0 || authJson?.ok === false || /not logged|未登录|unauthorized|未授权/i.test(resultText(auth))) {
     printStep('首次登录妙搭所需飞书权限（需要浏览器授权）');
+    console.log('本次只申请妙搭同步所需权限：spark:app:read、spark:app:write。');
     const loggedIn = await runLark(['auth', 'login', '--scope', 'spark:app:read spark:app:write'], { interactive: true });
+    const text = resultText(loggedIn);
+    if (hasUnGrantedMiaodaScopes(text)) {
+      throw new SyncError('登录妙搭所需权限', 'lark-cli 登录流程完成，但妙搭所需权限未被授予。', classifyFailure(text));
+    }
     if (resultFailed(loggedIn)) {
-      const text = resultText(loggedIn);
       throw new SyncError('登录飞书账号', conciseCommandFailure(loggedIn), classifyFailure(text));
     }
     auth = await runLark(['auth', 'status'], { silent: true, timeoutMs: 30000 });

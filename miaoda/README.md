@@ -84,7 +84,7 @@ npx -y skills add https://open.feishu.cn --skill lark-apps -g -y
 
 1. 第一次停止时，只需填写公司应用申请表：<https://weikezhijia.feishu.cn/share/base/form/shrcnAaJOAVobcmnqc3DL3wEZDd>。“应用使用人员范围”填写实际需要使用应用的人员名单；“是否完成 Channel 配置”选择“否”。提交后等待审批。
 2. 审批完成后重新运行 `npm run miaoda:init`。脚手架会先询问是否收到管理员机器人消息中的 CLI `app_id` 和 `app_secret`；确认后再单独询问 CLI `app_id`，并直接启动安全的 secret 输入，不需要复制带占位符的命令。
-3. 凭证绑定完成后，脚手架会单独发起 `spark:app:read`、`spark:app:write` 用户授权；浏览器授权成功后自动继续核对妙搭应用、拉取代码和安装设计系统。
+3. 凭证绑定完成后，脚手架会单独发起 `spark:app:read`、`spark:app:write` 用户授权；浏览器授权成功后自动继续核对妙搭应用、拉取代码和安装设计系统。lark-cli 输出中的“本次已成功授权”只表示本次请求实际授予的权限，不是历史权限总表；如果显示“（空）”且这两个 spark 权限在“未授予”中，说明登录流程虽完成但妙搭权限未开通，脚手架会停止并提示管理员处理。
 
 这里输入的仍是目标妙搭应用链接或 app_id，不是管理员反馈的 CLI `app_id`；本地目录可以继续使用原目录。脚手架不会仅凭 `app_` 或 `cli_` 前缀拒绝非空 ID，会将输入交给 lark-cli 返回真实校验结果。Channel 配置不由 `miaoda:init` 完成：在实际承载智能体的平台（如 Aily/妙搭）打开智能体的“飞书 Channel/渠道”设置，按页面提示绑定已审批的应用并保存；若看不到入口，请联系管理员开通。完成后将智能体名称/链接、CLI app_id 和 Channel 配置结果（不含 secret）同步管理员，由管理员添加事件与回调开通。
 
