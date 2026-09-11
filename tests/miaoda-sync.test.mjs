@@ -49,6 +49,6 @@ test('归一化远端地址并脱敏错误输出', () => {
   assert.match(approvalGuide, /是否完成 Channel 配置.*否/);
   assert.match(approvalGuide, /config init --app-id <管理员提供的 app_id> --app-secret-stdin/);
   assert.match(approvalGuide, /不是管理员刚反馈的 CLI app_id/);
-  assert.match(classifyFailure('need_user_authorization (user: )'), /auth login --domain apps/);
+  assert.match(classifyFailure('need_user_authorization (user: )'), /spark:app:read spark:app:write/);
   assert.match(classifyFailure('命令执行超时（120000ms）'), /网络连接失败/);
 });

@@ -132,7 +132,7 @@ lark-cli --help
 
 ```cmd
 lark-cli config init --app-id <管理员提供的 app_id> --app-secret-stdin --brand feishu
-lark-cli auth login --domain apps
+lark-cli auth login --scope "spark:app:read spark:app:write"
 lark-cli auth status
 ```
 

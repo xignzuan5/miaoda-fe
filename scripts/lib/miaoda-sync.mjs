@@ -21,7 +21,7 @@ export function pendingApprovalGuide() {
     '第 3 步｜把管理员凭证绑定到本机 lark-cli（同一个终端逐条执行）：',
     '  lark-cli config init --app-id <管理员提供的 app_id> --app-secret-stdin --brand feishu',
     '  （命令提示输入 App Secret 时粘贴 secret；输入不会显示。）',
-    '  lark-cli auth login --domain apps',
+    '  lark-cli auth login --scope "spark:app:read spark:app:write"',
     '  lark-cli auth status',
     '第 4 步｜重新运行同步：',
     '  npm run miaoda:init',
@@ -166,7 +166,7 @@ export function classifyFailure(value) {
     return pendingApprovalGuide();
   }
   if (/need_user_authorization|token_missing|missing_scope/.test(text)) {
-    return '妙搭用户授权或 apps scope 不足。请完成 lark-cli auth login --domain apps 后重试。';
+    return '妙搭用户授权或 spark scope 不足。请执行 lark-cli auth login --scope "spark:app:read spark:app:write"，在浏览器完成授权后，再重试原命令。';
   }
   if (/403|401|permission|forbidden|unauthorized|could not read username|credential|权限|拒绝访问/.test(text)) {
     return '权限不足或授权已过期。请确认飞书账号有该妙搭应用权限，并重新执行 lark-cli auth login。';
@@ -175,7 +175,7 @@ export function classifyFailure(value) {
     return 'lark-cli 尚未完成应用配置。请先执行 lark-cli config init --new。';
   }
   if (/auth|login|登录|授权|user authorization/.test(text)) {
-    return 'lark-cli 用户授权不足或已过期。请执行 lark-cli auth login --domain apps，并按浏览器提示完成授权。';
+    return 'lark-cli 用户授权不足或已过期。请执行 lark-cli auth login --scope "spark:app:read spark:app:write"，并按浏览器提示完成授权。';
   }
   if (/enotfound|eai_again|timeout|timed out|超时|network|proxy|网络|连接|白名单/.test(text)) {
     return '网络连接失败。请让网络管理员放行飞书授权/API 地址和 miaoda-git.feishu.cn:443。';

@@ -444,7 +444,9 @@ function requiresMiaodaUserAuthorization(result) {
 
 async function authorizeMiaodaUser() {
   printStep('补充妙搭用户授权（需要浏览器授权）');
-  const loggedIn = await runLark(['auth', 'login', '--domain', 'apps'], { interactive: true });
+  // apps 命令实际需要 spark 资源权限；仅执行无参数的 auth login
+  // 可能显示“登录成功”，但把 spark:app:* 留在未授予列表中。
+  const loggedIn = await runLark(['auth', 'login', '--scope', 'spark:app:read spark:app:write'], { interactive: true });
   if (loggedIn.code !== 0 || resultEnvelope(loggedIn)?.ok === false) {
     const text = resultText(loggedIn);
     throw new SyncError('补充妙搭用户授权', redactOutput(text), classifyFailure(text));
