@@ -80,6 +80,8 @@ npx -y skills add https://open.feishu.cn --skill lark-apps -g -y
 
 飞书项目官方命令 `npx -y @lark-project/meegle@latest install` 安装的是 `meegle`，用于 Meegle 工作项和计划，不能替代妙搭同步所需的 `lark-cli`。如果 `@larksuite/cli` 也无法安装，请让 IT 检查 npm 仓库、CLI 原生下载地址、飞书授权地址和 `miaoda-git.feishu.cn` 的白名单；离线场景需准备完整且匹配操作系统/CPU 的 `lark-cli` 运行目录，并设置 `LARK_CLI_OFFLINE_DIR`。
 
+如果登录返回 `app is pending approval` 或“应用待审批”，这不是重复登录可以解决的问题。请按公司应用审批/智能体接入 SOP 申请 CLI、OpenClaw 或代码工具使用场景，等待管理员审批并取得已审批的 `app_id`、`app_secret` 后，按公司凭证流程绑定 lark-cli，再执行 `lark-cli auth login --domain apps`。不要在公共仓库中记录公司专属人员、表单地址或密钥。
+
 如果目标目录已经存在，命令会校验它是否连接到同一个妙搭远端、是否处于目标开发分支以及工作区是否干净；不满足条件时停止，不覆盖目录。第二个妙搭应用再次执行同一个命令并选择新的应用和目标目录即可，不需要另外手工执行 `npm run project:init`。
 
 初始化完成后的项目根目录会登记：

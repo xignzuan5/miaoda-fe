@@ -128,6 +128,8 @@ lark-cli --help
 
 把完整错误（可删除账号、Token、Cookie）交给 IT。常见处理是允许访问企业 npm 镜像或 `registry.npmjs.org`、允许 CLI 原生程序下载地址，以及允许飞书授权地址和 `miaoda-git.feishu.cn`；这些网络和账号权限不能由脚手架绕过。若只能离线安装，必须由 IT 分发与当前操作系统/CPU 匹配的完整 `lark-cli` 运行目录，再设置 `LARK_CLI_OFFLINE_DIR`，不能只复制 npm 的 tarball。
 
+如果登录返回 `app is pending approval`、`pending_approval` 或“应用待审批”，不要继续重复 `auth login` 或 `npm run miaoda:init`。这是 lark-cli 创建/绑定的应用尚未通过企业审批，必须按公司应用审批/智能体接入 SOP 申请 CLI、OpenClaw 或代码工具使用场景；审批完成后由管理员提供已审批的 `app_id` 和 `app_secret`，再按公司凭证配置流程绑定 lark-cli，最后执行 `lark-cli auth login --domain apps`。脚手架会保留该步骤和脱敏错误，不会绕过审批。
+
 目标目录不存在时才会 clone；已有目录必须是同一个妙搭 Git 远端且工作区干净，否则命令会停止并用中文报告原因，不覆盖本地项目。首次初始化不会自动提交或推送。
 
 初始化完成后，目标项目会增加以下命令：
