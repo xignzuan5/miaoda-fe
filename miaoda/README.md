@@ -80,7 +80,22 @@ npx -y skills add https://open.feishu.cn --skill lark-apps -g -y
 
 飞书项目官方命令 `npx -y @lark-project/meegle@latest install` 安装的是 `meegle`，用于 Meegle 工作项和计划，不能替代妙搭同步所需的 `lark-cli`。如果 `@larksuite/cli` 也无法安装，请让 IT 检查 npm 仓库、CLI 原生下载地址、飞书授权地址和 `miaoda-git.feishu.cn` 的白名单；离线场景需准备完整且匹配操作系统/CPU 的 `lark-cli` 运行目录，并设置 `LARK_CLI_OFFLINE_DIR`。
 
-如果登录返回 `app is pending approval` 或“应用待审批”，这不是重复登录可以解决的问题。请按公司应用审批/智能体接入 SOP 申请 CLI、OpenClaw 或代码工具使用场景，等待管理员审批并取得已审批的 `app_id`、`app_secret` 后，按公司凭证流程绑定 lark-cli，再执行 `lark-cli auth login --domain apps`。不要在公共仓库中记录公司专属人员、表单地址或密钥。
+如果登录返回 `app is pending approval` 或“应用待审批”，脚手架会停止并打印下面的分步处理流程，这不是重复登录可以解决的问题：
+
+1. 先填写公司应用申请表：<https://weikezhijia.feishu.cn/share/base/form/shrcnAaJOAVobcmnqc3DL3wEZDd>。“应用使用人员范围”填写实际需要使用应用的人员名单；“是否完成 Channel 配置”选择“否”。
+2. 等待审批，并在飞书应用管理的机器人消息中查看管理员反馈的新 CLI `app_id` 和 `app_secret`。secret 只在本机输入，不要写入代码、配置文件或聊天记录。
+3. 在同一个终端逐条绑定凭证并登录：
+
+   ```cmd
+   lark-cli config init --app-id <管理员提供的 app_id> --app-secret-stdin --brand feishu
+   lark-cli auth login --domain apps
+   lark-cli auth status
+   ```
+
+4. 再次执行 `npm run miaoda:init`。此时输入的仍是目标妙搭应用链接或 app_id，不是管理员反馈的 CLI `app_id`；本地目录可以继续使用原目录。
+5. 在实际承载智能体的平台（如 Aily/妙搭）打开智能体的“飞书 Channel/渠道”设置，按页面提示绑定已审批的应用并保存。若看不到入口，请联系管理员开通。完成后将智能体名称/链接、CLI app_id 和 Channel 配置结果（不含 secret）同步管理员，由管理员添加事件与回调并确认开通。
+
+不要在公共仓库中记录公司专属密钥；申请表地址可通过 `MIAODA_APPROVAL_FORM_URL` 环境变量替换为其他租户地址。
 
 如果目标目录已经存在，命令会校验它是否连接到同一个妙搭远端、是否处于目标开发分支以及工作区是否干净；不满足条件时停止，不覆盖目录。第二个妙搭应用再次执行同一个命令并选择新的应用和目标目录即可，不需要另外手工执行 `npm run project:init`。
 

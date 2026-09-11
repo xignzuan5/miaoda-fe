@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import {
   classifyFailure,
+  pendingApprovalGuide,
   normalizeRemote,
   parseAheadBehind,
   parseAppId,
@@ -40,6 +41,12 @@ test('归一化远端地址并脱敏错误输出', () => {
   assert.match(classifyFailure('remote: 403 forbidden'), /权限不足/);
   assert.match(classifyFailure('getaddrinfo ENOTFOUND'), /网络连接失败/);
   assert.match(classifyFailure('authorization failed: The app is pending approval'), /应用尚未通过审批/);
+  const approvalGuide = pendingApprovalGuide();
+  assert.match(approvalGuide, /weikezhijia\.feishu\.cn\/share\/base\/form/);
+  assert.match(approvalGuide, /应用使用人员范围/);
+  assert.match(approvalGuide, /是否完成 Channel 配置.*否/);
+  assert.match(approvalGuide, /config init --app-id <管理员提供的 app_id> --app-secret-stdin/);
+  assert.match(approvalGuide, /不是管理员刚反馈的 CLI app_id/);
   assert.match(classifyFailure('need_user_authorization (user: )'), /auth login --domain apps/);
   assert.match(classifyFailure('命令执行超时（120000ms）'), /网络连接失败/);
 });
