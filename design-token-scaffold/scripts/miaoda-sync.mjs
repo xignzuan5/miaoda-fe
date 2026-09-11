@@ -265,10 +265,10 @@ async function installLarkFromNetwork() {
   const attempts = 3;
   let lastText = '';
   for (let attempt = 1; attempt <= attempts; attempt += 1) {
-    printStep(`安装 lark-cli（网络尝试 ${attempt}/${attempts}）`);
-    // -y 避免企业终端在 npx 的确认提示处阻塞；它只跳过本地安装确认，
-    // 不会绕过 npm、飞书授权或企业网络策略。
-    const result = await runCommand(commandName('npx'), ['-y', '@larksuite/cli@latest', 'install'], { timeoutMs: 120000 });
+    printStep(`安装 lark-cli（npm 全局安装，网络尝试 ${attempt}/${attempts}）`);
+    // 按公司安装规范使用 npm 全局安装。官方安装器仍可能下载平台对应的
+    // 原生二进制；网络、代理和白名单限制无法由脚手架绕过。
+    const result = await runCommand(commandName('npm'), ['install', '-g', '@larksuite/cli@latest'], { timeoutMs: 120000 });
     if (result.code === 0) return undefined;
     lastText = resultText(result);
     if (attempt === attempts || !isRetryableLarkInstallFailure(lastText)) break;
@@ -376,7 +376,7 @@ async function ensureLark() {
     : '妙搭同步需要通用 lark-cli（npm 包 @larksuite/cli），不是飞书项目的 meegle。';
 
   if (!process.stdin.isTTY) {
-    throw new SyncError('检查 lark-cli', `未找到可执行的 lark-cli，且没有可用的离线备用包。${cliPackageHint}`, '请执行 npx -y @larksuite/cli@latest install，或设置 MIAODA_LARK_CLI_PATH/LARK_CLI_OFFLINE_DIR 指向已准备好的离线包。');
+    throw new SyncError('检查 lark-cli', `未找到可执行的 lark-cli，且没有可用的离线备用包。${cliPackageHint}`, '请执行 npm install -g @larksuite/cli，或设置 MIAODA_LARK_CLI_PATH/LARK_CLI_OFFLINE_DIR 指向已准备好的离线包。');
   }
   const install = await askYesNo(`未检测到 lark-cli。${cliPackageHint}是否使用官方 npm 包安装`);
   if (!install) {

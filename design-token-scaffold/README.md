@@ -98,12 +98,14 @@ npm run miaoda:init
 | 妙搭应用代码同步（`apps +get`、`apps +git-credential-init`） | `@larksuite/cli` | `lark-cli` |
 | 飞书项目/Meegle 工作项、计划和数据 | `@lark-project/meegle` | `meegle` |
 
-相关人员给出的 `npx -y @lark-project/meegle@latest install` 是飞书项目官方安装方式，但它不会安装 `lark-cli`，因此不能满足本脚手架的 `miaoda:init`。妙搭同步请执行：
+相关人员给出的 `npx -y @lark-project/meegle@latest install` 是飞书项目官方安装方式，但它不会安装 `lark-cli`，因此不能满足本脚手架的 `miaoda:init`。按公司内部安装规范，妙搭同步请执行：
 
 ```cmd
-npx -y @larksuite/cli@latest install
+npm install -g @larksuite/cli
 lark-cli --help
 ```
+
+官方 CLI README 也提供 `npx @larksuite/cli@latest install` 作为安装入口；两者最终都要下载平台对应的 `lark-cli` 原生二进制。公司电脑优先遵循内部规范，脚手架会按该规范执行 npm 全局安装。
 
 如果要让其他 AI Agent 直接理解妙搭命令，再单独安装官方 `lark-apps` Skill（脚手架自己的 `miaoda-git-sync` Skill 不受影响）：
 
@@ -120,7 +122,8 @@ node -v
 npm -v
 npm config get registry
 npm view @larksuite/cli version
-npx -y @larksuite/cli@latest --help
+npm install -g @larksuite/cli
+lark-cli --help
 ```
 
 把完整错误（可删除账号、Token、Cookie）交给 IT。常见处理是允许访问企业 npm 镜像或 `registry.npmjs.org`、允许 CLI 原生程序下载地址，以及允许飞书授权地址和 `miaoda-git.feishu.cn`；这些网络和账号权限不能由脚手架绕过。若只能离线安装，必须由 IT 分发与当前操作系统/CPU 匹配的完整 `lark-cli` 运行目录，再设置 `LARK_CLI_OFFLINE_DIR`，不能只复制 npm 的 tarball。

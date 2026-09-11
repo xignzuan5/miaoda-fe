@@ -21,7 +21,7 @@ metadata:
 ## 执行规则
 
 1. 先确认用户意图是初始化、拉取、推送还是只查看状态。
-2. `miaoda:init` 可以检查或安装 `lark-cli`，网络安装最多重试 3 次；仍失败时使用 `vendor/lark-cli/` 或 `LARK_CLI_OFFLINE_DIR` 指向的完整离线包。随后触发浏览器授权，核对应用访问权限，获取妙搭 Git 地址，拉取 `sprint/default`，安装设计系统脚手架并运行首次扫描。
+2. `miaoda:init` 可以检查或按公司规范执行 `npm install -g @larksuite/cli` 安装 `lark-cli`，网络安装最多重试 3 次；仍失败时使用 `vendor/lark-cli/` 或 `LARK_CLI_OFFLINE_DIR` 指向的完整离线包。随后触发浏览器授权，核对应用访问权限，获取妙搭 Git 地址，拉取 `sprint/default`，安装设计系统脚手架并运行首次扫描。
 3. 浏览器登录、飞书管理员授权、网络白名单和 Windows 软件安装权限不能被绕过。遇到失败必须保留步骤名、退出码、脱敏后的错误和下一步建议。
 4. 目标目录不存在时才允许 clone；目标目录存在时必须核对 Git 远端、当前分支和工作区，禁止覆盖非目标仓库。
 5. `miaoda:pull` 只允许干净工作区的快进更新；有未提交改动、分叉或冲突时停止，不自动 stash、reset、rebase 或强推。

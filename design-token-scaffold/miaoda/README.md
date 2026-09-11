@@ -66,9 +66,11 @@ npm run miaoda:init
 妙搭同步使用通用 `lark-cli`，对应 npm 包是 `@larksuite/cli`：
 
 ```cmd
-npx -y @larksuite/cli@latest install
+npm install -g @larksuite/cli
 lark-cli --help
 ```
+
+官方 CLI 也支持 `npx @larksuite/cli@latest install`；公司电脑按内部安装规范优先使用上面的 npm 全局安装命令。
 
 如果需要让 AI Agent 直接选择妙搭命令，再安装官方 `lark-apps` Skill：
 
