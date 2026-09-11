@@ -75,6 +75,33 @@ npm run project:init
 
 如果只需要安装文件而暂时不扫描源码，可以加 `--skip-extract`；一般不需要使用这个选项。
 
+### 没有本地项目时从妙搭开始
+
+如果本地还没有项目副本，但目标是接入一个飞书妙搭应用，不需要先手工 clone。先在脚手架根目录执行：
+
+```bash
+npm run miaoda:init
+```
+
+命令会先检查 Node.js 版本、Git 和 `lark-cli`，再交互式询问妙搭应用链接（或 `app_id`）和本地目录，然后引导飞书浏览器授权、核对应用权限、初始化妙搭 Git 凭证、拉取 `sprint/default`，最后把脚手架安装到刚拉下来的项目并完成首次扫描。Windows 检测到 `winget` 或 Chocolatey 时，会询问是否协助安装 Git；检测不到时给出官方安装地址。`lark-cli` 会先尝试本机命令，缺失时最多重试 3 次网络安装；网络失败后自动检查 `vendor/lark-cli/` 或 `LARK_CLI_OFFLINE_DIR` 指定的完整离线包。首次授权、企业网络白名单和管理员应用权限仍需要用户/管理员配合，命令不能绕过这些限制。
+
+注意：`npm run` 本身依赖 Node.js/npm 才能启动，因此 Node.js 完全不存在时无法进入 `miaoda:init`。Windows 用户可以先双击或在 cmd 中执行脚手架根目录的 `miaoda-init.cmd`，它会在启动 npm 前检查并询问是否用 winget 安装 Node.js LTS 和 Git；也可以按提示手动安装。进入 Node 环境后，脚本还能检查版本过低或运行环境异常并给出升级指引。
+
+内网环境不建议把某一台电脑的 `lark-cli` 可执行文件硬编码进通用脚手架：官方包安装后还会按操作系统和 CPU 架构匹配原生二进制，单一 Windows 包无法覆盖其他平台，也会带来版本和安全更新问题。脚手架已支持可选离线备用目录 `vendor/lark-cli/` 或环境变量 `LARK_CLI_OFFLINE_DIR`；放入经过 IT 校验的完整运行目录后，网络安装失败会自动回退。详细目录要求见 [`vendor/lark-cli/README.md`](vendor/lark-cli/README.md)。
+
+目标目录不存在时才会 clone；已有目录必须是同一个妙搭 Git 远端且工作区干净，否则命令会停止并用中文报告原因，不覆盖本地项目。首次初始化不会自动提交或推送。
+
+初始化完成后，目标项目会增加以下命令：
+
+```bash
+npm run miaoda:pull
+npm run miaoda:push -- --paths design-system client/src/pages/你的页面
+```
+
+`miaoda:pull` 只做安全快进，并在源码变化后自动刷新审计；`miaoda:push` 只处理用户明确指定的路径，推送前检查 Token、工作区和远端 SHA。若需要接入另一个妙搭应用，再次从脚手架根目录执行 `npm run miaoda:init` 并选择新的应用和目录即可，不需要手工重复 `project:init`。
+
+妙搭同步是可选适配层。没有妙搭的项目继续使用 `project:init`；同步命令不会提交密码、Token、`.env` 或平台管理的 `.agent/` 目录。
+
 完成初始化后，用户不需要再手动执行抽取步骤，直接描述页面即可，例如：
 
 ```text

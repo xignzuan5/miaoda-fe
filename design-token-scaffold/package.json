@@ -5,6 +5,9 @@
   "type": "module",
   "scripts": {
     "project:init": "node scripts/install-project.mjs",
+    "miaoda:init": "node scripts/miaoda-sync.mjs init",
+    "miaoda:pull": "node scripts/miaoda-sync.mjs pull",
+    "miaoda:push": "node scripts/miaoda-sync.mjs push",
     "extract": "node skills/extract-design-tokens/scripts/extract-tokens.mjs",
     "validate": "node scripts/validate.mjs",
     "build": "node scripts/build.mjs",

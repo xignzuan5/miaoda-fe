@@ -5,7 +5,7 @@
 ## 先分清通用脚手架和具体项目
 
 - `miaoda-fe/scaffold` 只保存通用脚手架、固定扩展、安装器和示例 Token 基线，不包含任何业务项目的真实页面或审计结果。
-- 每个要接入妙搭的项目，都必须使用自己的源码运行 `npm run project:init`，生成自己的 `design-system/audit/`、Token、Recipe 和页面模板登记。
+- 每个要接入妙搭的项目，都必须使用自己的源码完成一次确定性扫描，生成自己的 `design-system/audit/`、Token、Recipe 和页面模板登记；已有本地项目运行 `npm run project:init`，尚无本地副本则由 `npm run miaoda:init` 自动完成同一轮安装与扫描。
 - 不要把任何具体项目（例如 `D:\your-project`）的源码、字体、页面、Token 或审计产物提交回通用脚手架分支。
 
 ## 需要同步到妙搭的文件
@@ -46,6 +46,31 @@ npm run project:init -- --target D:\your-project
 这条带 `--target` 的命令完成后，不要立刻在项目根目录重复执行。以后项目源码或主题发生变化时，才在项目根目录执行无参数的 `npm run project:init` 刷新审计。
 
 如果妙搭应用可以直接从 Git 仓库同步，也可以先导入项目分支，再确认以上文件已经出现在应用代码目录中。只导入通用 `design-token-scaffold/` 而没有具体项目源码时，解析器无法得到该项目的真实壳层、字体、路由和页面模板。
+
+## 从妙搭 Git 自动初始化
+
+如果本地还没有项目副本，可以在脚手架根目录执行：
+
+```cmd
+npm run miaoda:init
+```
+
+命令会在同一轮中先检查 Node.js 版本、Git 和 `lark-cli`，再引导浏览器授权、核对应用访问权限、获取妙搭 Git 地址、clone `sprint/default`，安装脚手架并运行首次 `project:init`。Windows 检测到 `winget` 或 Chocolatey 时会询问是否协助安装 Git；`lark-cli` 缺失时最多重试 3 次网络安装，失败后自动检查 `vendor/lark-cli/` 或 `LARK_CLI_OFFLINE_DIR` 指定的完整离线包。它不会把通用脚手架误当成业务项目，也不会自动提交或推送。
+
+由于 `npm run` 需要 Node.js/npm 才能启动，Node.js 完全不存在时无法由 `miaoda:init` 自行安装。Windows 用户可以先在脚手架根目录执行 `miaoda-init.cmd`，它会在启动 npm 前检查并询问是否用 winget 安装 Node.js LTS 和 Git；命令本身会检查版本过低并给出升级指引。首次授权、企业网络白名单、管理员应用权限和软件安装权限仍由相应管理员处理。
+
+首次运行需要用户完成飞书授权；企业网络白名单、管理员应用权限和 Windows 软件安装权限仍由相应管理员处理。脚手架只能检查并反馈失败步骤，不能绕过这些限制。
+
+如果目标目录已经存在，命令会校验它是否连接到同一个妙搭远端、是否处于目标开发分支以及工作区是否干净；不满足条件时停止，不覆盖目录。第二个妙搭应用再次执行同一个命令并选择新的应用和目标目录即可，不需要另外手工执行 `npm run project:init`。
+
+初始化完成后的项目根目录会登记：
+
+```cmd
+npm run miaoda:pull
+npm run miaoda:push -- --paths design-system client/src/pages/你的页面
+```
+
+命令只同步已提交的开发分支代码。`.agent/`、`.env`、密钥、Token 和妙搭数据库/平台素材不在普通 Git 同步范围内。
 
 ## 首次接入的固定顺序
 

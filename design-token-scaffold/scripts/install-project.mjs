@@ -22,6 +22,7 @@ if (!args.target && targetRoot === scaffoldRoot) {
 const agent = String(args.agent ?? 'both').toLowerCase();
 const force = args.force === true || args.force === 'true';
 const skipExtract = args['skip-extract'] === true || args['skip-extract'] === 'true';
+const miaoda = args.miaoda === true || args.miaoda === 'true';
 if (!['codex', 'claude', 'both'].includes(agent)) {
   console.error('--agent 只支持 codex、claude 或 both。');
   process.exit(2);
@@ -104,6 +105,12 @@ for (const skill of ['extract-design-tokens', 'apply-design-tokens']) {
     path.join(targetRoot, '.agents', 'skills', skill)
   );
 }
+if (miaoda) {
+  await copyTree(
+    path.join(scaffoldRoot, 'skills', 'miaoda-git-sync'),
+    path.join(targetRoot, '.agents', 'skills', 'miaoda-git-sync')
+  );
+}
 
 // 注册唯一的项目级刷新入口。只在缺少脚本时写入，不覆盖项目已有命令；
 // 这样初始化后即可在目标项目根目录直接执行 `npm run project:init`。
@@ -121,6 +128,23 @@ if (await exists(projectPackagePath)) {
       projectScriptRegistered = true;
     } else if (projectPackage.scripts['project:init'] !== projectInitCommand) {
       console.warn('目标项目已有 project:init 脚本，未覆盖；如需使用设计系统刷新命令，请手动将其指向 design-system/scripts/project-init.mjs。');
+    }
+    if (miaoda) {
+      const syncScripts = {
+        'miaoda:pull': 'node design-system/scripts/miaoda-sync.mjs pull',
+        'miaoda:push': 'node design-system/scripts/miaoda-sync.mjs push',
+      };
+      let changed = false;
+      for (const [name, command] of Object.entries(syncScripts)) {
+        if (!projectPackage.scripts[name]) {
+          projectPackage.scripts[name] = command;
+          changed = true;
+        }
+      }
+      if (changed) {
+        await writeFile(projectPackagePath, `${JSON.stringify(projectPackage, null, 2)}\n`, 'utf8');
+        if (!copied.includes(projectPackagePath)) copied.push(projectPackagePath);
+      }
     }
   } catch (error) {
     console.warn(`未能更新目标项目 package.json：${error.message}`);
@@ -142,6 +166,9 @@ if (agent === 'claude' || agent === 'both') {
   }
 }
 
+const miaodaRule = miaoda
+  ? '- 本项目已接入妙搭；代码同步使用 `$miaoda-git-sync`：`.agents/skills/miaoda-git-sync/SKILL.md`，不要手工替换妙搭 origin 或推送 main。\n'
+  : '';
 const ruleBlock = `<!-- design-token-system:start -->
 ## Design Token 系统
 
@@ -156,7 +183,8 @@ const ruleBlock = `<!-- design-token-system:start -->
 - 抽取覆盖实际主题、布局、组件状态、资源和代表页面，不以用户举例为上限；交付可编译模板代码、来源、插槽与验证状态，不能只生成 Markdown。
 - 初始化或刷新项目审计可直接在项目根目录运行 \`npm run project:init\`。
 - 本脚手架核心不依赖飞书妙搭；本地 Agent、Claude Code 或其他能读取项目文件的编码 Agent 都可以直接使用上述规则、Skills 和 Token 产物。
-- Claude Code 可使用项目命令 \`/build-page\` 或中文命令 \`/页面开发\`；不支持斜杠命令的 Agent 直接使用自然语言即可。
+- 接入妙搭的项目可使用 \`npm run miaoda:pull\` 拉取开发分支，或使用 \`npm run miaoda:push -- --paths <路径...>\` 在检查后提交并推送；这些命令不会触碰 \`.agent/\`、密钥或发布分支。
+${miaodaRule}- Claude Code 可使用项目命令 \`/build-page\` 或中文命令 \`/页面开发\`；不支持斜杠命令的 Agent 直接使用自然语言即可。
 - \`design-system/miaoda/\` 只是可选的平台适配资料。只有项目确实接入妙搭时，才读取其中的扩展定义、安装指令和 Agent 规范；未接入妙搭时不得把它当成核心运行依赖。
 - 所有设计规范、Token 描述、审计报告、迁移说明和模型输出均使用中文；Token 键名、代码标识符和标准技术术语可以保留英文。
 <!-- design-token-system:end -->`;
@@ -188,7 +216,7 @@ const projectGuide = `# 项目 Design Token 使用说明
 - 页面和组件实现：遵循 \`$apply-design-tokens\`，优先复用 \`audit/\` 中登记的壳层和模板
 - 初始化后可直接在项目根目录运行 \`npm run project:init\` 刷新审计，脚手架会登记这一条固定脚本。
 
-首次从脚手架安装时，执行 \`npm run project:init -- --target <项目目录>\` 会一次完成安装、规则写入和首次抽取；之后在目标项目根目录执行无参数命令即可刷新审计。本地 Agent 直接读取这些产物实现页面；只有接入妙搭时，才额外按 \`design-system/miaoda/\` 中的适配说明注册 \`/页面开发\` 和变量解析扩展。
+首次从脚手架安装时，执行 \`npm run project:init -- --target <项目目录>\` 会一次完成安装、规则写入和首次抽取；妙搭优先接入则使用脚手架根目录的 \`npm run miaoda:init\`，它会先拉取应用，再完成同样的安装和扫描。之后在目标项目根目录执行无参数 \`npm run project:init\` 即可刷新审计。本地 Agent 直接读取这些产物实现页面；只有接入妙搭时，才额外按 \`design-system/miaoda/\` 中的适配说明注册 \`/页面开发\` 和变量解析扩展。
 首次进入项目后重新启动 Codex，使其重新加载 \`AGENTS.md\` 和仓库级 Skills。Claude 应从 \`CLAUDE.md\` 中读取相同规则。
 `;
 const guidePath = path.join(designSystemRoot, '项目使用说明.md');

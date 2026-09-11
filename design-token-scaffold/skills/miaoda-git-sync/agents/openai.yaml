@@ -1,0 +1,4 @@
+interface:
+  display_name: "妙搭代码同步"
+  short_description: "初始化、拉取或推送妙搭应用的 Git 开发代码"
+  default_prompt: "使用 $miaoda-git-sync 处理妙搭应用代码同步。先确认方向；初始化时完成 CLI 授权、应用核对、clone 和设计系统扫描；推送时只处理用户明确指定的路径，报告每一步结果。"
