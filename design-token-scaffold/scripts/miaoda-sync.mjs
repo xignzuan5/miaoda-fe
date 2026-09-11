@@ -430,6 +430,36 @@ function resultText(result) {
   return `${result.stderr ?? ''}\n${result.stdout ?? ''}\n${result.error?.message ?? ''}`.trim();
 }
 
+function resultEnvelope(result) {
+  try { return parseJsonEnvelope(result.stdout); } catch { return undefined; }
+}
+
+function resultFailed(result) {
+  return result.code !== 0 || resultEnvelope(result)?.ok === false;
+}
+
+function requiresMiaodaUserAuthorization(result) {
+  return /need_user_authorization|token_missing|missing_scope|user.?authorization|未登录|未授权/i.test(resultText(result));
+}
+
+async function authorizeMiaodaUser() {
+  printStep('补充妙搭用户授权（需要浏览器授权）');
+  const loggedIn = await runLark(['auth', 'login', '--domain', 'apps'], { interactive: true });
+  if (loggedIn.code !== 0 || resultEnvelope(loggedIn)?.ok === false) {
+    const text = resultText(loggedIn);
+    throw new SyncError('补充妙搭用户授权', redactOutput(text), classifyFailure(text));
+  }
+}
+
+async function runMiaodaUserCommand(args, options = {}) {
+  let result = await runLark(args, options);
+  if (resultFailed(result) && requiresMiaodaUserAuthorization(result)) {
+    await authorizeMiaodaUser();
+    result = await runLark(args, options);
+  }
+  return result;
+}
+
 async function ensureLarkAuth() {
   printStep('检查飞书 CLI 配置');
   let config = await runLark(['config', 'show'], { silent: true });
@@ -469,15 +499,15 @@ async function ensureLarkAuth() {
 
 async function getMiaodaRepository(appId) {
   printStep(`核对妙搭应用 ${appId}`);
-  const app = await runLark(['apps', '+get', '--app-id', appId, '--as', 'user'], { silent: true });
-  if (app.code !== 0) {
+  const app = await runMiaodaUserCommand(['apps', '+get', '--app-id', appId, '--as', 'user'], { silent: true });
+  if (resultFailed(app)) {
     const text = resultText(app);
     throw new SyncError('核对妙搭应用', redactOutput(text), classifyFailure(text));
   }
 
   printStep('初始化妙搭 Git 凭证');
-  const credential = await runLark(['apps', '+git-credential-init', '--app-id', appId, '--as', 'user']);
-  if (credential.code !== 0) {
+  const credential = await runMiaodaUserCommand(['apps', '+git-credential-init', '--app-id', appId, '--as', 'user']);
+  if (resultFailed(credential)) {
     const text = resultText(credential);
     throw new SyncError('初始化妙搭 Git 凭证', redactOutput(text), classifyFailure(text));
   }

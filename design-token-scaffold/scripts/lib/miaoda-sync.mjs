@@ -130,6 +130,9 @@ export function redactOutput(value) {
 
 export function classifyFailure(value) {
   const text = String(value ?? '').toLowerCase();
+  if (/need_user_authorization|token_missing|missing_scope/.test(text)) {
+    return '妙搭用户授权或 apps scope 不足。请完成 lark-cli auth login --domain apps 后重试。';
+  }
   if (/403|401|permission|forbidden|unauthorized|could not read username|credential|权限|拒绝访问/.test(text)) {
     return '权限不足或授权已过期。请确认飞书账号有该妙搭应用权限，并重新执行 lark-cli auth login。';
   }
