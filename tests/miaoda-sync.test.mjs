@@ -14,7 +14,9 @@ import {
 test('从妙搭链接和 app_id 提取应用 ID', () => {
   assert.equal(parseAppId('app_17ds4108438'), 'app_17ds4108438');
   assert.equal(parseAppId('https://miaoda.feishu.cn/app/app_17ds4108438?from=aily'), 'app_17ds4108438');
-  assert.throws(() => parseAppId('not-an-app'), /无法识别妙搭应用 ID/);
+  assert.equal(parseAppId('cli_aa290067df385cbc'), 'cli_aa290067df385cbc');
+  assert.equal(parseAppId('custom-app-id'), 'custom-app-id');
+  assert.throws(() => parseAppId('not an app id'), /无法读取应用 ID/);
 });
 
 test('解析同步子命令和多个路径参数', () => {

@@ -92,7 +92,7 @@ npx -y skills add https://open.feishu.cn --skill lark-apps -g -y
    lark-cli auth status
    ```
 
-4. 再次执行 `npm run miaoda:init`。此时输入的仍是目标妙搭应用链接或 app_id，不是管理员反馈的 CLI `app_id`；本地目录可以继续使用原目录。
+4. 再次执行 `npm run miaoda:init`。此时输入的仍是目标妙搭应用链接或 app_id，不是管理员反馈的 CLI `app_id`；本地目录可以继续使用原目录。脚手架不会仅凭 `app_` 或 `cli_` 前缀拒绝非空 ID，会将输入交给 lark-cli 返回真实校验结果。
 5. 在实际承载智能体的平台（如 Aily/妙搭）打开智能体的“飞书 Channel/渠道”设置，按页面提示绑定已审批的应用并保存。若看不到入口，请联系管理员开通。完成后将智能体名称/链接、CLI app_id 和 Channel 配置结果（不含 secret）同步管理员，由管理员添加事件与回调并确认开通。
 
 不要在公共仓库中记录公司专属密钥；申请表地址可通过 `MIAODA_APPROVAL_FORM_URL` 环境变量替换为其他租户地址。

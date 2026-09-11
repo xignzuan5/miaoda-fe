@@ -88,10 +88,12 @@ export function parseArgs(argv) {
 
 export function parseAppId(input) {
   const value = String(input ?? '').trim();
-  if (/^app_[A-Za-z0-9_-]+$/.test(value)) return value;
+  // 不在脚手架层硬编码应用 ID 前缀。妙搭链接仍会提取 /app/ 后的 ID，
+  // 直接输入的非空 ID 原样交给 lark-cli，由服务端判断它是否属于目标应用。
   const match = value.match(/\/app\/(app_[A-Za-z0-9_-]+)(?:[/?#]|$)/i);
   if (match) return match[1];
-  throw new Error('无法识别妙搭应用 ID。请输入 app_ 开头的应用 ID，或完整的妙搭应用链接。');
+  if (/^[A-Za-z0-9][A-Za-z0-9_-]*$/.test(value)) return value;
+  throw new Error('无法读取应用 ID。请输入非空的应用 ID，或包含 /app/<应用 ID> 的完整妙搭应用链接。');
 }
 
 export function normalizeRemote(remote) {

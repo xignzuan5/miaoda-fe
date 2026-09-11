@@ -659,12 +659,12 @@ async function init(options) {
   await ensureGit();
   await ensureLark();
 
-  const appInput = options['app-id'] ?? await ask('请输入妙搭应用链接或 app_id');
+  const appInput = options['app-id'] ?? await ask('请输入目标妙搭应用链接或 app_id');
   let appId;
   try {
     appId = parseAppId(appInput);
   } catch (error) {
-    throw new SyncError('读取妙搭应用 ID', error.message, '请输入 app_ 开头的应用 ID，或完整的妙搭应用链接。');
+    throw new SyncError('读取应用 ID', error.message, '脚手架未限制应用 ID 前缀；请确认输入的是目标应用 ID 或完整妙搭应用链接，后续由 lark-cli 返回真实校验结果。');
   }
   const defaultTarget = path.resolve(process.cwd(), 'MIAODA-APP');
   const targetInput = options.target ?? await ask('请输入本地项目目录', defaultTarget);

@@ -136,7 +136,7 @@ lark-cli auth login --domain apps
 lark-cli auth status
 ```
 
-最后重新执行 `npm run miaoda:init`。这里再次输入的仍是目标妙搭应用链接或 app_id，不是管理员反馈的 CLI `app_id`；`app_secret` 不要写入代码、配置文件或聊天记录。Channel 配置不由 `miaoda:init` 完成：在实际承载智能体的平台打开智能体的“飞书 Channel/渠道”设置，按页面提示绑定已审批应用并保存；若没有入口，请联系管理员开通。配置完成后，将智能体名称/链接、CLI app_id 和 Channel 配置结果（不含 secret）同步管理员，由管理员添加事件与回调并确认开通。脚手架会保留步骤名和脱敏错误，不会绕过审批。
+最后重新执行 `npm run miaoda:init`。这里再次输入的仍是目标妙搭应用链接或 app_id，不是管理员反馈的 CLI `app_id`；`app_secret` 不要写入代码、配置文件或聊天记录。脚手架不会仅凭 `app_` 或 `cli_` 前缀拒绝非空 ID，会将输入交给 lark-cli 返回真实校验结果。Channel 配置不由 `miaoda:init` 完成：在实际承载智能体的平台打开智能体的“飞书 Channel/渠道”设置，按页面提示绑定已审批应用并保存；若没有入口，请联系管理员开通。配置完成后，将智能体名称/链接、CLI app_id 和 Channel 配置结果（不含 secret）同步管理员，由管理员添加事件与回调并确认开通。脚手架会保留步骤名和脱敏错误，不会绕过审批。
 
 目标目录不存在时才会 clone；已有目录必须是同一个妙搭 Git 远端且工作区干净，否则命令会停止并用中文报告原因，不覆盖本地项目。首次初始化不会自动提交或推送。
 
