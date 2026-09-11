@@ -393,6 +393,7 @@ async function ensureLark() {
         return fallback;
       }
     }
+    console.error('说明：安装器显示的 config/auth 命令只是安装成功后的下一步；本次 lark-cli 二进制下载失败，脚手架不会执行这两个命令。');
     throw new SyncError('安装 lark-cli', redactOutput(networkError), `${classifyFailure(networkError)} 请确认企业网络允许访问 npm 及 CLI 下载地址；如内网无法访问 npm，请准备完整的离线 lark-cli 包并设置 LARK_CLI_OFFLINE_DIR。`);
   }
   runner = await resolveLarkRunner();
