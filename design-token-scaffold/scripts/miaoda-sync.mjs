@@ -49,6 +49,23 @@ function commandName(name) {
   return name;
 }
 
+function prepareSpawn(command, args) {
+  // Windows cannot spawn .cmd/.bat files directly with shell=false; Node
+  // reports EINVAL before npx/npm has a chance to run. Route only these
+  // known command wrappers through cmd.exe. Keeping the arguments separate
+  // avoids shell-string concatenation for user-provided paths and app IDs.
+  if (process.platform !== 'win32' || !/\.(cmd|bat)$/i.test(command)) {
+    return { command, args };
+  }
+  const commandToken = /[\s"&|<>^]/.test(command)
+    ? `"${command.replace(/"/g, '""')}"`
+    : command;
+  return {
+    command: process.env.ComSpec || 'cmd.exe',
+    args: ['/d', '/s', '/c', commandToken, ...args],
+  };
+}
+
 function runCommand(command, args, { cwd = process.cwd(), silent = false, env = {} } = {}) {
   return new Promise((resolve) => {
     let stdout = '';
@@ -56,7 +73,8 @@ function runCommand(command, args, { cwd = process.cwd(), silent = false, env = 
     let settled = false;
     let child;
     try {
-      child = spawn(command, args, {
+      const spawnSpec = prepareSpawn(command, args);
+      child = spawn(spawnSpec.command, spawnSpec.args, {
         cwd,
         env: { ...process.env, ...env },
         stdio: ['ignore', 'pipe', 'pipe'],
