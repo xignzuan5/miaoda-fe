@@ -157,6 +157,11 @@ async function resolveLarkRunner() {
       if (candidate) return { command: candidate, prefix: [] };
     }
   }
+  // npm install -g may have completed while the current Git Bash/PATH is
+  // stale. Resolve the launcher from npm's global prefix before reporting it
+  // as missing; this also handles npm installations outside PATH.
+  const npmGlobal = await resolveNpmGlobalLarkRunner();
+  if (npmGlobal) return npmGlobal;
   return { command: commandName('lark-cli'), prefix: [] };
 }
 
@@ -188,6 +193,22 @@ async function runnerFromPath(candidatePath) {
     const packageRoot = path.resolve(path.dirname(script), '..');
     const binary = path.join(packageRoot, 'bin', process.platform === 'win32' ? 'lark-cli.exe' : 'lark-cli');
     if (await exists(binary)) return { command: process.execPath, prefix: [script], source: 'offline' };
+  }
+  return undefined;
+}
+
+async function resolveNpmGlobalLarkRunner() {
+  const prefixResult = await runCommand(commandName('npm'), ['prefix', '-g'], { silent: true });
+  if (prefixResult.code !== 0) return undefined;
+  const prefix = prefixResult.stdout.trim().split(/\r?\n/).filter(Boolean).pop();
+  if (!prefix) return undefined;
+
+  const roots = process.platform === 'win32'
+    ? [prefix, path.join(prefix, 'node_modules', '@larksuite', 'cli')]
+    : [path.join(prefix, 'bin'), prefix, path.join(prefix, 'lib', 'node_modules', '@larksuite', 'cli')];
+  for (const root of [...new Set(roots)]) {
+    const runner = await runnerFromPath(root);
+    if (runner) return { ...runner, source: 'npm-global' };
   }
   return undefined;
 }
