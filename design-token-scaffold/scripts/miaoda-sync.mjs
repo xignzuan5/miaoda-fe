@@ -472,7 +472,7 @@ async function ensureLarkAuth() {
     }
     printStep('首次配置飞书 CLI（需要浏览器授权）');
     const initialized = await runLark(['config', 'init', '--new'], { interactive: true });
-    if (initialized.code !== 0) {
+    if (resultFailed(initialized)) {
       const text = resultText(initialized);
       throw new SyncError('首次配置飞书 CLI', redactOutput(text), classifyFailure(text));
     }
@@ -485,12 +485,12 @@ async function ensureLarkAuth() {
   if (auth.code !== 0 || authJson?.ok === false || /not logged|未登录|unauthorized|未授权/i.test(resultText(auth))) {
     printStep('首次登录飞书账号（需要浏览器授权）');
     const loggedIn = await runLark(['auth', 'login', '--recommend'], { interactive: true });
-    if (loggedIn.code !== 0) {
+    if (resultFailed(loggedIn)) {
       const text = resultText(loggedIn);
       throw new SyncError('登录飞书账号', redactOutput(text), classifyFailure(text));
     }
     auth = await runLark(['auth', 'status'], { silent: true });
-    if (auth.code !== 0) {
+    if (resultFailed(auth)) {
       const text = resultText(auth);
       throw new SyncError('验证飞书账号', redactOutput(text), classifyFailure(text));
     }

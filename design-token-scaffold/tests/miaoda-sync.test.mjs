@@ -39,4 +39,6 @@ test('归一化远端地址并脱敏错误输出', () => {
   assert.equal(redactOutput('https://user:secret@example.com/app.git?token=abc'), 'https://[已隐藏]@example.com/app.git?token=[已隐藏]');
   assert.match(classifyFailure('remote: 403 forbidden'), /权限不足/);
   assert.match(classifyFailure('getaddrinfo ENOTFOUND'), /网络连接失败/);
+  assert.match(classifyFailure('authorization failed: The app is pending approval'), /应用尚未通过审批/);
+  assert.match(classifyFailure('need_user_authorization (user: )'), /auth login --domain apps/);
 });

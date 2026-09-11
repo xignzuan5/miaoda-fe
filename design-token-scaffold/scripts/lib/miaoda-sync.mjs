@@ -130,6 +130,9 @@ export function redactOutput(value) {
 
 export function classifyFailure(value) {
   const text = String(value ?? '').toLowerCase();
+  if (/pending approval|pending_approval|待审批|审批中|待审核/.test(text)) {
+    return 'lark-cli 应用尚未通过审批，当前账号无法完成授权。请按公司应用审批 SOP 申请 CLI/智能体应用审批；审批完成后再执行 lark-cli auth login --domain apps。不要重复运行 npm run miaoda:init。';
+  }
   if (/need_user_authorization|token_missing|missing_scope/.test(text)) {
     return '妙搭用户授权或 apps scope 不足。请完成 lark-cli auth login --domain apps 后重试。';
   }
