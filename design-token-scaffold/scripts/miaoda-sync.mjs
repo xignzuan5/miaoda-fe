@@ -66,12 +66,33 @@ function prepareSpawn(command, args) {
   };
 }
 
-function runCommand(command, args, { cwd = process.cwd(), silent = false, env = {} } = {}) {
+function runCommand(command, args, { cwd = process.cwd(), silent = false, env = {}, timeoutMs = 0 } = {}) {
   return new Promise((resolve) => {
     let stdout = '';
     let stderr = '';
     let settled = false;
+    let timer;
     let child;
+    const settle = (result) => {
+      if (settled) return;
+      settled = true;
+      if (timer) clearTimeout(timer);
+      resolve(result);
+    };
+    const terminate = () => {
+      if (!child?.pid) return;
+      if (process.platform === 'win32') {
+        const killer = spawn('taskkill.exe', ['/PID', String(child.pid), '/T', '/F'], {
+          stdio: 'ignore',
+          windowsHide: true,
+        });
+        killer.once('error', () => {
+          try { child.kill(); } catch { /* already exited */ }
+        });
+      } else {
+        try { child.kill('SIGTERM'); } catch { /* already exited */ }
+      }
+    };
     try {
       const spawnSpec = prepareSpawn(command, args);
       child = spawn(spawnSpec.command, spawnSpec.args, {
@@ -81,7 +102,7 @@ function runCommand(command, args, { cwd = process.cwd(), silent = false, env = 
         windowsHide: true,
       });
     } catch (error) {
-      resolve({ code: null, stdout, stderr, error });
+      settle({ code: null, stdout, stderr, error });
       return;
     }
     child.stdout.on('data', (chunk) => {
@@ -95,15 +116,23 @@ function runCommand(command, args, { cwd = process.cwd(), silent = false, env = 
       if (!silent) process.stderr.write(text);
     });
     child.once('error', (error) => {
-      if (settled) return;
-      settled = true;
-      resolve({ code: null, stdout, stderr, error });
+      settle({ code: null, stdout, stderr, error });
     });
     child.once('close', (code) => {
-      if (settled) return;
-      settled = true;
-      resolve({ code, stdout, stderr });
+      settle({ code, stdout, stderr });
     });
+    if (timeoutMs > 0) {
+      timer = setTimeout(() => {
+        terminate();
+        settle({
+          code: null,
+          stdout,
+          stderr,
+          timedOut: true,
+          error: new Error(`命令执行超时（${timeoutMs}ms）`),
+        });
+      }, timeoutMs);
+    }
   });
 }
 
@@ -147,7 +176,7 @@ async function resolveLarkRunner() {
     if (explicit) return explicit;
   }
   if (process.platform === 'win32') {
-    const located = await runCommand('where.exe', ['lark-cli'], { silent: true });
+    const located = await runCommand('where.exe', ['lark-cli'], { silent: true, timeoutMs: 5000 });
     if (located.code === 0) {
       const candidates = located.stdout.split(/\r?\n/).map((value) => value.trim()).filter(Boolean);
       const candidate = candidates.find((value) => /\.(cmd|exe|ps1)$/i.test(value)) ?? candidates[0];
@@ -198,7 +227,7 @@ async function runnerFromPath(candidatePath) {
 }
 
 async function resolveNpmGlobalLarkRunner() {
-  const prefixResult = await runCommand(commandName('npm'), ['prefix', '-g'], { silent: true });
+  const prefixResult = await runCommand(commandName('npm'), ['prefix', '-g'], { silent: true, timeoutMs: 10000 });
   if (prefixResult.code !== 0) return undefined;
   const prefix = prefixResult.stdout.trim().split(/\r?\n/).filter(Boolean).pop();
   if (!prefix) return undefined;
@@ -227,7 +256,7 @@ async function resolveOfflineLarkRunner() {
 }
 
 function isRetryableLarkInstallFailure(text) {
-  return /enotfound|eai_again|econnreset|etimedout|timeout|timed out|network|fetch|socket|proxy|网络|连接|白名单/i.test(String(text ?? ''));
+  return /enotfound|eai_again|econnreset|etimedout|timeout|timed out|network|fetch|socket|proxy|超时|网络|连接|白名单/i.test(String(text ?? ''));
 }
 
 async function installLarkFromNetwork() {
@@ -237,7 +266,7 @@ async function installLarkFromNetwork() {
     printStep(`安装 lark-cli（网络尝试 ${attempt}/${attempts}）`);
     // -y 避免企业终端在 npx 的确认提示处阻塞；它只跳过本地安装确认，
     // 不会绕过 npm、飞书授权或企业网络策略。
-    const result = await runCommand(commandName('npx'), ['-y', '@larksuite/cli@latest', 'install']);
+    const result = await runCommand(commandName('npx'), ['-y', '@larksuite/cli@latest', 'install'], { timeoutMs: 120000 });
     if (result.code === 0) return undefined;
     lastText = resultText(result);
     if (attempt === attempts || !isRetryableLarkInstallFailure(lastText)) break;
@@ -313,26 +342,33 @@ async function ensureGit() {
 }
 
 async function ensureLark() {
+  printStep('检查 lark-cli 可执行文件');
   let runner = await resolveLarkRunner();
-  let check = await runCommand(runner.command, [...runner.prefix, '--help'], { silent: true });
+  let check = await runCommand(runner.command, [...runner.prefix, '--help'], { silent: true, timeoutMs: 15000 });
   if (check.code === 0) {
     larkRunner = runner;
     return runner;
   }
+  if (check.timedOut) {
+    throw new SyncError('检查 lark-cli', '已找到 lark-cli，但执行 lark-cli --help 超过 15 秒仍未返回。', '请先单独执行 lark-cli --help；如果同样卡住，请结束该进程并让 IT 检查 CLI 安装包或安全软件拦截。');
+  }
 
   const offline = await resolveOfflineLarkRunner();
   if (offline) {
-    check = await runCommand(offline.command, [...offline.prefix, '--help'], { silent: true });
+    check = await runCommand(offline.command, [...offline.prefix, '--help'], { silent: true, timeoutMs: 15000 });
     if (check.code === 0) {
       console.log('✓ 使用脚手架内置/指定的离线 lark-cli');
       larkRunner = offline;
       return offline;
     }
+    if (check.timedOut) {
+      throw new SyncError('检查离线 lark-cli', '离线 lark-cli 执行 --help 超过 15 秒仍未返回。', '请检查离线包是否完整且与当前 Windows/CPU 匹配。');
+    }
   }
 
   // @lark-project/meegle 安装的是 `meegle`，不是妙搭同步所需的 `lark-cli`。
   // 提前检测并给出明确提示，避免用户以为已经安装了“飞书 CLI”。
-  const meegleCheck = await runCommand(commandName('meegle'), ['--help'], { silent: true });
+  const meegleCheck = await runCommand(commandName('meegle'), ['--help'], { silent: true, timeoutMs: 5000 });
   const cliPackageHint = meegleCheck.code === 0
     ? '当前检测到的是 meegle（@lark-project/meegle），它不能替代 lark-cli；妙搭同步需要通用包 @larksuite/cli。'
     : '妙搭同步需要通用 lark-cli（npm 包 @larksuite/cli），不是飞书项目的 meegle。';
@@ -348,7 +384,7 @@ async function ensureLark() {
   if (networkError) {
     const fallback = await resolveOfflineLarkRunner();
     if (fallback) {
-      const fallbackCheck = await runCommand(fallback.command, [...fallback.prefix, '--help'], { silent: true });
+      const fallbackCheck = await runCommand(fallback.command, [...fallback.prefix, '--help'], { silent: true, timeoutMs: 15000 });
       if (fallbackCheck.code === 0) {
         console.warn('网络安装 lark-cli 失败，已切换到离线备用包。');
         larkRunner = fallback;
@@ -358,11 +394,14 @@ async function ensureLark() {
     throw new SyncError('安装 lark-cli', redactOutput(networkError), `${classifyFailure(networkError)} 请确认企业网络允许访问 npm 及 CLI 下载地址；如内网无法访问 npm，请准备完整的离线 lark-cli 包并设置 LARK_CLI_OFFLINE_DIR。`);
   }
   runner = await resolveLarkRunner();
-  check = await runCommand(runner.command, [...runner.prefix, '--help'], { silent: true });
+  check = await runCommand(runner.command, [...runner.prefix, '--help'], { silent: true, timeoutMs: 15000 });
   if (check.code !== 0) {
+    if (check.timedOut) {
+      throw new SyncError('检查 lark-cli', '安装后已找到 lark-cli，但执行 --help 超过 15 秒仍未返回。', '请重新打开终端后执行 lark-cli --help；如果同样卡住，请让 IT 检查 CLI 安装包或安全软件拦截。');
+    }
     const fallback = await resolveOfflineLarkRunner();
     if (fallback) {
-      const fallbackCheck = await runCommand(fallback.command, [...fallback.prefix, '--help'], { silent: true });
+      const fallbackCheck = await runCommand(fallback.command, [...fallback.prefix, '--help'], { silent: true, timeoutMs: 15000 });
       if (fallbackCheck.code === 0) {
         console.warn('网络安装完成但 PATH 未刷新，已切换到离线备用包。');
         larkRunner = fallback;
