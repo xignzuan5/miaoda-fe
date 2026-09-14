@@ -160,7 +160,7 @@ export function classifyFailure(value) {
     return pendingApprovalGuide();
   }
   if (/need_user_authorization|token_missing|missing_scope/.test(text)) {
-    return '妙搭用户授权或 spark scope 不足。请执行 lark-cli auth login --scope "spark:app:read spark:app:write"，在浏览器完成授权后，再重试原命令。';
+    return '妙搭用户授权或 spark scope 不足。请执行 lark-cli auth login --scope "spark:app:read spark:app:write"，在浏览器完成授权后，再重试原命令。若授权页显示“无法授予的权限”，说明应用侧未发布包含 spark 权限的新版本、或开到了别的 app_id 上：让管理员确认应用并发布新版本后重试。';
   }
   if (/403|401|permission|forbidden|unauthorized|could not read username|credential|权限|拒绝访问/.test(text)) {
     return '权限不足或授权已过期。请确认飞书账号有该妙搭应用权限，并重新执行 lark-cli auth login。';

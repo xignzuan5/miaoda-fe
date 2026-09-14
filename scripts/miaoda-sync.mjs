@@ -550,6 +550,36 @@ async function authorizeMiaodaUser() {
     const text = resultText(loggedIn);
     throw new SyncError('补充妙搭用户授权', conciseCommandFailure(loggedIn), classifyFailure(text));
   }
+  await verifySparkScopes('补充妙搭用户授权');
+}
+
+// 浏览器授权页可能显示“无法授予的权限：获取妙搭应用信息 / 创建与更新妙搭应用”，
+// 用户点完授权流程却拿不到 spark scope，却没有后续指引。这里在授权后立即复核
+// 实际拿到的 scope，把“授不了”的根因（应用侧权限未发布版本/开错应用）讲清楚。
+async function verifySparkScopes(stepName) {
+  const status = await runLark(['auth', 'status'], { silent: true, timeoutMs: 30000 });
+  let scope = '';
+  let appId = '';
+  try {
+    const parsed = parseJsonEnvelope(status.stdout);
+    appId = parsed?.appId ?? '';
+    scope = String(parsed?.identities?.user?.scope ?? '');
+  } catch { scope = status.stdout ?? ''; }
+  const missing = ['spark:app:read', 'spark:app:write'].filter((name) => !scope.includes(name));
+  if (!missing.length) return;
+
+  const appLabel = appId ? `（当前 lark-cli 使用的 app_id 是 ${appId}）` : '';
+  throw new SyncError(
+    stepName,
+    `授权流程完成，但飞书实际授予的权限中没有 ${missing.join('、')}。`,
+    [
+      '授权页上“无法授予的权限”说明问题在应用侧，不是账号操作问题。权限挂在应用上，请按以下顺序排查：',
+      `1. 让管理员确认开通 spark:app:read / spark:app:write 的应用就是这个 app_id${appLabel}。如果开到了别的自建应用上，改用管理员提供的 app_id/app_secret 重新执行 lark-cli config init 绑定。`,
+      '2. 管理员仅在权限管理里勾选权限是不够的：需要创建并发布新应用版本，权限进入已发布版本后，用户授权页才会显示为可授予。',
+      '3. 如果该应用是 lark-cli 官方公共应用、不属于你们企业，租户管理员无法修改它的权限；请改用公司自建应用并走应用审批。',
+      '以上任一项处理后，重新执行 npm run miaoda:init 即可，授权链接会重新生成。',
+    ].join('\n')
+  );
 }
 
 async function runMiaodaUserCommand(args, options = {}) {
@@ -591,6 +621,7 @@ async function ensureLarkAuth() {
       const text = resultText(loggedIn);
       throw new SyncError('登录飞书账号', conciseCommandFailure(loggedIn), classifyFailure(text));
     }
+    await verifySparkScopes('登录飞书账号');
     auth = await runLark(['auth', 'status'], { silent: true, timeoutMs: 30000 });
     if (resultFailed(auth)) {
       const text = resultText(auth);
