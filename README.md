@@ -83,7 +83,7 @@ npm run project:init
 npm run miaoda:init
 ```
 
-命令会先检查 Node.js 版本、Git 和 `lark-cli`，再交互式询问妙搭应用链接（或 `app_id`）和本地目录，然后引导飞书浏览器授权、核对应用权限、初始化妙搭 Git 凭证、拉取 `sprint/default`，最后把脚手架安装到刚拉下来的项目并完成首次扫描。Windows 检测到 `winget` 或 Chocolatey 时，会询问是否协助安装 Git；检测不到时给出官方安装地址。`lark-cli` 会先尝试本机命令，缺失时最多重试 3 次网络安装；网络失败后自动检查 `vendor/lark-cli/` 或 `LARK_CLI_OFFLINE_DIR` 指定的完整离线包。Node/Git/CLI 检查、妙搭 API 和 Git 网络操作都有步骤名、超时和脱敏错误建议；浏览器配置/登录属于用户交互，会明确显示等待授权阶段。首次授权、企业网络白名单和管理员应用权限仍需要用户/管理员配合，命令不能绕过这些限制。
+命令会先检查 Node.js 版本、Git 和 `lark-cli`，再交互式询问妙搭应用链接（或 `app_id`）和本地目录，然后检查或绑定管理员提供的 CLI 应用、引导飞书浏览器授权、核对应用权限、初始化妙搭 Git 凭证并拉取 `sprint/default`。代码同步完成后会安装设计系统脚手架，再询问是否立即执行首次设计 Token/页面模板扫描；选择“否”时可稍后在目标项目根目录运行 `npm run project:init`。没有现成 lark-cli 配置时，脚手架不会自动创建个人应用，而是要求使用管理员提供的 `cli_...` 和 secret。Windows 检测到 `winget` 或 Chocolatey 时，会询问是否协助安装 Git；检测不到时给出官方安装地址。`lark-cli` 会先尝试本机命令，缺失时最多重试 3 次网络安装；网络失败后自动检查 `vendor/lark-cli/` 或 `LARK_CLI_OFFLINE_DIR` 指定的完整离线包。Node/Git/CLI 检查、妙搭 API 和 Git 网络操作都有步骤名、超时和脱敏错误建议；浏览器配置/登录属于用户交互，会明确显示等待授权阶段。首次授权、企业网络白名单和管理员应用权限仍需要用户/管理员配合，命令不能绕过这些限制。
 
 注意：`npm run` 本身依赖 Node.js/npm 才能启动，因此 Node.js 完全不存在时无法进入 `miaoda:init`。Windows 用户可以先双击或在 cmd 中执行脚手架根目录的 `miaoda-init.cmd`，它会在启动 npm 前检查并询问是否用 winget 安装 Node.js LTS 和 Git；也可以按提示手动安装。进入 Node 环境后，脚本还能检查版本过低或运行环境异常并给出升级指引。
 
@@ -132,7 +132,7 @@ lark-cli --help
 
 1. 第一次停止时，只需填写公司应用申请表：<https://weikezhijia.feishu.cn/share/base/form/shrcnAaJOAVobcmnqc3DL3wEZDd>；“应用使用人员范围”填写实际使用人员名单，“是否完成 Channel 配置”选择“否”。提交后等待审批。
 2. 审批完成后重新运行 `npm run miaoda:init`。脚手架会先询问是否已收到管理员在机器人消息中反馈的 CLI `app_id` 和 `app_secret`；确认后再单独询问 CLI `app_id`，并由脚手架直接启动安全的 secret 输入，不需要复制带占位符的命令。
-3. 凭证绑定完成后，脚手架会单独发起 `spark:app:read`、`spark:app:write` 用户授权；浏览器授权成功后自动继续核对妙搭应用、拉取代码和安装设计系统。
+3. 凭证绑定完成后，脚手架会单独发起 `spark:app:read`、`spark:app:write` 用户授权；浏览器授权成功后自动继续核对妙搭应用、拉取代码和安装设计系统。lark-cli 输出中的“本次已成功授权”只表示本次请求实际授予的权限，不是历史权限总表；如果显示“（空）”且这两个 spark 权限在“未授予”中，说明登录流程虽完成但妙搭权限未开通，脚手架会停止并提示管理员处理，不会误报为可拉代码。
 
 这里输入的目标应用链接或 app_id 与管理员反馈的 CLI `app_id` 是两套标识；`app_secret` 不要写入代码、配置文件或聊天记录。脚手架不会仅凭 `app_` 或 `cli_` 前缀拒绝非空 ID，会将输入交给 lark-cli 返回真实校验结果。Channel 配置不由 `miaoda:init` 完成：在实际承载智能体的平台打开智能体的“飞书 Channel/渠道”设置，按页面提示绑定已审批应用并保存；若没有入口，请联系管理员开通。配置完成后，将智能体名称/链接、CLI app_id 和 Channel 配置结果（不含 secret）同步管理员，由管理员添加事件与回调并确认开通。脚手架会保留步骤名和脱敏错误，不会绕过审批。
 
@@ -145,7 +145,7 @@ npm run miaoda:pull
 npm run miaoda:push -- --paths design-system client/src/pages/你的页面
 ```
 
-`miaoda:pull` 只做安全快进，并在源码变化后自动刷新审计；`miaoda:push` 只处理用户明确指定的路径，推送前检查 Token、工作区和远端 SHA。若需要接入另一个妙搭应用，再次从脚手架根目录执行 `npm run miaoda:init` 并选择新的应用和目录即可，不需要手工重复 `project:init`。
+`miaoda:pull` 只做安全快进，并在源码变化后自动刷新审计；`miaoda:push` 只处理用户明确指定的路径，推送前检查 Token、工作区和远端 SHA。若需要接入另一个妙搭应用，再次从脚手架根目录执行 `npm run miaoda:init` 并选择新的应用和目录即可；是否执行首次扫描仍会在同步完成后询问。
 
 妙搭同步是可选适配层。没有妙搭的项目继续使用 `project:init`；同步命令不会提交密码、Token、`.env` 或平台管理的 `.agent/` 目录。
 

@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import {
   classifyFailure,
+  hasUnGrantedMiaodaScopes,
   pendingApprovalGuide,
   pendingApprovalWaitingGuide,
   normalizeRemote,
@@ -44,6 +45,9 @@ test('归一化远端地址并脱敏错误输出', () => {
   assert.match(classifyFailure('remote: 403 forbidden'), /权限不足/);
   assert.match(classifyFailure('getaddrinfo ENOTFOUND'), /网络连接失败/);
   assert.match(classifyFailure('authorization failed: The app is pending approval'), /应用尚未通过审批/);
+  assert.equal(hasUnGrantedMiaodaScopes('以下是本次未授予的权限：\n  spark:app:read、spark:app:write'), true);
+  assert.equal(hasUnGrantedMiaodaScopes('本次已成功授权：\n  spark:app:read、spark:app:write'), false);
+  assert.match(classifyFailure('本次已成功授权：\n  （空）\n以下是本次未授予的权限：\n  spark:app:read、spark:app:write'), /spark:app:read.*未被授予/);
   const approvalGuide = pendingApprovalGuide();
   assert.match(approvalGuide, /weikezhijia\.feishu\.cn\/share\/base\/form/);
   assert.match(approvalGuide, /应用使用人员范围/);
@@ -54,5 +58,7 @@ test('归一化远端地址并脱敏错误输出', () => {
   assert.match(waitingGuide, /等待管理员/);
   assert.match(waitingGuide, /新的 CLI app_id/);
   assert.match(classifyFailure('need_user_authorization (user: )'), /spark:app:read spark:app:write/);
+  assert.match(classifyFailure('not_configured'), /管理员提供的 CLI app_id/);
+  assert.doesNotMatch(classifyFailure('not_configured'), /config init --new/);
   assert.match(classifyFailure('命令执行超时（120000ms）'), /网络连接失败/);
 });

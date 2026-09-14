@@ -216,7 +216,7 @@ const projectGuide = `# 项目 Design Token 使用说明
 - 页面和组件实现：遵循 \`$apply-design-tokens\`，优先复用 \`audit/\` 中登记的壳层和模板
 - 初始化后可直接在项目根目录运行 \`npm run project:init\` 刷新审计，脚手架会登记这一条固定脚本。
 
-首次从脚手架安装时，执行 \`npm run project:init -- --target <项目目录>\` 会一次完成安装、规则写入和首次抽取；妙搭优先接入则使用脚手架根目录的 \`npm run miaoda:init\`，它会先拉取应用，再完成同样的安装和扫描。之后在目标项目根目录执行无参数 \`npm run project:init\` 即可刷新审计。本地 Agent 直接读取这些产物实现页面；只有接入妙搭时，才额外按 \`design-system/miaoda/\` 中的适配说明注册 \`/页面开发\` 和变量解析扩展。
+首次从脚手架安装时，执行 \`npm run project:init -- --target <项目目录>\` 会一次完成安装、规则写入和首次抽取；妙搭优先接入则使用脚手架根目录的 \`npm run miaoda:init\`，它会先拉取应用、安装脚手架，再询问是否立即扫描。选择跳过时，之后在目标项目根目录执行无参数 \`npm run project:init\` 即可刷新审计。本地 Agent 直接读取这些产物实现页面；只有接入妙搭时，才额外按 \`design-system/miaoda/\` 中的适配说明注册 \`/页面开发\` 和变量解析扩展。
 首次进入项目后重新启动 Codex，使其重新加载 \`AGENTS.md\` 和仓库级 Skills。Claude 应从 \`CLAUDE.md\` 中读取相同规则。
 `;
 const guidePath = path.join(designSystemRoot, '项目使用说明.md');

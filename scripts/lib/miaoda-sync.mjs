@@ -27,6 +27,12 @@ export function pendingApprovalWaitingGuide() {
   ].join('\n');
 }
 
+export function hasUnGrantedMiaodaScopes(value) {
+  const text = String(value ?? '');
+  return /spark:app:(?:read|write)/i.test(text)
+    && /未授予|未授权|not granted|denied|拒绝|\(空\)|（空）/i.test(text);
+}
+
 const BOOLEAN_OPTIONS = new Set(['debug', 'force', 'miaoda', 'skip-extract', 'yes']);
 
 /**
@@ -159,6 +165,9 @@ export function classifyFailure(value) {
   if (/pending approval|pending_approval|待审批|审批中|待审核/.test(text)) {
     return pendingApprovalGuide();
   }
+  if (hasUnGrantedMiaodaScopes(value)) {
+    return 'lark-cli 登录流程已完成，但妙搭所需 spark:app:read / spark:app:write 未被授予。请让管理员在当前 CLI 应用的权限配置和审批范围中开通这两个权限，然后重新执行 lark-cli auth login --scope "spark:app:read spark:app:write"；确认它们出现在“本次已成功授权”后再运行同步。';
+  }
   if (/need_user_authorization|token_missing|missing_scope/.test(text)) {
     return '妙搭用户授权或 spark scope 不足。请执行 lark-cli auth login --scope "spark:app:read spark:app:write"，在浏览器完成授权后，再重试原命令。若授权页显示“无法授予的权限”，说明应用侧未发布包含 spark 权限的新版本、或开到了别的 app_id 上：让管理员确认应用并发布新版本后重试。';
   }
@@ -166,7 +175,7 @@ export function classifyFailure(value) {
     return '权限不足或授权已过期。请确认飞书账号有该妙搭应用权限，并重新执行 lark-cli auth login。';
   }
   if (/not_configured|not configured|未配置/.test(text)) {
-    return 'lark-cli 尚未完成应用配置。请先执行 lark-cli config init --new。';
+    return 'lark-cli 尚未配置应用凭证。请使用管理员提供的 CLI app_id 和 app_secret 执行 lark-cli config init --app-id <cli_app_id> --app-secret-stdin --brand feishu；不要自动创建个人应用。';
   }
   if (/auth|login|登录|授权|user authorization/.test(text)) {
     return 'lark-cli 用户授权不足或已过期。请执行 lark-cli auth login --scope "spark:app:read spark:app:write"，并按浏览器提示完成授权。';
